@@ -1,8 +1,6 @@
-/* ========================================
-   BASE.CSS - Estilos globales de MatchDeportivo
-   ======================================== */
+/* Estilos globales */
 
-/* Variables CSS */
+
 :root {
     --primary-color: #0d6efd;
     --secondary-color: #6c757d;
@@ -121,6 +119,7 @@ footer p {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -136,7 +135,7 @@ footer p {
     .main-container {
         padding: 1rem 0;
     }
-    
+
     footer {
         margin-top: 2rem;
     }

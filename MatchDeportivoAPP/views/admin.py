@@ -1,40 +1,28 @@
-"""
-Vistas de administración del sistema.
-"""
+"""Vistas de administración."""
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from ..models import Log
 
 
+@login_required
 def ver_logs(request):
-    """
-    Vista para mostrar logs del sistema.
-    
-    Args:
-        request: HttpRequest object
-        
-    Returns:
-        HttpResponse con el template de logs
-    """
-    logs = Log.objects.all().order_by('-fecha')
-    return render(request, 'administracion/ver_logs.html', {'logs': logs})
+    """Muestra los logs del sistema para administradores."""
+    logs = Log.objects.all().order_by('-fecha')[:100]
+    context = {
+        'logs': logs,
+        'active_page': 'admin',
+    }
+    return render(request, 'administracion/logs.html', context)
 
 
+@login_required
 def gestionar_usuarios(request):
-    """
-    Vista para gestionar usuarios del sistema.
-    Consulta la base de datos real en lugar de datos hardcodeados.
-    
-    Args:
-        request: HttpRequest object
-        
-    Returns:
-        HttpResponse con el template de gestión de usuarios
-    """
-    # Obtener todos los usuarios con su perfil asociado
-    usuarios = User.objects.select_related('perfil').all()
-    
-    return render(request, "administracion/gestionar_usuarios.html", {
-        "usuarios": usuarios
-    })
+    """Gestiona usuarios del sistema."""
+    usuarios = User.objects.all().order_by('-date_joined')
+    context = {
+        'usuarios': usuarios,
+        'active_page': 'admin',
+    }
+    return render(request, 'administracion/gestionar_usuarios.html', context)

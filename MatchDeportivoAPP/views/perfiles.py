@@ -1,6 +1,4 @@
-"""
-Vistas de gestión de perfiles de usuario.
-"""
+"""Vistas de gestión de perfiles de usuario."""
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -11,17 +9,7 @@ from ..models import Perfil
 
 @login_required
 def perfil(request):
-    """
-    Vista de perfil del usuario autenticado.
-    Permite ver y editar información personal, ubicación, preferencias deportivas.
-    
-    Args:
-        request: HttpRequest object
-        
-    Returns:
-        HttpResponse con el template de perfil
-    """
-    # Obtener o crear perfil del usuario
+    """Muestra y edita el perfil del usuario: info personal, ubicación y preferencias."""
     perfil, _ = Perfil.objects.get_or_create(usuario=request.user)
 
     if request.method == "POST":
@@ -46,7 +34,6 @@ def perfil(request):
         perfil.nivel = nivel or perfil.nivel
         perfil.horarios = horarios or perfil.horarios
 
-        # Convertir y validar números
         try:
             if lat != "":
                 perfil.latitud = float(lat)
@@ -69,7 +56,6 @@ def perfil(request):
         messages.success(request, "Perfil actualizado correctamente.")
         return redirect("perfil")
 
-    # Lista de iconos disponibles
     iconos = [
         ("futbol", "img/futbol.png"),
         ("basketball", "img/basketball.png"),
@@ -89,34 +75,15 @@ def perfil(request):
 
 @login_required
 def perfil_jugador(request):
-    """
-    Vista de perfil de jugador (funcionalidad futura).
-    
-    Args:
-        request: HttpRequest object
-        
-    Returns:
-        HttpResponse con el template de perfil de jugador
-    """
+    """Vista de perfil de jugador (funcionalidad futura)."""
     return render(request, "usuarios/perfil_jugador.html")
 
 
 @login_required
 def perfil_participante(request, user_id):
-    """
-    Muestra la información pública de un participante.
-    
-    Args:
-        request: HttpRequest object
-        user_id: ID del usuario a mostrar
-        
-    Returns:
-        HttpResponse con el template de perfil del participante
-    """
-    # Obtener usuario
+    """Muestra la información pública de un participante."""
     usuario = get_object_or_404(User, pk=user_id)
     
-    # Intentar obtener el perfil asociado
     try:
         perfil = usuario.perfil
     except Perfil.DoesNotExist:

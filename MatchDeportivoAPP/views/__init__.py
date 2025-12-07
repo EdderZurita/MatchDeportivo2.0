@@ -9,7 +9,6 @@ Este paquete organiza las vistas por funcionalidad:
 - admin: Vistas de administración
 """
 
-# Importar vistas de autenticación
 from .auth import (
     inicioSesion,
     registroSesion,
@@ -17,14 +16,12 @@ from .auth import (
     cerrarSesion,
 )
 
-# Importar vistas de perfiles
 from .perfiles import (
     perfil,
     perfil_jugador,
     perfil_participante,
 )
 
-# Importar vistas de actividades
 from .actividades import (
     actividades,
     detalle_actividad,
@@ -39,28 +36,23 @@ from .actividades import (
     reseña_actividad,
 )
 
-# Importar vistas de notificaciones
 from .notificaciones import (
     notificaciones,
     lista_notificaciones,
 )
 
-# Importar vistas de administración
 from .admin import (
     ver_logs,
     gestionar_usuarios,
 )
 
-# Importar vista de inicio
 from .general import inicio
 
 __all__ = [
-    # Autenticación
     'inicioSesion',
     'registroSesion',
     'olvidoContraseña',
     'cerrarSesion',
-    # Perfiles
     'perfil',
     'perfil_jugador',
     'perfil_participante',
@@ -76,12 +68,10 @@ __all__ = [
     'gestionar_participantes',
     'quitar_participante',
     'reseña_actividad',
-    # Notificaciones
     'notificaciones',
     'lista_notificaciones',
     # Administración
     'ver_logs',
     'gestionar_usuarios',
-    # General
     'inicio',
 ]
