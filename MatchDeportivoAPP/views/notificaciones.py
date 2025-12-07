@@ -71,5 +71,5 @@ def crear_notificacion_simple(usuario, actividad, tipo, mensaje):
         )
     except Exception as e:
         # No romper la transacción principal si falla la notificación
-        print(f"ERROR: No se pudo crear la notificación para {usuario.username}. Causa: {e}")
         pass
+
