@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import transaction
 from django.db.models import Q
 from math import radians, cos, sin, asin, sqrt
@@ -25,7 +26,7 @@ def calcular_distancia_haversine(lat1, lon1, lat2, lon2):
 
 @login_required
 def actividades(request):
-    """Muestra actividades filtradas por deporte y distancia."""
+    """Muestra actividades filtradas por deporte y distancia con paginación."""
     user = request.user
     perfil = user.perfil
     
@@ -77,8 +78,19 @@ def actividades(request):
 
             actividades_finales.extend(actividades_cercanas_y_filtradas)
 
+    # Paginación
+    paginator = Paginator(actividades_finales, 10)  # 10 actividades por página
+    page = request.GET.get('page')
+    
+    try:
+        actividades_paginadas = paginator.page(page)
+    except PageNotAnInteger:
+        actividades_paginadas = paginator.page(1)
+    except EmptyPage:
+        actividades_paginadas = paginator.page(paginator.num_pages)
+
     context = {
-        'actividades': actividades_finales,
+        'actividades': actividades_paginadas,
         'active_page': 'actividades',
         'deporte_seleccionado': filtro_deporte,
         'ubicacion_configurada': user_lat is not None, 
