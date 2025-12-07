@@ -4,45 +4,7 @@
 {% block title %}Mis Actividades | SportConnect{% endblock %}
 
 {% block extra_css %}
-<style>
- .my-activities-header {
- background: linear-gradient(to right, #0d6efd, #5ab3ff);
- color: white;
- padding: 2rem 0;
-text-align: center;
-margin-bottom: 2rem;
-border-radius: 0.5rem;
- }
-
- .activity-card {
- background: white;
- padding: 1.5rem;
- border-radius: 0.75rem;
- box-shadow: 0 2px 10px rgba(0,0,0,0.05);
- margin-bottom: 1.5rem;
- transition: transform 0.2s;
- }
-
- .activity-card:hover {
- transform: scale(1.02);
- }
-
- .activity-title {
- font-weight: bold;
- font-size: 1.25rem;
- }
-
- .activity-info {
- font-size: 0.95rem;
- color: #555;
- }
-
- .btn-actions { /* Usaremos esta clase para agrupar los botones Ver y Editar */
- margin-top: 0.5rem;
-    display: flex;
-    justify-content: space-between;
- }
-</style>
+<link href="{% static 'css/actividades.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block usuario_content %}
@@ -58,67 +20,70 @@ border-radius: 0.5rem;
 
     <h3 class="mt-5 mb-3">🛠️ Actividades que organicé ({{ organizadas|length }})</h3>
     <hr>
-    
+
     <div class="row">
         {% if organizadas %}
-            {% for actividad in organizadas %}
-            <div class="col-md-6">
-                <div class="activity-card border-start border-3 border-warning"> <div class="activity-title">{{ actividad.titulo }}</div>
-                    <div class="activity-info">Deporte: <strong>{{ actividad.deporte|capfirst }}</strong></div>
-                    <div class="activity-info">
-                        Lugar: **{{ actividad.lugar }}** | 
-                        Fecha: {{ actividad.fecha|date:"D d M" }} | 
-                        Hora: {{ actividad.hora_inicio|time:"H:i" }}
-                    </div>
-                    <div class="activity-info">Cupos restantes: {{ actividad.cupos }} | Inscritos: <strong>{{ actividad.participantes.count }}</strong></div>
-                    
-                    <div class="btn-actions">
-                        <a href="{% url 'editar_actividad' pk=actividad.pk %}" class="btn btn-warning btn-sm">
-                            ⚙️ Editar
-                        </a>
-                        <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-outline-primary btn-sm">
-                            Ver detalles
-                        </a>
-                    </div>
+        {% for actividad in organizadas %}
+        <div class="col-md-6">
+            <div class="activity-card border-start border-3 border-warning">
+                <div class="activity-title">{{ actividad.titulo }}</div>
+                <div class="activity-info">Deporte: <strong>{{ actividad.deporte|capfirst }}</strong></div>
+                <div class="activity-info">
+                    Lugar: **{{ actividad.lugar }}** |
+                    Fecha: {{ actividad.fecha|date:"D d M" }} |
+                    Hora: {{ actividad.hora_inicio|time:"H:i" }}
+                </div>
+                <div class="activity-info">Cupos restantes: {{ actividad.cupos }} | Inscritos: <strong>{{
+                        actividad.participantes.count }}</strong></div>
+
+                <div class="btn-actions">
+                    <a href="{% url 'editar_actividad' pk=actividad.pk %}" class="btn btn-warning btn-sm">
+                        ⚙️ Editar
+                    </a>
+                    <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-outline-primary btn-sm">
+                        Ver detalles
+                    </a>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+        {% endfor %}
         {% else %}
-            <div class="col-12">
-                <div class="alert alert-warning">Aún no has creado ninguna actividad.</div>
-            </div>
+        <div class="col-12">
+            <div class="alert alert-warning">Aún no has creado ninguna actividad.</div>
+        </div>
         {% endif %}
     </div>
 
     <h3 class="mt-5 mb-3">🏅 Actividades en las que participo ({{ participando|length }})</h3>
     <hr>
-    
+
     <div class="row">
         {% if participando %}
-            {% for actividad in participando %}
-            <div class="col-md-6">
-                <div class="activity-card border-start border-3 border-success">
-                    <div class="activity-title">{{ actividad.titulo }}</div>
-                    <div class="activity-info">Organizador: <strong>{{ actividad.organizador.username }}</strong></div>
-                    <div class="activity-info">
-                        Lugar: **{{ actividad.lugar }}** | 
-                        Fecha: {{ actividad.fecha|date:"D d M" }} | 
-                        Hora: {{ actividad.hora_inicio|time:"H:i" }}
-                    </div>
-                    
-                    <div class="btn-actions justify-content-end">
-                        <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-success btn-sm me-2">Ver detalles</a>
-                        <a href="{% url 'salir_actividad' pk=actividad.pk %}" class="btn btn-outline-danger btn-sm">
-                            ❌ Cancelar
-                        </a>
-                    </div>
+        {% for actividad in participando %}
+        <div class="col-md-6">
+            <div class="activity-card border-start border-3 border-success">
+                <div class="activity-title">{{ actividad.titulo }}</div>
+                <div class="activity-info">Organizador: <strong>{{ actividad.organizador.username }}</strong></div>
+                <div class="activity-info">
+                    Lugar: **{{ actividad.lugar }}** |
+                    Fecha: {{ actividad.fecha|date:"D d M" }} |
+                    Hora: {{ actividad.hora_inicio|time:"H:i" }}
+                </div>
+
+                <div class="btn-actions justify-content-end">
+                    <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-success btn-sm me-2">Ver
+                        detalles</a>
+                    <a href="{% url 'salir_actividad' pk=actividad.pk %}" class="btn btn-outline-danger btn-sm">
+                        ❌ Cancelar
+                    </a>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+        {% endfor %}
         {% else %}
-            <div class="col-12">
-                <div class="alert alert-info">Aún no te has unido a ninguna actividad.</div>
-            </div>
+        <div class="col-12">
+            <div class="alert alert-info">Aún no te has unido a ninguna actividad.</div>
+        </div>
         {% endif %}
     </div>
 </div>
