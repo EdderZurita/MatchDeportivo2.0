@@ -20,22 +20,22 @@
     <a href="{% url 'crear_actividad' %}" class="btn btn-success">Crear actividad</a>
     <a href="{% url 'mis_actividades' %}" class="btn btn-secondary">Mis actividades</a>
   </div>
+
   <!-- Filtro por deporte -->
   <form method="GET" class="d-flex filter-form">
-      <select name="deporte" class="form-select">
-            <option value="">-- Filtrar por deporte --</option>
-            <option value="futbol" {% if deporte_seleccionado=='futbol' %}selected{% endif %}>Fútbol</option>
-            <option value="basketball" {% if deporte_seleccionado=='basketball' %}selected{% endif %}>Basketball
-      </option>
-            <option value="skate" {% if deporte_seleccionado=='skate' %}selected{% endif %}>Skate</option>
-            <option value="volibol" {% if deporte_seleccionado=='volibol' %}selected{% endif %}>Vóleibol</option>
-            <option value="running" {% if deporte_seleccionado=='running' %}selected{% endif %}>Running</option>
-            <option value="tenis" {% if deporte_seleccionado=='tenis' %}selected{% endif %}>Tenis</option>
-        </select>
+    <select name="deporte" class="form-select">
+      <option value="">-- Filtrar por deporte --</option>
+      <option value="futbol" {% if deporte_seleccionado=='futbol' %}selected{% endif %}>Fútbol</option>
+      <option value="basketball" {% if deporte_seleccionado=='basketball' %}selected{% endif %}>Basketball</option>
+      <option value="skate" {% if deporte_seleccionado=='skate' %}selected{% endif %}>Skate</option>
+      <option value="volibol" {% if deporte_seleccionado=='volibol' %}selected{% endif %}>Vóleibol</option>
+      <option value="running" {% if deporte_seleccionado=='running' %}selected{% endif %}>Running</option>
+      <option value="tenis" {% if deporte_seleccionado=='tenis' %}selected{% endif %}>Tenis</option>
+    </select>
 
-      <button type="submit" class="btn btn-primary">
-            Buscar
-        </button>
+    <button type="submit" class="btn btn-primary">
+      Buscar
+    </button>
   </form>
 
   <!-- Lista de actividades -->
