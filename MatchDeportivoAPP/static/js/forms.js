@@ -193,3 +193,33 @@ document.addEventListener('DOMContentLoaded', function () {
         formPerfil.addEventListener('submit', validarFormularioPerfil);
     }
 });
+
+// Validación de código de verificación
+function setupCodigoVerificacion() {
+    const modal = document.getElementById("codigoModal");
+    if (!modal) return;
+
+    let codigo = null;
+
+    // Generar código cuando se abre el modal
+    modal.addEventListener("show.bs.modal", () => {
+        codigo = Math.floor(1000 + Math.random() * 9000);
+        document.getElementById("codigoGenerado").innerText = codigo;
+        document.getElementById("codigoIngresado").value = "";
+    });
+
+    // Validar código
+    const btnValidar = document.querySelector('[data-validar-codigo]');
+    if (btnValidar) {
+        btnValidar.addEventListener('click', () => {
+            const ingresado = document.getElementById("codigoIngresado").value;
+            const urlCambio = btnValidar.dataset.urlCambio;
+
+            if (ingresado == codigo) {
+                window.location.href = urlCambio;
+            } else {
+                alert("Código incorrecto, inténtalo nuevamente.");
+            }
+        });
+    }
+}
