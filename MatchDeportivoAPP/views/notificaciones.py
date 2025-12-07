@@ -21,7 +21,7 @@ def notificaciones(request):
         'active_page': 'notificaciones',
     }
     
-    return render(request, 'notificaciones/notificaciones.html', context)
+    return render(request, 'usuarios/notificaciones.html', context)
 
 
 @login_required
