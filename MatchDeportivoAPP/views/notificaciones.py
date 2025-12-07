@@ -1,6 +1,4 @@
-"""
-Vistas de gestión de notificaciones.
-"""
+"""Vistas de notificaciones."""
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
@@ -9,67 +7,37 @@ from ..models import Notificacion
 
 @login_required
 def notificaciones(request):
-    """
-    Vista de notificaciones del usuario.
+    """Muestra todas las notificaciones del usuario."""
+    usuario = request.user
+    notificaciones_list = Notificacion.objects.filter(usuario=usuario)
     
-    Args:
-        request: HttpRequest object
-        
-    Returns:
-        HttpResponse con el template de notificaciones
-    """
+    no_leidas = notificaciones_list.filter(leida=False)
+    leidas = notificaciones_list.filter(leida=True)
+    
     context = {
+        'notificaciones': notificaciones_list,
+        'no_leidas': no_leidas,
+        'leidas': leidas,
         'active_page': 'notificaciones',
     }
-    return render(request, "usuarios/notificaciones.html", context)
+    
+    return render(request, 'notificaciones/notificaciones.html', context)
 
 
 @login_required
 def lista_notificaciones(request):
-    """
-    Vista de lista de notificaciones del usuario autenticado.
-    Carga las notificaciones del usuario logueado.
-    
-    Args:
-        request: HttpRequest object
-        
-    Returns:
-        HttpResponse con el template de lista de notificaciones
-    """
-    # Cargar las notificaciones del usuario logueado
-    notificaciones_usuario = Notificacion.objects.filter(usuario=request.user)
-    
-    context = {
-        # Ambas listas son necesarias para el template
-        'notificaciones': notificaciones_usuario,
-        'notificaciones_sin_leer': notificaciones_usuario.filter(leida=False),
-        'active_page': 'notificaciones',
-    }
-    return render(request, "actividades/notificaciones.html", context)
+    """Lista de notificaciones (funcionalidad futura)."""
+    return render(request, 'notificaciones/lista_notificaciones.html')
 
 
 def crear_notificacion_simple(usuario, actividad, tipo, mensaje):
-    """
-    Crea una notificación simple para un usuario.
-    
-    Args:
-        usuario: Usuario que recibirá la notificación
-        actividad: Actividad relacionada (puede ser None)
-        tipo: Tipo de notificación (debe ser una opción válida del modelo)
-        mensaje: Mensaje de la notificación
-        
-    Returns:
-        None
-    """
+    """Crea una notificación simple para un usuario."""
     try:
         Notificacion.objects.create(
             usuario=usuario,
             actividad=actividad,
             tipo=tipo,
-            mensaje=mensaje,
-            leida=False 
+            mensaje=mensaje
         )
     except Exception as e:
-        # No romper la transacción principal si falla la notificación
         pass
-
