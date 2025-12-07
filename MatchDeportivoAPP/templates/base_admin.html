@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}SportConnect - Administración{% endblock %}
+
+{% block extra_css %}
+<style>
+  .navbar-admin {
+    background-color: #0d6efd;
+  }
+  .navbar-admin .nav-link, .navbar-admin .navbar-brand {
+    color: white !important;
+  }
+  .navbar-admin .nav-link:hover {
+    color: #ffc107 !important;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Navbar administrador -->
+<nav class="navbar navbar-expand-lg navbar-admin shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'admin_dashboard' %}">
+      <i class="bi bi-shield-lock"></i> Admin Panel
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdmin">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarAdmin">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item"><a class="nav-link" href=""><i class="bi bi-people"></i> Cuentas</a></li>
+        <li class="nav-item"><a class="nav-link" href=""><i class="bi bi-clipboard-data"></i> Logs</a></li>
+        <li class="nav-item"><a class="nav-link" href="><i class="bi bi-plus-circle"></i> Nueva Actividad</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="bi bi-globe"></i> Ver Sitio</a></li>
+        <li class="nav-item">
+          <a class="nav-link text-warning" href=""><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Contenido principal admin -->
+<main class="container mt-4">
+  {% block admin_content %}
+  {% endblock %}
+</main>
+{% endblock %}

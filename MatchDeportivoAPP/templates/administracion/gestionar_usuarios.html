@@ -1,0 +1,44 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+{% block title %}Gestión de Usuarios | Panel Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="fw-bold mb-3">👥 Gestión de Usuarios</h2>
+  <p class="text-muted">Bloquea o suspende cuentas que infrinjan las normas de la comunidad.</p>
+
+  <table class="table table-hover shadow-sm">
+    <thead class="table-danger">
+      <tr>
+        <th>Nombre</th>
+        <th>Usuario</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in usuarios %}
+      <tr>
+        <td>{{ u.nombre }}</td>
+        <td>{{ u.usuario }}</td>
+        <td>
+          {% if u.estado == "Activo" %}
+            <span class="badge bg-success">Activo</span>
+          {% else %}
+            <span class="badge bg-secondary">Suspendido</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if u.estado == "Activo" %}
+            <a href="#" class="btn btn-warning btn-sm">Suspender</a>
+          {% else %}
+            <a href="#" class="btn btn-success btn-sm">Reactivar</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

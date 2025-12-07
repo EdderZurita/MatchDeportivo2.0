@@ -1,0 +1,48 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+{% block title %}Logs del Sistema | Panel Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="fw-bold mb-3">📜 Logs del Sistema</h2>
+  <form method="get" class="mb-3">
+    <div class="row g-2">
+      <div class="col-md-4">
+        <select name="tipo" class="form-select">
+          <option value="">Todos los tipos</option>
+          <option value="Actividad">Actividad</option>
+          <option value="Inscripción">Inscripción</option>
+          <option value="Error">Error</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100">Filtrar</button>
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-striped shadow-sm">
+    <thead class="table-primary">
+      <tr>
+        <th>Fecha</th>
+        <th>Usuario</th>
+        <th>Acción</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <td>{{ log.fecha }}</td>
+        <td>{{ log.usuario }}</td>
+        <td>{{ log.accion }}</td>
+        <td>{{ log.tipo }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4" class="text-center">No se encontraron registros.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'base_usuario.html' %}
+{% load static %}
+
+{% block title %}Editar Actividad | {{ actividad.titulo }}{% endblock %}
+
+{% block extra_css %}
+<!-- 🚨 INCLUIR GOOGLE MAPS API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn0WsJFM5jcMk8QzXQrFGRGhTOpyKPdw8&libraries=places"></script>
+
+<style>
+  .form-label { font-weight: 600; }
+  .btn-danger { transition: all 0.2s; }
+  .btn-danger:hover { transform: scale(1.05); }
+</style>
+{% endblock %}
+
+{% block usuario_content %}
+<div class="container mt-5">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">⚙️ Editar Actividad</h2>
+    <p class="text-center text-muted">Modifica los detalles de la actividad "{{ actividad.titulo }}"</p>
+
+    <!-- Información dinámica de la actividad -->
+    <div class="alert alert-info">
+      <strong>Actividad actual:</strong> {{ actividad.titulo }}<br>
+      <strong>Deporte:</strong> {{ actividad.deporte|capfirst }}<br>
+      <strong>Organizador:</strong> {{ actividad.organizador.username }}<br>
+      <strong>Cupos disponibles:</strong> {{ actividad.cupos }} — <strong>Participantes:</strong> {{ actividad.participantes.count }}
+    </div>
+
+    <!-- Formulario de edición -->
+    <!-- El action del formulario apunta a la misma URL (editar_actividad/pk) -->
+    <form method="POST">
+  {% csrf_token %}
+
+<div class="alert alert-info d-flex justify-content-between align-items-center">
+      <div>
+        <strong>Actividad actual:</strong> {{ actividad.titulo }}<br>
+        <strong>Participantes inscritos:</strong> {{ actividad.participantes.count }}
+      </div>
+        <!-- 🚨 NUEVO BOTÓN PARA GESTIONAR 🚨 -->
+        <a href="{% url 'gestionar_participantes' pk=actividad.pk %}" class="btn btn-info btn-sm">
+            👥 Administrar Participantes
+        </a>
+    </div>
+  <!-- Campo Título -->
+  <div class="mb-3">
+    <label for="titulo" class="form-label fw-semibold">Título</label>
+    <input type="text" id="titulo" name="titulo" class="form-control" value="{{ actividad.titulo }}">
+  </div>
+  
+  <div class="row">
+    <div class="col-md-4 mb-3">
+    <label for="deporte" class="form-label fw-semibold">Deporte</label>
+    <select id="deporte" name="deporte" class="form-select">
+          {% comment %} Ahora iteramos sobre la lista 'deportes' del contexto {% endcomment %}
+          {% for d in deportes %} 
+            <option value="{{ d }}" {% if d == actividad.deporte %}selected{% endif %}>{{ d|capfirst }}</option>
+          {% endfor %}
+    </select>
+</div>
+
+    <!-- 🚨 Campo de Ubicación con Autocomplete -->
+    <div class="col-md-4 mb-3">
+      <label for="lugar" class="form-label fw-semibold">Lugar</label>
+      <input type="text" id="autocomplete_actividad" name="lugar" class="form-control" value="{{ actividad.lugar }}">
+    </div>
+    
+    <!-- 🚨 Campos ocultos para Latitud/Longitud (valores actuales) -->
+    <input type="hidden" id="latitud_actividad" name="latitud_actividad" value="{{ actividad.latitud|default_if_none:'' }}">
+    <input type="hidden" id="longitud_actividad" name="longitud_actividad" value="{{ actividad.longitud|default_if_none:'' }}">
+
+    <div class="col-md-2 mb-3">
+      <label for="fecha" class="form-label fw-semibold">Fecha</label>
+      <!-- Formatea la fecha a YYYY-MM-DD para el input type="date" -->
+      <input type="date" id="fecha" name="fecha" class="form-control" value="{{ actividad.fecha|date:'Y-m-d' }}">
+    </div>
+
+    <!-- Hora de Inicio -->
+    <div class="col-md-2 mb-3">
+      <label for="hora_inicio" class="form-label fw-semibold">Hora Inicio</label>
+      <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" value="{{ actividad.hora_inicio|time:'H:i' }}">
+    </div>
+  </div>
+  
+  <div class="row">
+      <div class="col-md-4 mb-3">
+          <label for="hora_fin" class="form-label fw-semibold">Hora Fin (Opcional)</label>
+          <input type="time" id="hora_fin" name="hora_fin" class="form-control" value="{{ actividad.hora_fin|time:'H:i' }}">
+      </div>
+      
+        <div class="col-md-4 mb-3">
+          <label for="cupos" class="form-label fw-semibold">Cupos disponibles</label>
+          <!-- Mínimo de cupos es la cantidad de participantes actuales -->
+          <input type="number" id="cupos" name="cupos" class="form-control" min="{{ actividad.participantes.count }}" max="50" value="{{ actividad.cupos }}">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="nivel" class="form-label fw-semibold">Nivel</label>
+          <select id="nivel" name="nivel" class="form-select">
+            <option value="Principiante" {% if actividad.nivel == 'Principiante' %}selected{% endif %}>Principiante</option>
+            <option value="Intermedio" {% if actividad.nivel == 'Intermedio' %}selected{% endif %}>Intermedio</option>
+            <option value="Avanzado" {% if actividad.nivel == 'Avanzado' %}selected{% endif %}>Avanzado</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="descripcion" class="form-label fw-semibold">Descripción</label>
+        <textarea id="descripcion" name="descripcion" class="form-control" rows="3">{{ actividad.descripcion }}</textarea>
+      </div>
+
+      <!-- Botones -->
+      <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'mis_actividades' %}" class="btn btn-outline-secondary">⬅ Volver</a>
+        <div>
+          <button type="submit" class="btn btn-primary me-2">💾 Guardar cambios</button>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">❌ Cancelar actividad</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de confirmación de cancelación -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="cancelModalLabel">Confirmar cancelación</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>¿Estás seguro de que deseas cancelar esta actividad?</p>
+        <p class="text-muted">Esta acción no se puede deshacer y notificará a todos los participantes inscritos.</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+        <!-- 🚨 Botón que inicia la cancelación, apuntando a la URL -->
+        <a href="{% url 'cancelar_actividad' pk=actividad.pk %}" class="btn btn-danger">Sí, cancelar</a> 
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript para el Autocompletado de Google Maps -->
+<script>
+function initAutocompleteActividad() {
+    const inputActividad = document.getElementById("autocomplete_actividad");
+
+    const autocompleteActividad = new google.maps.places.Autocomplete(inputActividad, {
+        types: ["geocode", "establishment"]
+    });
+
+    autocompleteActividad.addListener("place_changed", () => {
+        const place = autocompleteActividad.getPlace();
+
+        if (place.geometry) {
+            // Guardar latitud y longitud en los campos ocultos
+            document.getElementById("latitud_actividad").value = place.geometry.location.lat();
+            document.getElementById("longitud_actividad").value = place.geometry.location.lng();
+        } else {
+            // Si el usuario borra el texto, también limpiamos las coordenadas
+            document.getElementById("latitud_actividad").value = '';
+            document.getElementById("longitud_actividad").value = '';
+        }
+    });
+}
+
+// Llama a la función de autocompletado cuando la API de Google esté lista
+google.maps.event.addDomListener(window, 'load', initAutocompleteActividad);
+</script>
+{% endblock usuario_content %}
