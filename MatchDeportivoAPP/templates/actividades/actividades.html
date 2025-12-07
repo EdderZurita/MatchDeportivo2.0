@@ -20,9 +20,8 @@
     <a href="{% url 'crear_actividad' %}" class="btn btn-success">Crear actividad</a>
     <a href="{% url 'mis_actividades' %}" class="btn btn-secondary">Mis actividades</a>
   </div>
-
   <!-- Filtro por deporte -->
-  <form method="GET" class="d-flex filter-form">
+  <form method="GET" class="d-flex" style="gap: 10px;">
     <select name="deporte" class="form-select">
       <option value="">-- Filtrar por deporte --</option>
       <option value="futbol" {% if deporte_seleccionado=='futbol' %}selected{% endif %}>Fútbol</option>
