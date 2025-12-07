@@ -3,81 +3,69 @@
 
 {% block title %}Gestionar Participantes{% endblock %}
 
+{% block extra_css %}
+<link href="{% static 'css/actividades.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block usuario_content %}
-
 <div class="container mt-5">
-  <div class="card shadow p-4">
-    <h2 class="text-center mb-4">👥 Gestión de Participantes</h2>
-    <p class="text-center text-muted">Administra los usuarios inscritos en tu actividad</p>
+   <div class="card shadow p-4">
+      <h2 class="text-center mb-4">👥 Gestión de Participantes</h2>
+      <p class="text-center text-muted">Administra los usuarios inscritos en tu actividad</p>
 
-    <!-- Información de la actividad (dinámica) -->
-    <div class="mb-4 text-center">
-      <h4>🏆 {{ actividad.titulo }}</h4>
-      <p>
-<strong>Lugar:</strong> {{ actividad.lugar }} |
-<strong>Fecha:</strong> {{ actividad.fecha|date:"d M Y" }} |
-<strong>Hora:</strong> {{ actividad.hora_inicio|time:"H:i" }}
-</p>
-<p class="mb-0"><strong>Inscritos:</strong> {{ participantes|length }} / Cupos restantes: {{ actividad.cupos }}</p>
-    </div>
+      <!-- Información de la actividad -->
+      <div class="mb-4 text-center">
+         <h4>🏆 {{ actividad.titulo }}</h4>
+         <p>
+            <strong>Lugar:</strong> {{ actividad.lugar }} |
+            <strong>Fecha:</strong> {{ actividad.fecha|date:"d M Y" }} |
+            <strong>Hora:</strong> {{ actividad.hora_inicio|time:"H:i" }}
+         </p>
+         <p class="mb-0"><strong>Inscritos:</strong> {{ participantes|length }} / Cupos restantes: {{ actividad.cupos }}
+         </p>
+      </div>
 
-    <!-- Tabla de participantes -->
-    <table class="table table-hover align-middle">
-      <thead class="table-primary text-center">
-        <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>Usuario</th>
-          <th>Nivel</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="text-center">
-{% for p in participantes %}
-        <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>
-{{ p.perfil.nombre_completo|default:p.user.username }}
-</td>
-          <td>@{{ p.user.username }}</td>
-          <td>
-<span class="badge bg-info">{{ p.perfil.nivel|default:'N/E' }}</span>
-</td>
-          <td>
-<!-- Enlace para ver el perfil del participante -->
-            <a href="{% url 'perfil_participante' user_id=p.user.id %}" class="btn btn-primary btn-sm">Ver Perfil</a>
+      <!-- Tabla de participantes -->
+      <table class="table table-hover align-middle">
+         <thead class="table-primary text-center">
+            <tr>
+               <th>#</th>
+               <th>Nombre</th>
+               <th>Usuario</th>
+               <th>Nivel</th>
+               <th>Acciones</th>
+            </tr>
+         </thead>
+         <tbody class="text-center">
+            {% for p in participantes %}
+            <tr>
+               <td>{{ forloop.counter }}</td>
+               <td>{{ p.perfil.nombre_completo|default:p.user.username }}</td>
+               <td>@{{ p.user.username }}</td>
+               <td>
+                  <span class="badge bg-info">{{ p.perfil.nivel|default:'N/E' }}</span>
+               </td>
+               <td>
+                  <a href="{% url 'perfil_participante' user_id=p.user.id %}" class="btn btn-primary btn-sm">Ver
+                     Perfil</a>
+                  <a href="{% url 'quitar_participante' actividad_pk=actividad.pk user_id=p.user.id %}"
+                     class="btn btn-danger btn-sm"
+                     onclick="return confirm('¿Estás seguro de que deseas quitar a {{ p.user.username }} de la actividad? Esto liberará su cupo.');">
+                     Quitar
+                  </a>
+               </td>
+            </tr>
+            {% empty %}
+            <tr>
+               <td colspan="5">Aún no hay participantes inscritos.</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
 
-            <!-- Enlace para QUITAR (Betar/Sacar) al participante -->
-            <a href="{% url 'quitar_participante' actividad_pk=actividad.pk user_id=p.user.id %}" class="btn btn-danger btn-sm" 
-               onclick="return confirm('¿Estás seguro de que deseas quitar a {{ p.user.username }} de la actividad? Esto liberará su cupo.');">
-               Quitar
-            </a>
-
-
-          </td>
-        </tr>
-{% empty %}
-<tr>
-<td colspan="5">Aún no hay participantes inscritos.</td>
-</tr>
-{% endfor %}
-      </tbody>
-    </table>
-
-    <div class="text-end mt-4">
-      <a href="{% url 'editar_actividad' pk=actividad.pk %}" class="btn btn-outline-secondary">⬅ Volver a Edición</a>
-    </div>
-  </div>
-
+      <div class="text-end mt-4">
+         <a href="{% url 'editar_actividad' pk=actividad.pk %}" class="btn btn-outline-secondary">⬅ Volver a Edición</a>
+      </div>
+   </div>
 </div>
-
-<style>
- .badge {
- font-size: 0.85rem;
- }
- .btn-sm {
- margin: 0 0.2rem;
- }
-</style>
-
-{% endblock usuario_content %}
+{% endblock %}
