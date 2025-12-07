@@ -214,7 +214,8 @@ def crear_actividad(request):
             try:
                 crear_notificacion_actividad_cercana(nueva_actividad)
             except Exception as e:
-                print(f"ERROR: No se pudo notificar a usuarios cercanos: {e}")
+                # Error al notificar, pero no afecta la creación de la actividad
+                pass
                 
             return redirect('actividades')
 
@@ -244,22 +245,17 @@ def crear_notificacion_actividad_cercana(actividad):
         act_lat = float(actividad.latitud)
         act_lng = float(actividad.longitud)
     except (TypeError, ValueError):
-        print("DEBUG NOTIF: Actividad sin coordenadas válidas. Saliendo.")
         return 
 
     # Filtrar perfiles por deporte y excluir al organizador
     perfiles_a_notificar = Perfil.objects.filter(
         disciplina_preferida__iexact=actividad.deporte
     ).exclude(usuario=actividad.organizador)
-    
-    print(f"DEBUG NOTIF: {perfiles_a_notificar.count()} perfiles encontrados con deporte '{actividad.deporte}'.")
 
     usuarios_cercanos = []
     
     # Iterar y aplicar el filtro de distancia
     for perfil in perfiles_a_notificar:
-        print(f"\n--- Evaluando Perfil: {perfil.usuario.username} ---")
-        print(f"Radio configurado: {perfil.radio}")
         
         # Verificación estricta de que todos los campos de ubicación no sean None
         if perfil.latitud is not None and perfil.longitud is not None and perfil.radio is not None:
@@ -271,25 +267,19 @@ def crear_notificacion_actividad_cercana(actividad):
                 # Calcular la distancia
                 distancia = calcular_distancia_haversine(user_lat, user_lng, act_lat, act_lng)
                 
-                print(f"Distancia calculada: {distancia:.2f} km")
-                
                 if distancia <= radio:
                     usuarios_cercanos.append({
                         'usuario': perfil.usuario,
                         'distancia': round(distancia, 1)
                     })
-                    print(f"✅ ÉXITO: {perfil.usuario.username} está DENTRO del radio ({radio} km).")
-                else:
-                    print(f"❌ FALLO FILTRO: {perfil.usuario.username} está FUERA del radio.")
                     
             except Exception as e:
-                print(f"❌ ERROR CRÍTICO DE CONVERSIÓN para {perfil.usuario.username}: {e}")
+                pass
         else:
-            print(f"❌ FALLO DATOS: Ubicación/Radio nulos o inválidos para {perfil.usuario.username}. Saltado.")
+            pass
 
     # Creación de las notificaciones
     if usuarios_cercanos:
-        print(f"\n--- Creando {len(usuarios_cercanos)} notificaciones ---")
         
         deporte_formateado = actividad.deporte.capitalize()
         
@@ -305,7 +295,7 @@ def crear_notificacion_actividad_cercana(actividad):
                     mensaje=f"¡Nueva actividad de {deporte_formateado} cerca de ti! {actividad.titulo} a {distancia} km."
                 )
             except Exception as e:
-                print(f"ERROR: No se pudo guardar Notificacion para {usuario.username}. Causa: {e}")
+                pass
 
 
 @login_required
@@ -492,7 +482,6 @@ def unirse_actividad(request, pk):
                 messages.error(request, "No hay cupos disponibles.")
 
     except Exception as e:
-        print(f"ERROR CRÍTICO: {e}")
         messages.error(request, f"Ocurrió un error al unirse: {e}")
         
     return redirect('detalle_actividad', pk=pk)

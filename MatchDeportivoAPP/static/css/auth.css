@@ -1,0 +1,200 @@
+/* ========================================
+   AUTH.CSS - Estilos para login, registro y autenticación
+   ======================================== */
+
+/* Contenedor de autenticación */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem 0;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    overflow: hidden;
+    max-width: 450px;
+    width: 100%;
+}
+
+.auth-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.auth-header h2 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.auth-header p {
+    margin: 0.5rem 0 0;
+    opacity: 0.9;
+}
+
+.auth-body {
+    padding: 2rem;
+}
+
+/* Formularios */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.form-control {
+    border-radius: 0.5rem;
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+/* Botones de autenticación */
+.btn-auth {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-auth-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+}
+
+.btn-auth-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(102, 126, 234, 0.3);
+}
+
+.btn-auth-secondary {
+    background: white;
+    border: 2px solid #667eea;
+    color: #667eea;
+}
+
+.btn-auth-secondary:hover {
+    background: #f8f9fa;
+}
+
+/* Enlaces */
+.auth-links {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.auth-links a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.auth-links a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+/* Mensajes de error */
+.auth-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #dc3545;
+}
+
+/* Mensajes de éxito */
+.auth-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #28a745;
+}
+
+/* Iconos de formulario */
+.form-icon {
+    color: #667eea;
+    font-size: 1.25rem;
+}
+
+/* Checkbox personalizado */
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+/* Divisor */
+.auth-divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.auth-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #dee2e6;
+}
+
+.auth-divider span {
+    background: white;
+    padding: 0 1rem;
+    position: relative;
+    color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .auth-container {
+        padding: 1rem;
+    }
+
+    .auth-card {
+        border-radius: 0.5rem;
+    }
+
+    .auth-header,
+    .auth-body {
+        padding: 1.5rem;
+    }
+}
