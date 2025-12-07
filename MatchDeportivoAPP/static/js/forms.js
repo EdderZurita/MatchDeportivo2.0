@@ -1,6 +1,4 @@
-// ========================================
-// FORMS.JS - Validaciones y mejoras de formularios
-// ========================================
+// Validaciones y mejoras de formularios
 
 // Validar formulario de crear actividad
 function validarFormularioActividad(event) {

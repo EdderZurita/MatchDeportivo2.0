@@ -1,6 +1,4 @@
-// ========================================
-// NOTIFICACIONES.JS - Sistema de notificaciones
-// ========================================
+// Sistema de notificaciones
 
 // Marcar notificación como leída
 function marcarComoLeida(notificacionId) {

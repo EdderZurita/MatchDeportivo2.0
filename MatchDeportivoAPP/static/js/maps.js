@@ -1,8 +1,5 @@
-// ========================================
-// MAPS.JS - Funcionalidades de mapas y geolocalización
-// ========================================
+// Funcionalidades de mapas y geolocalización
 
-// Inicializar autocompletado de Google Places
 function initAutocomplete(inputId, latInputId, lngInputId) {
     const input = document.getElementById(inputId);
     if (!input) return;
@@ -20,7 +17,6 @@ function initAutocomplete(inputId, latInputId, lngInputId) {
             return;
         }
 
-        // Guardar coordenadas en campos ocultos
         document.getElementById(latInputId).value = place.geometry.location.lat();
         document.getElementById(lngInputId).value = place.geometry.location.lng();
     });
