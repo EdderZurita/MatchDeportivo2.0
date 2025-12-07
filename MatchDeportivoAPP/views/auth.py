@@ -96,6 +96,6 @@ def olvidoContraseña(request):
 
 @login_required
 def cerrarSesion(request):
-    """Cierra la sesión del usuario."""
+    """Cierra la sesión del usuario y redirige a la página principal."""
     logout(request)
-    return redirect("inicioSesion")
+    return redirect("home")
