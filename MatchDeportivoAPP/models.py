@@ -1,7 +1,10 @@
 """Modelos de datos de MatchDeportivoAPP."""
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 from datetime import date, time
+
+from .constants import NIVELES
 
 class Log(models.Model):
     """Registro de acciones del sistema para auditoría."""
@@ -14,7 +17,7 @@ class Log(models.Model):
         ('error', 'Error del sistema'),
     ]
 
-    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='logs')
     accion = models.CharField(max_length=50, choices=ACCION_CHOICES)
     descripcion = models.TextField()
     fecha = models.DateTimeField(auto_now_add=True)
@@ -41,7 +44,7 @@ class Perfil(models.Model):
     # Preferencias deportivas
     nivel = models.CharField(max_length=20, null=True, blank=True)
     horarios = models.CharField(max_length=200, null=True, blank=True)
-    radio = models.IntegerField(null=True, blank=True)  # Radio de búsqueda en km
+    radio = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(1)])  # Radio de búsqueda en km
 
     def __str__(self):
         return self.usuario.username
@@ -68,12 +71,8 @@ class Actividad(models.Model):
     hora_fin = models.TimeField(blank=True, null=True)
     
     # Nivel y cupos
-    nivel = models.CharField(max_length=20, choices=[
-        ('Principiante', 'Principiante'),
-        ('Intermedio', 'Intermedio'),
-        ('Avanzado', 'Avanzado'),
-    ])
-    cupos = models.IntegerField(default=1)
+    nivel = models.CharField(max_length=20, choices=NIVELES)
+    cupos = models.IntegerField(default=1, validators=[MinValueValidator(1)])
     
     # Participantes
     participantes = models.ManyToManyField(
