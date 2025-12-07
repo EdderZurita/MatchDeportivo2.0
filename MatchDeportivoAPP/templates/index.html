@@ -3,67 +3,49 @@
 
 {% block title %}Inicio | SportConnect{% endblock %}
 
-{% block extra_css %}
-<style>
-  .hero {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0,0,0,0.6)),
-                url("{% static 'img/Prueba2.png' %}") center/cover no-repeat;
-    color: #fff;
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    text-align: center;
-  }
-  .feature-icon {
-    font-size: 2.5rem;
-    color: #0d6efd;
-    margin-bottom: 10px;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container">
-      <h1 class="display-4 fw-bold">Conéctate, Juega y Disfruta del deporte.</h1>
-      <p class="lead mt-3">Únete a una comunidad activa donde puedes organizar, buscar y participar en actividades deportivas.</p>
-      <a href="{% url 'registroSesion' %}" class="btn btn-primary btn-lg mt-4">Comenzar ahora</a>
-    </div>
-  </section>
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Conéctate, Juega y Disfruta del deporte.</h1>
+    <p class="lead mt-3">Únete a una comunidad activa donde puedes organizar, buscar y participar en actividades
+      deportivas.</p>
+    <a href="{% url 'registroSesion' %}" class="btn btn-primary btn-lg mt-4">Comenzar ahora</a>
+  </div>
+</section>
 
-  <!-- Features -->
-  <section id="features" class="py-5">
-    <div class="container text-center">
-      <h2 class="fw-bold mb-5">¿Qué puedes hacer en SportConnect?</h2>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <i class="bi bi-person-plus feature-icon"></i>
-          <h5>Regístrate y crea tu perfil</h5>
-          <p>Comparte tus disciplinas, nivel y horarios disponibles para encontrar compañeros de juego.</p>
-        </div>
-        <div class="col-md-4">
-          <i class="bi bi-calendar-event feature-icon"></i>
-          <h5>Organiza y únete a partidos</h5>
-          <p>Publica actividades, gestiona cupos o busca eventos deportivos en tu zona con filtros personalizados.</p>
-        </div>
-        <div class="col-md-4">
-          <i class="bi bi-star feature-icon"></i>
-          <h5>Construye tu reputación</h5>
-          <p>Recibe valoraciones por tu desempeño y conoce jugadores confiables en la comunidad.</p>
-        </div>
+<!-- Features -->
+<section id="features" class="py-5">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-5">¿Qué puedes hacer en SportConnect?</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <i class="bi bi-person-plus feature-icon"></i>
+        <h5>Regístrate y crea tu perfil</h5>
+        <p>Comparte tus disciplinas, nivel y horarios disponibles para encontrar compañeros de juego.</p>
+      </div>
+      <div class="col-md-4">
+        <i class="bi bi-calendar-event feature-icon"></i>
+        <h5>Organiza y únete a partidos</h5>
+        <p>Publica actividades, gestiona cupos o busca eventos deportivos en tu zona con filtros personalizados.</p>
+      </div>
+      <div class="col-md-4">
+        <i class="bi bi-star feature-icon"></i>
+        <h5>Construye tu reputación</h5>
+        <p>Recibe valoraciones por tu desempeño y conoce jugadores confiables en la comunidad.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- About -->
-  <section id="about" class="bg-light py-5">
-    <div class="container text-center">
-      <h2 class="fw-bold mb-4">Sobre el proyecto</h2>
-      <p class="lead">
-        SportConnect busca fomentar la integración social a través del deporte, ayudando a las personas
-        a coordinar actividades recreativas, conocer nuevos compañeros y mantener un estilo de vida activo.
-      </p>
-    </div>
-  </section>
+<!-- About -->
+<section id="about" class="bg-light py-5">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-4">Sobre el proyecto</h2>
+    <p class="lead">
+      SportConnect busca fomentar la integración social a través del deporte, ayudando a las personas
+      a coordinar actividades recreativas, conocer nuevos compañeros y mantener un estilo de vida activo.
+    </p>
+  </div>
+</section>
 {% endblock %}

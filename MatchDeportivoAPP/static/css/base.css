@@ -58,20 +58,6 @@ footer p {
 
 /* Utilidades */
 .smooth-scroll {
-    scroll-behavior: smooth;
-}
-
-/* Contenedor principal */
-.main-container {
-    min-height: calc(100vh - 200px);
-    padding: 2rem 0;
-}
-
-/* Cards mejorados */
-.card {
-    border: none;
-    border-radius: var(--border-radius);
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
