@@ -46,11 +46,6 @@ class Perfil(models.Model):
     def __str__(self):
         return self.usuario.username
 
-
-
-
-
-
 class Actividad(models.Model):
     """Actividad deportiva organizada por un usuario."""
     
@@ -92,13 +87,6 @@ class Actividad(models.Model):
     def __str__(self):
         return f"{self.titulo} ({self.deporte} el {self.fecha})"
     
-
-
-
-
-
-
-
 class Notificacion(models.Model):
     """Notificaciones para los usuarios sobre actividades y eventos."""
     
