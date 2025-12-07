@@ -4,79 +4,45 @@
 {% block title %}Notificaciones{% endblock %}
 
 {% block extra_css %}
-
-<style>
-.notification-header {
-background: linear-gradient(to right, #0d6efd, #5ab3ff);
-color: white;
-padding: 2rem 0;
-text-align: center;
-margin-bottom: 2rem;
-border-radius: 0.5rem;
-}
-.notification-item {
-background: #fff;
-border-left: 5px solid #0d6efd;
-border-radius: 0.5rem;
-padding: 1rem;
-margin-bottom: 1rem;
-box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-transition: background-color 0.3s;
-}
-.notification-item.unread {
-background-color: #e8f1ff; /* Azul claro para no leídas */
-border-left-color: #0d6efd;
-font-weight: 500;
-}
-.notification-meta {
-font-size: 0.8rem;
-color: #6c757d;
-display: block;
-margin-top: 0.5rem;
-}
-</style>
-
-{% endblock extra_css %}
+<link href="{% static 'css/actividades.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block usuario_content %}
-
 <div class="container">
-<div class="notification-header">
-<h2 class="fw-bold mb-1">Centro de Notificaciones</h2>
-<p>Tienes <strong>{{ notificaciones_sin_leer|length }}</strong> notificaciones sin leer.</p>
-</div>
+    <div class="notification-header">
+        <h2 class="fw-bold mb-1">Centro de Notificaciones</h2>
+        <p>Tienes <strong>{{ notificaciones_sin_leer|length }}</strong> notificaciones sin leer.</p>
+    </div>
 
-{% if notificaciones %}
+    {% if notificaciones %}
     <a href="{% url 'marcar_leidas' %}" class="btn btn-outline-secondary mb-3 btn-sm">Marcar todas como leídas</a>
-    
+
     {% for notificacion in notificaciones %}
     <div class="notification-item {% if not notificacion.leida %}unread{% endif %}">
         <p class="mb-0">
             <!-- Icono basado en el tipo -->
             {% if notificacion.tipo == 'NUEVA_ACTIVIDAD' %}
-                <span class="text-primary me-2">🔔</span>
+            <span class="text-primary me-2">🔔</span>
             {% elif notificacion.tipo == 'CONFIRMACION_UNION' %}
-                <span class="text-success me-2">✅</span>
+            <span class="text-success me-2">✅</span>
             {% elif notificacion.tipo == 'NUEVA_CALIFICACION' %}
-                <span class="text-warning me-2">⭐</span>
+            <span class="text-warning me-2">⭐</span>
             {% endif %}
-            
+
             {{ notificacion.mensaje }}
         </p>
         <span class="notification-meta">
             Recibida hace {{ notificacion.fecha_creacion|timesince }}
             {% if notificacion.actividad %}
-                — <a href="{% url 'detalle_actividad' pk=notificacion.actividad.pk %}">Ver actividad</a>
+            — <a href="{% url 'detalle_actividad' pk=notificacion.actividad.pk %}">Ver actividad</a>
             {% endif %}
         </span>
     </div>
     {% endfor %}
-{% else %}
+    {% else %}
     <div class="alert alert-success text-center">
         ¡Todo al día! No tienes notificaciones pendientes.
     </div>
-{% endif %}
-
-
+    {% endif %}
 </div>
 {% endblock %}

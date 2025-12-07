@@ -4,13 +4,17 @@
 {% block title %}SportConnect - Administración{% endblock %}
 
 {% block extra_css %}
+<link href="{% static 'css/base.css' %}" rel="stylesheet">
 <style>
   .navbar-admin {
     background-color: #0d6efd;
   }
-  .navbar-admin .nav-link, .navbar-admin .navbar-brand {
+
+  .navbar-admin .nav-link,
+  .navbar-admin .navbar-brand {
     color: white !important;
   }
+
   .navbar-admin .nav-link:hover {
     color: #ffc107 !important;
   }
@@ -31,7 +35,7 @@
       <ul class="navbar-nav align-items-center">
         <li class="nav-item"><a class="nav-link" href=""><i class="bi bi-people"></i> Cuentas</a></li>
         <li class="nav-item"><a class="nav-link" href=""><i class="bi bi-clipboard-data"></i> Logs</a></li>
-        <li class="nav-item"><a class="nav-link" href="><i class="bi bi-plus-circle"></i> Nueva Actividad</a></li>
+        <li class="nav-item"><a class="nav-link" href="><i class=" bi bi-plus-circle"></i> Nueva Actividad</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="bi bi-globe"></i> Ver Sitio</a></li>
         <li class="nav-item">
           <a class="nav-link text-warning" href=""><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
