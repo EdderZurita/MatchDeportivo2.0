@@ -1,6 +1,8 @@
 """URL configuration for MatchDeportivo project."""
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from MatchDeportivoAPP import views
 
@@ -39,3 +41,7 @@ urlpatterns = [
     path('administracion/logs/', views.ver_logs, name='ver_logs'),
     path('administracion/usuarios/', views.gestionar_usuarios, name='gestionar_usuarios'),
 ]
+
+# Servir archivos media en desarrollo
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
