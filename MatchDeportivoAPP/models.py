@@ -1,8 +1,7 @@
-from django.db import models
-
-# Create your models here.
+"""Modelos de datos de MatchDeportivoAPP."""
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date, time
 
 class Log(models.Model):
     ACCION_CHOICES = [
@@ -50,9 +49,7 @@ class Perfil(models.Model):
 
 
 
-from django.db import models
-from django.contrib.auth.models import User
-from datetime import date, time
+
 
 class Actividad(models.Model):
     # Relación con el usuario que organiza la actividad
@@ -93,9 +90,7 @@ class Actividad(models.Model):
 
 
 
-from django.db import models
-from django.contrib.auth.models import User
-# Asegúrate de que tus modelos Perfil y Actividad estén importados
+
 
 class Notificacion(models.Model):
     TIPO_NOTIFICACION = (
