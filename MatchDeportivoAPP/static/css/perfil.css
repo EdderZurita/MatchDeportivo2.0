@@ -1,5 +1,131 @@
 /* Estilos para perfiles */
 
+/* Encabezado del perfil */
+.profile-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 0 2rem;
+    margin-bottom: 2rem;
+}
+
+.profile-header h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Imagen de perfil */
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: -75px auto 1rem;
+    display: block;
+    background: white;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #2d3748;
+}
+
+/* Sección del formulario */
+.form-section {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    outline: none;
+}
+
+/* Grid de iconos */
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.icon-option {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f7fafc;
+}
+
+.icon-option:hover {
+    border-color: #667eea;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.icon-option.selected {
+    border-color: #667eea;
+    background: #edf2f7;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.icon-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+/* Botón */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* ===== ESTILOS ADICIONALES PARA PERFIL_JUGADOR ===== */
+
 /* Contenedor de perfil */
 .perfil-container {
     max-width: 1200px;
@@ -133,87 +259,32 @@
     color: #212529;
 }
 
-/* Iconos de deporte */
-.iconos-deporte {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 1rem;
-}
-
-.icono-item {
-    text-align: center;
-    padding: 1rem;
-    border: 2px solid #dee2e6;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.icono-item:hover {
-    border-color: #667eea;
-    background: #f8f9fa;
-}
-
-.icono-item.selected {
-    border-color: #667eea;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-}
-
-.icono-item img {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 0.5rem;
-}
-
-.icono-nombre {
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-/* Mapa de ubicación */
-.ubicacion-mapa {
-    height: 300px;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    margin-top: 1rem;
-}
-
-/* Preferencias deportivas */
-.preferencia-item {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-    border-left: 4px solid #667eea;
-}
-
-.preferencia-titulo {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.preferencia-valor {
-    color: #6c757d;
-}
-
-/* Botones de acción */
-.perfil-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-.btn-perfil {
-    flex: 1;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
+    .form-section {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .profile-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .icon-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .icon-option {
+        width: 70px;
+        height: 70px;
+    }
+
+    .icon-img {
+        width: 40px;
+        height: 40px;
+    }
+
     .perfil-header {
         padding: 2rem 1rem;
     }
@@ -228,9 +299,5 @@
 
     .info-grid {
         grid-template-columns: 1fr;
-    }
-
-    .perfil-actions {
-        flex-direction: column;
     }
 }
