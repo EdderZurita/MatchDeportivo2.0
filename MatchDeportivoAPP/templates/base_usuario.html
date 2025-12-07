@@ -34,6 +34,11 @@
             <a class="nav-link {% if active_page == 'notificaciones' %}active{% endif %}"
               href="{% url 'notificaciones' %}">Notificaciones</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'cerrarSesion' %}">
+              <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+            </a>
+          </li>
         </ul>
       </div>
     </div>
