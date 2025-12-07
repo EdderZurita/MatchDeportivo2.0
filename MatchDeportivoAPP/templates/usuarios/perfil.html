@@ -4,85 +4,10 @@
 {% block title %}Mi Perfil | SportConnect{% endblock %}
 
 {% block extra_css %}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn0WsJFM5jcMk8QzXQrFGRGhTOpyKPdw8&libraries=places"></script>
-
-<style>
-  body {
-    background-color: #f8f9fa;
-  }
-
-  .profile-header {
-    background: linear-gradient(to right, #0d6efd, #5ab3ff);
-    color: white;
-    padding: 3rem 0 3rem 0;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-  }
-
-
-  .profile-picture {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid white;
-    object-fit: cover;
-    margin-top: -40px; /* antes -60px */
-    background-color: #e9ecef;
-    position: relative;
-    z-index: 10;
-  }
-
-
-  .form-section {
-    background: white;
-    padding: 2rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    margin-top: 0; /* antes -3rem */
-  }
-
-  .profile-name {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-top: 1rem;
-  }
-
-  .text-muted {
-    font-size: 0.9rem;
-  }
-
-  /* --- ICONOS --- */
-  .icon-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .icon-option {
-    border: 2px solid transparent;
-    padding: 5px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-
-  .icon-option.selected {
-    border: 2px solid #0d6efd;
-    background-color: #e8f1ff;
-  }
-
-  .icon-img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-</style>
+<link href="{% static 'css/perfil.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block usuario_content %}
-
 <!-- Encabezado -->
 <section class="profile-header">
   <div class="container text-center">
@@ -94,9 +19,9 @@
 <!-- Imagen -->
 <div class="container text-center">
   {% if perfil.icono_perfil %}
-    <img src="{% static perfil.icono_perfil %}" alt="Icono" class="profile-picture">
+  <img src="{% static perfil.icono_perfil %}" alt="Icono" class="profile-picture">
   {% else %}
-    <img src="{% static 'img/default_profile.png' %}" alt="Foto de perfil" class="profile-picture">
+  <img src="{% static 'img/default_profile.png' %}" alt="Foto de perfil" class="profile-picture">
   {% endif %}
 
   <p class="profile-name">{{ user.first_name }} {{ user.last_name }}</p>
@@ -114,11 +39,9 @@
 
       <div class="icon-grid" id="icon-selector">
         {% for nombre, ruta in iconos %}
-          <div class="icon-option {% if perfil.icono_perfil == ruta %}selected{% endif %}">
-            <img src="{% static ruta %}"
-                 class="icon-img"
-                 data-icon="{{ ruta }}">
-          </div>
+        <div class="icon-option {% if perfil.icono_perfil == ruta %}selected{% endif %}">
+          <img src="{% static ruta %}" class="icon-img" data-icon="{{ ruta }}">
+        </div>
         {% endfor %}
       </div>
 
@@ -128,7 +51,8 @@
     <!-- Nombre -->
     <div class="mb-3">
       <label for="nombre" class="form-label fw-semibold">Nombre completo</label>
-      <input type="text" id="nombre" name="nombre" value="{{ user.first_name }} {{ user.last_name }}" class="form-control">
+      <input type="text" id="nombre" name="nombre" value="{{ user.first_name }} {{ user.last_name }}"
+        class="form-control">
     </div>
 
     <div class="mb-3">
@@ -151,12 +75,10 @@
     </div>
 
     <!-- Ubicación -->
-    <!-- Ubicación -->
     <div class="mb-3">
       <label class="form-label fw-semibold">Ubicación</label>
-      <input type="text" id="autocomplete" name="ubicacion" class="form-control"
-            placeholder="Ej: Estadio Nacional, Santiago"
-            value="{{ perfil.ubicacion }}">
+      <input type="text" id="autocomplete-ubicacion" name="ubicacion" class="form-control"
+        placeholder="Ej: Estadio Nacional, Santiago" value="{{ perfil.ubicacion }}">
     </div>
 
     <input type="hidden" id="latitud" name="latitud" value="{{ perfil.latitud }}">
@@ -166,9 +88,9 @@
     <div class="mb-3">
       <label class="form-label fw-semibold">Nivel</label>
       <select id="nivel" name="nivel" class="form-select">
-        <option {% if perfil.nivel == "Principiante" %}selected{% endif %}>Principiante</option>
-        <option {% if perfil.nivel == "Intermedio" %}selected{% endif %}>Intermedio</option>
-        <option {% if perfil.nivel == "Avanzado" %}selected{% endif %}>Avanzado</option>
+        <option {% if perfil.nivel=="Principiante" %}selected{% endif %}>Principiante</option>
+        <option {% if perfil.nivel=="Intermedio" %}selected{% endif %}>Intermedio</option>
+        <option {% if perfil.nivel=="Avanzado" %}selected{% endif %}>Avanzado</option>
       </select>
     </div>
 
@@ -189,43 +111,24 @@
     </div>
   </form>
 </div>
+{% endblock %}
 
-<!-- JS -->
+{% block extra_js %}
+<script src="{% static 'js/maps.js' %}"></script>
+<script src="{% static 'js/forms.js' %}"></script>
 <script>
-document.querySelectorAll('.icon-img').forEach(img => {
-  img.addEventListener('click', () => {
-    document.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('selected'));
-    img.parentElement.classList.add('selected');
-    document.getElementById('icono_perfil').value = img.dataset.icon;
+  // Selector de iconos
+  document.querySelectorAll('.icon-img').forEach(img => {
+    img.addEventListener('click', () => {
+      document.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('selected'));
+      img.parentElement.classList.add('selected');
+      document.getElementById('icono_perfil').value = img.dataset.icon;
+    });
   });
-});
+
+  // Inicializar autocompletado de Google Maps
+  if (typeof initAutocomplete === 'function') {
+    initAutocomplete('autocomplete-ubicacion', 'latitud', 'longitud');
+  }
 </script>
-<script>
-function initAutocomplete() {
-    const input = document.getElementById("autocomplete");
-
-    const autocomplete = new google.maps.places.Autocomplete(input, {
-        types: ["geocode"],   // direcciones
-        componentRestrictions: { country: "cl" } // Chile
-    });
-
-    autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-
-        if (!place.geometry) {
-            alert("No se encontró la ubicación.");
-            return;
-        }
-
-        // Guardar latitud y longitud
-        document.getElementById("latitud").value = place.geometry.location.lat();
-        document.getElementById("longitud").value = place.geometry.location.lng();
-    });
-}
-</script>
-
-<!-- Carga Google Maps JS -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn0WsJFM5jcMk8QzXQrFGRGhTOpyKPdw8&libraries=places&callback=initAutocomplete"
-        async defer></script>
-
 {% endblock %}
