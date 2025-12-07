@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 from ..models import Perfil
+from ..constants import ICONOS_PERFIL
 
 
 @login_required
@@ -56,18 +57,9 @@ def perfil(request):
         messages.success(request, "Perfil actualizado correctamente.")
         return redirect("perfil")
 
-    iconos = [
-        ("futbol", "img/futbol.png"),
-        ("basketball", "img/basketball.png"),
-        ("skate", "img/skate.png"),
-        ("voleibol", "img/voleibol.png"),
-        ("running", "img/running.png"),
-        ("tenis", "img/tenis.png"),
-    ]
-
     context = {
         "perfil": perfil,
-        "iconos": iconos,
+        "iconos": ICONOS_PERFIL,
         "active_page": "perfil",
     }
     return render(request, "usuarios/perfil.html", context)

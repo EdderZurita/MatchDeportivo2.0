@@ -9,18 +9,18 @@ from django.db.models import Q
 from math import radians, cos, sin, asin, sqrt
 
 from ..models import Actividad, Perfil, Notificacion
+from ..constants import RADIO_BUSQUEDA_DEFAULT, RADIO_TIERRA_KM, DEPORTES
 from .notificaciones import crear_notificacion_simple
 
 
 def calcular_distancia_haversine(lat1, lon1, lat2, lon2):
     """Calcula distancia entre dos puntos usando Haversine. Retorna km."""
-    R = 6371
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
     dlon = lon2 - lon1
     dlat = lat2 - lat1
     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
     c = 2 * asin(sqrt(a))
-    return R * c
+    return RADIO_TIERRA_KM * c
 
 
 @login_required
@@ -41,7 +41,7 @@ def actividades(request):
     
     user_lat = perfil.latitud
     user_lng = perfil.longitud
-    search_radius = perfil.radio if perfil.radio is not None else 50
+    search_radius = perfil.radio if perfil.radio is not None else RADIO_BUSQUEDA_DEFAULT
 
     if user_lat is None or user_lng is None:
         actividades_finales.extend(actividades_de_otros)
