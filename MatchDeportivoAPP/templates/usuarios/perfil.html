@@ -91,9 +91,9 @@
     <div class="mb-3">
       <label class="form-label fw-semibold">Nivel</label>
       <select id="nivel" name="nivel" class="form-select">
-        <option {% if perfil.nivel=="Principiante" %}selected{% endif %}>Principiante</option>
-        <option {% if perfil.nivel=="Intermedio" %}selected{% endif %}>Intermedio</option>
-        <option {% if perfil.nivel=="Avanzado" %}selected{% endif %}>Avanzado</option>
+        <option {% if perfil.nivel == "Principiante" %}selected{% endif %}>Principiante</option>
+        <option {% if perfil.nivel == "Intermedio" %}selected{% endif %}>Intermedio</option>
+        <option {% if perfil.nivel == "Avanzado" %}selected{% endif %}>Avanzado</option>
       </select>
     </div>
 
@@ -111,125 +111,11 @@
 
     <div class="text-end">
       <button type="submit" class="btn btn-primary">Guardar cambios</button>
-      {% extends 'base_usuario.html' %}
-      {% load static %}
+    </div>
+  </form>
+</div>
+{% endblock %}
 
-      {% block title %}Mi Perfil | SportConnect{% endblock %}
-
-      {% block extra_css %}
-      <link href="{% static 'css/perfil.css' %}" rel="stylesheet">
-      <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn0WsJFM5jcMk8QzXQrFGRGhTOpyKPdw8&libraries=places&callback=initAutocomplete"
-        async defer></script>
-      {% endblock %}
-
-      {% block usuario_content %}
-      <!-- Encabezado -->
-      <section class="profile-header">
-        <div class="container text-center">
-          <h2 class="fw-bold mb-1">Mi Perfil Deportivo</h2>
-          <p>Gestiona tu información personal y tus intereses deportivos</p>
-        </div>
-      </section>
-
-      <!-- Imagen -->
-      <div class="container text-center">
-        {% if perfil.icono_perfil %}
-        <img src="{% static perfil.icono_perfil %}" alt="Icono" class="profile-picture">
-        {% else %}
-        <img src="{% static 'img/default_profile.png' %}" alt="Foto de perfil" class="profile-picture">
-        {% endif %}
-
-        <p class="profile-name">{{ user.first_name }} {{ user.last_name }}</p>
-        <p class="text-muted">{{ perfil.nickname|default:user.username }}</p>
-      </div>
-
-      <!-- Formulario -->
-      <div class="container form-section">
-        <form method="post">
-          {% csrf_token %}
-
-          <!-- Selector de iconos -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Icono de perfil</label>
-
-            <div class="icon-grid" id="icon-selector">
-              {% for nombre, ruta in iconos %}
-              <div class="icon-option {% if perfil.icono_perfil == ruta %}selected{% endif %}">
-                <img src="{% static ruta %}" class="icon-img" data-icon="{{ ruta }}">
-              </div>
-              {% endfor %}
-            </div>
-
-            <input type="hidden" name="icono_perfil" id="icono_perfil" value="{{ perfil.icono_perfil }}">
-          </div>
-
-          <!-- Nombre -->
-          <div class="mb-3">
-            <label for="nombre" class="form-label fw-semibold">Nombre completo</label>
-            <input type="text" id="nombre" name="nombre" value="{{ user.first_name }} {{ user.last_name }}"
-              class="form-control">
-          </div>
-
-          <div class="mb-3">
-            <label for="nickname" class="form-label fw-semibold">Nickname</label>
-            <input type="text" id="nickname" name="nickname" value="{{ perfil.nickname }}" class="form-control">
-          </div>
-
-          <!-- Disciplinas -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Disciplinas deportivas</label>
-            <select id="disciplinas" name="disciplinas" class="form-select">
-              <option value="">Selecciona un deporte</option>
-              <option value="futbol">Fútbol</option>
-              <option value="basketball">Basketball</option>
-              <option value="skate">Skate</option>
-              <option value="voleibol">Vóleibol</option>
-              <option value="running">Running</option>
-              <option value="tenis">Tenis</option>
-            </select>
-          </div>
-
-          <!-- Ubicación -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Ubicación</label>
-            <input type="text" id="autocomplete" name="ubicacion" class="form-control"
-              placeholder="Ej: Estadio Nacional, Santiago" value="{{ perfil.ubicacion }}">
-          </div>
-
-          <input type="hidden" id="latitud" name="latitud" value="{{ perfil.latitud }}">
-          <input type="hidden" id="longitud" name="longitud" value="{{ perfil.longitud }}">
-
-          <!-- Nivel -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Nivel</label>
-            <select id="nivel" name="nivel" class="form-select">
-              <option {% if perfil.nivel == "Principiante" %}selected{% endif %}>Principiante</option>
-              <option {% if perfil.nivel == "Intermedio" %}selected{% endif %}>Intermedio</option>
-              <option {% if perfil.nivel == "Avanzado" %}selected{% endif %}>Avanzado</option>
-            </select>
-          </div>
-
-          <!-- Horarios -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Disponibilidad horaria</label>
-            <input type="text" id="horarios" name="horarios" class="form-control" value="{{ perfil.horarios }}">
-          </div>
-
-          <!-- Radio -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Radio de búsqueda (km)</label>
-            <input type="number" id="radio" name="radio" class="form-control" min="1" max="50"
-              value="{{ perfil.radio }}">
-          </div>
-
-          <div class="text-end">
-            <button type="submit" class="btn btn-primary">Guardar cambios</button>
-          </div>
-        </form>
-      </div>
-      {% endblock %}
-
-      {% block extra_js %}
-      <script src="{% static 'js/perfil.js' %}"></script>
-      {% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/perfil.js' %}"></script>
+{% endblock %}
