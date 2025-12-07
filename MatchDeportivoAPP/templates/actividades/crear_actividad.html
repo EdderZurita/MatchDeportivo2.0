@@ -4,133 +4,111 @@
 {% block title %}Crear Actividad | SportConnect{% endblock %}
 
 {% block extra_css %}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn0WsJFM5jcMk8QzXQrFGRGhTOpyKPdw8&libraries=places"></script>
-
-<style>
- .create-activity-header {
- background: linear-gradient(to right, #0d6efd, #5ab3ff);
- color: white;
- padding: 2rem 0;
- text-align: center;
- margin-bottom: 2rem;
- border-radius: 0.5rem;
- }
-
- .form-section {
- background: white;
- padding: 2rem;
- border-radius: 0.75rem;
- box-shadow: 0 2px 10px rgba(0,0,0,0.05);
- margin-bottom: 2rem;
-}
-
- .btn-submit {
- margin-top: 1rem;
- }
-</style>
+<link href="{% static 'css/actividades.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block usuario_content %}
 <div class="container">
-    <div class="create-activity-header">
-    <h2 class="fw-bold mb-1">Crear Nueva Actividad</h2>
-    <p>Completa los datos para publicar tu actividad deportiva</p>
-  </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
 
-    <div class="form-section">
-    <form method="post">
-      {% csrf_token %}
-      <div class="mb-3">
-        <label for="titulo" class="form-label fw-semibold">Título de la actividad</label>
-        <input type="text" id="titulo" name="titulo" class="form-control" placeholder="Ej: Fútbol 5 Amigos" required>
-      </div>
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Crear Nueva Actividad</h4>
+                </div>
 
-      <div class="mb-3">
-        <label for="deporte" class="form-label fw-semibold">Deporte</label>
-        <select id="deporte" name="deporte" class="form-select" required>
-          <option value="">Selecciona un deporte</option>
-          <option value="futbol">Fútbol</option>
-          <option value="basketball">Basketball</option>
-          <option value="skate">Skate</option>
-          <option value="volibol">Vóleibol</option>
-          <option value="running">Running</option>
-          <option value="tenis">Tenis</option>
-        </select>
-      </div>
+                <div class="card-body">
 
+                    {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
 
-            <div class="mb-3">
-        <label for="lugar" class="form-label fw-semibold">Lugar (Dirección)</label>
-        <input type="text" id="autocomplete_actividad" name="lugar" class="form-control" placeholder="Ej: Cancha Municipal, Calle 123" required>
-      </div>
+                    <form method="POST" id="form-crear-actividad">
+                        {% csrf_token %}
 
-            <input type="hidden" id="latitud_actividad" name="latitud_actividad">
-      <input type="hidden" id="longitud_actividad" name="longitud_actividad">
+                        <div class="mb-3">
+                            <label class="form-label">Título de la actividad</label>
+                            <input type="text" name="titulo" class="form-control"
+                                placeholder="Ej: Partido de fútbol amistoso" required>
+                        </div>
 
-      <div class="mb-3">
-        <label for="fecha" class="form-label fw-semibold">Fecha</label>
-        <input type="date" id="fecha" name="fecha" class="form-control" required>
-      </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deporte</label>
+                            <select name="deporte" class="form-select" required>
+                                <option value="">Selecciona un deporte</option>
+                                <option value="futbol">Fútbol</option>
+                                <option value="basketball">Basketball</option>
+                                <option value="skate">Skate</option>
+                                <option value="volibol">Vóleibol</option>
+                                <option value="running">Running</option>
+                                <option value="tenis">Tenis</option>
+                            </select>
+                        </div>
 
-      <div class="mb-3">
-        <label for="hora_inicio" class="form-label fw-semibold">Hora de inicio</label>
-        <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" required>
-      </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <textarea name="descripcion" class="form-control" rows="3"
+                                placeholder="Describe la actividad..."></textarea>
+                        </div>
 
-      <div class="mb-3">
-        <label for="hora_fin" class="form-label fw-semibold">Hora de fin</label>
-        <input type="time" id="hora_fin" name="hora_fin" class="form-control">
-      </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ubicación</label>
+                            <input type="text" id="autocomplete-lugar" name="lugar" class="form-control"
+                                placeholder="Busca un lugar..." required>
+                            <input type="hidden" name="latitud_actividad" id="latitud_actividad">
+                            <input type="hidden" name="longitud_actividad" id="longitud_actividad">
+                        </div>
 
-      <div class="mb-3">
-        <label for="nivel" class="form-label fw-semibold">Nivel</label>
-        <select id="nivel" name="nivel" class="form-select">
-          <option>Principiante</option>
-          <option>Intermedio</option>
-          <option>Avanzado</option>
-        </select>
-      </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Fecha</label>
+                                <input type="date" name="fecha" class="form-control" required>
+                            </div>
 
-      <div class="mb-3">
-        <label for="cupos" class="form-label fw-semibold">Cupos disponibles</label>
-        <input type="number" id="cupos" name="cupos" class="form-control" min="1" max="50" value="5" required>
-      </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Hora inicio</label>
+                                <input type="time" name="hora_inicio" class="form-control" required>
+                            </div>
 
-      <div class="mb-3">
-        <label for="descripcion" class="form-label fw-semibold">Descripción</label>
-        <textarea id="descripcion" name="descripcion" class="form-control" rows="4" placeholder="Describe la actividad..."></textarea>
-      </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Hora fin</label>
+                                <input type="time" name="hora_fin" class="form-control">
+                            </div>
+                        </div>
 
-      <button type="submit" class="btn btn-success btn-submit">Crear Actividad</button>
-    </form>
-  </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Cupos disponibles</label>
+                                <input type="number" name="cupos" class="form-control" min="1" max="50" value="10"
+                                    required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nivel</label>
+                                <select name="nivel" class="form-select" required>
+                                    <option value="Principiante">Principiante</option>
+                                    <option value="Intermedio" selected>Intermedio</option>
+                                    <option value="Avanzado">Avanzado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Crear Actividad</button>
+                            <a href="{% url 'actividades' %}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
+{% endblock %}
 
-<script>
-function initAutocompleteActividad() {
-    const inputActividad = document.getElementById("autocomplete_actividad");
-
-    const autocompleteActividad = new google.maps.places.Autocomplete(inputActividad, {
-        types: ["geocode", "establishment"] // Permite direcciones o negocios/lugares
-    });
-
-    autocompleteActividad.addListener("place_changed", () => {
-        const place = autocompleteActividad.getPlace();
-
-        if (place.geometry) {
-            // Guardar latitud y longitud en los campos ocultos
-            document.getElementById("latitud_actividad").value = place.geometry.location.lat();
-            document.getElementById("longitud_actividad").value = place.geometry.location.lng();
-        } else {
-            // Limpiar si no se selecciona un lugar válido
-            document.getElementById("latitud_actividad").value = '';
-            document.getElementById("longitud_actividad").value = '';
-        }
-    });
-}
-
-// Llama a la función de autocompletado cuando la API de Google esté lista
-google.maps.event.addDomListener(window, 'load', initAutocompleteActividad);
-</script>
-
+{% block extra_js %}
+<script src="{% static 'js/maps.js' %}"></script>
+<script src="{% static 'js/forms.js' %}"></script>
 {% endblock %}
