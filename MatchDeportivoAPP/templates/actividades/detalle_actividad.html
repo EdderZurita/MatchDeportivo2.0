@@ -9,6 +9,13 @@
 
 {% block usuario_content %}
 <div class="container">
+    <!-- Botón Volver -->
+    <div class="mb-3">
+        <a href="{% url 'actividades' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a Actividades
+        </a>
+    </div>
+
     <div class="activity-detail">
         <h2 class="activity-title">{{ actividad.titulo }}</h2>
 

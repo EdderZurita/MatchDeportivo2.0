@@ -9,6 +9,13 @@
 
 {% block usuario_content %}
 <div class="container">
+    <!-- Botón Volver -->
+    <div class="mb-3">
+        <a href="{% url 'actividades' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a Actividades
+        </a>
+    </div>
+
     <div class="my-activities-header">
         <h2 class="fw-bold mb-1">Mis Actividades</h2>
         <p>Aquí puedes ver y gestionar las actividades que organizaste o en las que participas.</p>
