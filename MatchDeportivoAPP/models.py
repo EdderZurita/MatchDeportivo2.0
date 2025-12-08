@@ -1,7 +1,7 @@
 """Modelos de datos de MatchDeportivoAPP."""
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import date, time
 
 from .constants import NIVELES
@@ -107,3 +107,51 @@ class Notificacion(models.Model):
 
     def __str__(self):
         return f'{self.tipo} para {self.usuario.username}'
+
+class Valoracion(models.Model):
+    """Valoración de un usuario a otro después de participar en una actividad."""
+    
+    # Usuarios involucrados
+    evaluador = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='valoraciones_dadas',
+        help_text='Usuario que realiza la valoración'
+    )
+    evaluado = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='valoraciones_recibidas',
+        help_text='Usuario que recibe la valoración'
+    )
+    
+    # Actividad donde participaron juntos
+    actividad = models.ForeignKey(
+        'Actividad', 
+        on_delete=models.CASCADE,
+        related_name='valoraciones',
+        help_text='Actividad en la que participaron'
+    )
+    
+    # Valoración
+    puntuacion = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        help_text='Puntuación de 1 a 5 estrellas'
+    )
+    comentario = models.TextField(
+        blank=True,
+        max_length=500,
+        help_text='Comentario opcional sobre la experiencia'
+    )
+    
+    # Metadata
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-fecha_creacion']
+        unique_together = ('evaluador', 'evaluado', 'actividad')
+        verbose_name = 'Valoración'
+        verbose_name_plural = 'Valoraciones'
+    
+    def __str__(self):
+        return f'{self.evaluador.username} valoró a {self.evaluado.username} ({self.puntuacion}★)'
