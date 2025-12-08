@@ -1,214 +1,172 @@
-/* Estilos para autenticación */
+/* ============================================
+   AUTHENTICATION STYLES - SportConnect
+   Login y Registro
+   ============================================ */
 
-/* Contenedor de autenticación */
+/* Contenedor principal de autenticación */
 .auth-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 2rem 0;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    padding: 20px;
 }
 
+/* Card de autenticación */
 .auth-card {
     background: white;
-    border-radius: 1rem;
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
-    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     max-width: 450px;
     width: 100%;
+    padding: 40px;
 }
 
-.auth-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 2rem;
+/* Logo y título */
+.auth-logo {
     text-align: center;
+    margin-bottom: 30px;
 }
 
-.auth-header h2 {
-    margin: 0;
-    font-weight: 600;
+.auth-logo h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #2c3e50 0%, #000000 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.auth-header p {
-    margin: 0.5rem 0 0;
-    opacity: 0.9;
-}
-
-.auth-body {
-    padding: 2rem;
+.auth-logo p {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 5px;
 }
 
 /* Formularios */
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: #495057;
-}
-
 .form-control {
-    border-radius: 0.5rem;
-    border: 1px solid #ced4da;
-    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
     transition: all 0.3s ease;
 }
 
 .form-control:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    border-color: #2c3e50;
+    box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
 }
 
-.input-group-text {
-    background-color: #f8f9fa;
-    border-radius: 0.5rem 0 0 0.5rem;
-}
-
-/* Botones de autenticación */
-.btn-auth {
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
+/* Botones */
+.btn-primary {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
     font-weight: 600;
+    transition: transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(44, 62, 80, 0.4);
+}
+
+.btn-outline-secondary {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    color: #6c757d;
     transition: all 0.3s ease;
 }
 
-.btn-auth-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    color: white;
-}
-
-.btn-auth-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(102, 126, 234, 0.3);
-}
-
-.btn-auth-secondary {
-    background: white;
-    border: 2px solid #667eea;
-    color: #667eea;
-}
-
-.btn-auth-secondary:hover {
+.btn-outline-secondary:hover {
     background: #f8f9fa;
-}
-
-/* Enlaces */
-.auth-links {
-    text-align: center;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #dee2e6;
-}
-
-.auth-links a {
-    color: #667eea;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.auth-links a:hover {
-    color: #764ba2;
-    text-decoration: underline;
-}
-
-/* Mensajes de error */
-.auth-error {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-    border-left: 4px solid #dc3545;
-}
-
-/* Mensajes de éxito */
-.auth-success {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1.5rem;
-    border-left: 4px solid #28a745;
-}
-
-/* Iconos de formulario */
-.form-icon {
-    color: #667eea;
-    font-size: 1.25rem;
-}
-
-/* Checkbox personalizado */
-.custom-checkbox {
-    display: flex;
-    align-items: center;
-}
-
-.custom-checkbox input[type="checkbox"] {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 0.5rem;
-    cursor: pointer;
+    border-color: #2c3e50;
+    color: #2c3e50;
 }
 
 /* Divisor */
-.auth-divider {
+.divider {
     text-align: center;
-    margin: 1.5rem 0;
+    margin: 25px 0;
     position: relative;
 }
 
-.auth-divider::before {
+.divider::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 0;
     right: 0;
     height: 1px;
-    background: #dee2e6;
+    background: #e9ecef;
 }
 
-.auth-divider span {
+.divider span {
     background: white;
-    padding: 0 1rem;
+    padding: 0 15px;
     position: relative;
     color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Input con icono */
+.input-icon {
+    position: relative;
+}
+
+.input-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+}
+
+.input-icon input {
+    padding-left: 45px;
+}
+
+/* Links */
+.auth-card a {
+    color: #2c3e50;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.auth-card a:hover {
+    color: #34495e;
+    text-decoration: underline;
+}
+
+/* Mensajes de error/éxito */
+.alert {
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Password strength indicator */
+.password-strength {
+    height: 4px;
+    border-radius: 2px;
+    margin-top: 8px;
+    background: #e9ecef;
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    transition: all 0.3s ease;
+    width: 0%;
 }
 
 /* Responsive */
 @media (max-width: 576px) {
-    .auth-container {
-        padding: 1rem;
-    }
-
     .auth-card {
-        border-radius: 0.5rem;
+        padding: 30px 20px;
     }
 
-    .auth-header,
-    .auth-body {
-        padding: 1.5rem;
+    .auth-logo h1 {
+        font-size: 1.5rem;
     }
-}
-
-/* Estilos específicos de login */
-.login-body {
-    background: linear-gradient(to right, #0d6efd, #5ab3ff);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-card {
-    max-width: 400px;
-    width: 100%;
-    border-radius: 1rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
