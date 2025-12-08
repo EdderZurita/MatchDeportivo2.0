@@ -147,9 +147,9 @@
     <div class="mb-3">
       <label class="form-label fw-semibold">Nivel</label>
       <select id="nivel" name="nivel" class="form-select">
-        <option {% if perfil.nivel=="Principiante" %}selected{% endif %}>Principiante</option>
-        <option {% if perfil.nivel=="Intermedio" %}selected{% endif %}>Intermedio</option>
-        <option {% if perfil.nivel=="Avanzado" %}selected{% endif %}>Avanzado</option>
+        <option {% if perfil.nivel == "Principiante" %}selected{% endif %}>Principiante</option>
+        <option {% if perfil.nivel == "Intermedio" %}selected{% endif %}>Intermedio</option>
+        <option {% if perfil.nivel == "Avanzado" %}selected{% endif %}>Avanzado</option>
       </select>
     </div>
 
