@@ -1,0 +1,132 @@
+{% extends 'base_usuario.html' %}
+{% load static %}
+
+{% block title %}Valorar Usuario | SportConnect{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- Card de valoración -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-star-fill me-2"></i>
+                        Valorar Participante
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <!-- Info de la actividad -->
+                    <div class="alert alert-info mb-4">
+                        <h6 class="mb-2">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            {{ actividad.titulo }}
+                        </h6>
+                        <small class="text-muted">
+                            {{ actividad.deporte }} • {{ actividad.fecha }} • {{ actividad.lugar }}
+                        </small>
+                    </div>
+
+                    <!-- Usuario a valorar -->
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-circle" style="font-size: 4rem; color: #6c757d;"></i>
+                        <h5 class="mt-2">{{ usuario_a_valorar.username }}</h5>
+                        <p class="text-muted">{{ usuario_a_valorar.perfil.nombre_completo }}</p>
+                    </div>
+
+                    <!-- Formulario de valoración -->
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- Puntuación con estrellas -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Puntuación *</label>
+                            <div class="rating-stars text-center mb-2">
+                                {% for i in "12345" %}
+                                <input type="radio" name="puntuacion" value="{{ forloop.counter }}"
+                                    id="star{{ forloop.counter }}" {% if valoracion_existente and
+                                    valoracion_existente.puntuacion==forloop.counter %}checked{% endif %} required>
+                                <label for="star{{ forloop.counter }}" class="star-label">
+                                    <i class="bi bi-star-fill"></i>
+                                </label>
+                                {% endfor %}
+                            </div>
+                            <small class="text-muted d-block text-center">Selecciona de 1 a 5 estrellas</small>
+                        </div>
+
+                        <!-- Comentario opcional -->
+                        <div class="mb-4">
+                            <label for="comentario" class="form-label fw-bold">Comentario (opcional)</label>
+                            <textarea name="comentario" id="comentario" class="form-control" rows="4" maxlength="500"
+                                placeholder="Comparte tu experiencia con este jugador...">{% if valoracion_existente %}{{ valoracion_existente.comentario }}{% endif %}</textarea>
+                            <small class="text-muted">Máximo 500 caracteres</small>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'detalle_actividad' actividad.pk %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i>
+                                {% if valoracion_existente %}Actualizar Valoración{% else %}Enviar Valoración{% endif %}
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilos para las estrellas */
+    .rating-stars {
+        font-size: 2.5rem;
+    }
+
+    .rating-stars input[type="radio"] {
+        display: none;
+    }
+
+    .rating-stars .star-label {
+        color: #ddd;
+        cursor: pointer;
+        transition: color 0.2s ease;
+        margin: 0 5px;
+    }
+
+    .rating-stars .star-label:hover,
+    .rating-stars .star-label:hover~.star-label {
+        color: #ffc107;
+    }
+
+    .rating-stars input[type="radio"]:checked~.star-label {
+        color: #ffc107;
+    }
+
+    .rating-stars input[type="radio"]:checked+.star-label {
+        color: #ffc107;
+    }
+
+    /* Efecto hover inverso */
+    .rating-stars {
+        display: inline-flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+    }
+
+    .rating-stars .star-label:hover,
+    .rating-stars .star-label:hover~.star-label,
+    .rating-stars input[type="radio"]:checked~.star-label,
+    .rating-stars:not(:hover) input[type="radio"]:checked~.star-label {
+        color: #ffc107;
+    }
+</style>
+{% endblock %}

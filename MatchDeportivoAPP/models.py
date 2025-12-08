@@ -48,6 +48,19 @@ class Perfil(models.Model):
 
     def __str__(self):
         return self.usuario.username
+    
+    def rating_promedio(self):
+        """Calcula el rating promedio del usuario basado en sus valoraciones recibidas."""
+        valoraciones = self.usuario.valoraciones_recibidas.all()
+        if not valoraciones.exists():
+            return None
+        
+        total = sum(v.puntuacion for v in valoraciones)
+        return round(total / valoraciones.count(), 1)
+    
+    def total_valoraciones(self):
+        """Retorna el número total de valoraciones recibidas."""
+        return self.usuario.valoraciones_recibidas.count()
 
 class Actividad(models.Model):
     """Actividad deportiva organizada por un usuario."""
