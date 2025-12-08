@@ -3,49 +3,363 @@
 
 {% block title %}Inicio | SportConnect{% endblock %}
 
+{% block extra_css %}
+<style>
+  /* Hero Section */
+  .hero-modern {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+  }
+
+  .hero-modern h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    animation: fadeInUp 0.8s ease;
+  }
+
+  .hero-modern p {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease;
+  }
+
+  .hero-buttons {
+    animation: fadeInUp 1.2s ease;
+  }
+
+  .hero-buttons .btn {
+    margin: 0 10px;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-hero-primary {
+    background: white;
+    color: #2c3e50;
+    border: none;
+  }
+
+  .btn-hero-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    color: #2c3e50;
+  }
+
+  .btn-hero-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-hero-secondary:hover {
+    background: white;
+    color: #2c3e50;
+    transform: translateY(-3px);
+  }
+
+  /* Animaciones */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Features Section */
+  .features-section {
+    padding: 80px 0;
+  }
+
+  .feature-card {
+    padding: 40px 30px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    background: white;
+    border: 1px solid #e0e0e0;
+    height: 100%;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    border-color: #2c3e50;
+  }
+
+  .feature-icon {
+    font-size: 3.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .feature-card h5 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #2c3e50;
+  }
+
+  .feature-card p {
+    color: #6c757d;
+    line-height: 1.6;
+  }
+
+  /* Stats Section */
+  .stats-section {
+    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+    color: white;
+    padding: 60px 0;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .stat-label {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+
+  /* How It Works */
+  .how-it-works {
+    padding: 80px 0;
+    background: #f8f9fa;
+  }
+
+  .step-card {
+    text-align: center;
+    padding: 30px;
+    position: relative;
+  }
+
+  .step-number {
+    width: 60px;
+    height: 60px;
+    background: #2c3e50;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto 20px;
+  }
+
+  .step-card h5 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #2c3e50;
+  }
+
+  /* About Section */
+  .about-section {
+    padding: 80px 0;
+  }
+
+  .about-section h2 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  .about-section p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #6c757d;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-modern h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero-modern p {
+      font-size: 1.1rem;
+    }
+
+    .hero-buttons .btn {
+      display: block;
+      margin: 10px auto;
+      width: 80%;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+    }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero Section -->
+<section class="hero-modern">
   <div class="container">
-    <h1 class="display-4 fw-bold">Conéctate, Juega y Disfruta del deporte.</h1>
-    <p class="lead mt-3">Únete a una comunidad activa donde puedes organizar, buscar y participar en actividades
-      deportivas.</p>
-    <a href="{% url 'registroSesion' %}" class="btn btn-primary btn-lg mt-4">Comenzar ahora</a>
+    <h1>Conecta, Juega y Disfruta del Deporte</h1>
+    <p>Únete a una comunidad activa donde puedes organizar, buscar y participar en actividades deportivas cerca de ti
+    </p>
+    <div class="hero-buttons">
+      <a href="{% url 'registroSesion' %}" class="btn btn-hero-primary">Comenzar Gratis</a>
+      <a href="#features" class="btn btn-hero-secondary">Conocer Más</a>
+    </div>
   </div>
 </section>
 
-<!-- Features -->
-<section id="features" class="py-5">
-  <div class="container text-center">
-    <h2 class="fw-bold mb-5">¿Qué puedes hacer en SportConnect?</h2>
-    <div class="row g-4">
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="container">
+    <div class="row">
       <div class="col-md-4">
-        <i class="bi bi-person-plus feature-icon"></i>
-        <h5>Regístrate y crea tu perfil</h5>
-        <p>Comparte tus disciplinas, nivel y horarios disponibles para encontrar compañeros de juego.</p>
+        <div class="stat-item">
+          <span class="stat-number">500+</span>
+          <span class="stat-label">Usuarios Activos</span>
+        </div>
       </div>
       <div class="col-md-4">
-        <i class="bi bi-calendar-event feature-icon"></i>
-        <h5>Organiza y únete a partidos</h5>
-        <p>Publica actividades, gestiona cupos o busca eventos deportivos en tu zona con filtros personalizados.</p>
+        <div class="stat-item">
+          <span class="stat-number">1,200+</span>
+          <span class="stat-label">Actividades Creadas</span>
+        </div>
       </div>
       <div class="col-md-4">
-        <i class="bi bi-star feature-icon"></i>
-        <h5>Construye tu reputación</h5>
-        <p>Recibe valoraciones por tu desempeño y conoce jugadores confiables en la comunidad.</p>
+        <div class="stat-item">
+          <span class="stat-number">6</span>
+          <span class="stat-label">Deportes Disponibles</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- About -->
-<section id="about" class="bg-light py-5">
-  <div class="container text-center">
-    <h2 class="fw-bold mb-4">Sobre el proyecto</h2>
-    <p class="lead">
-      SportConnect busca fomentar la integración social a través del deporte, ayudando a las personas
-      a coordinar actividades recreativas, conocer nuevos compañeros y mantener un estilo de vida activo.
-    </p>
+<!-- Features Section -->
+<section id="features" class="features-section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold" style="color: #2c3e50;">¿Qué puedes hacer en SportConnect?</h2>
+      <p class="lead text-muted">Descubre todas las funcionalidades que tenemos para ti</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="bi bi-person-plus feature-icon"></i>
+          <h5>Crea tu Perfil Deportivo</h5>
+          <p>Comparte tus disciplinas favoritas, nivel de experiencia y horarios disponibles para encontrar compañeros
+            perfectos</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="bi bi-calendar-event feature-icon"></i>
+          <h5>Organiza y Únete a Partidos</h5>
+          <p>Publica actividades deportivas, gestiona cupos o busca eventos en tu zona con filtros personalizados</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="bi bi-star feature-icon"></i>
+          <h5>Construye tu Reputación</h5>
+          <p>Recibe valoraciones por tu desempeño y conoce jugadores confiables en la comunidad deportiva</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold" style="color: #2c3e50;">¿Cómo Funciona?</h2>
+      <p class="lead text-muted">Tres simples pasos para empezar</p>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h5>Regístrate</h5>
+          <p>Crea tu cuenta gratis en menos de 2 minutos y completa tu perfil deportivo</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h5>Busca o Crea</h5>
+          <p>Encuentra actividades cerca de ti o crea la tuya propia y espera a que se unan</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h5>¡Juega!</h5>
+          <p>Conoce nuevos compañeros, disfruta del deporte y mantén un estilo de vida activo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-8 mx-auto text-center">
+        <h2>Sobre SportConnect</h2>
+        <p>
+          SportConnect nace con la misión de fomentar la integración social a través del deporte.
+          Creemos que el deporte es una herramienta poderosa para conectar personas, crear comunidades
+          y promover un estilo de vida saludable. Nuestra plataforma facilita la coordinación de
+          actividades recreativas, ayudándote a conocer nuevos compañeros y mantener una vida activa.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Final -->
+<section class="cta-section">
+  <div class="container">
+    <h2>¿Listo para Empezar?</h2>
+    <p>Únete a nuestra comunidad deportiva hoy mismo</p>
+    <a href="{% url 'registroSesion' %}" class="btn btn-hero-primary btn-lg">Crear Cuenta Gratis</a>
   </div>
 </section>
 {% endblock %}
