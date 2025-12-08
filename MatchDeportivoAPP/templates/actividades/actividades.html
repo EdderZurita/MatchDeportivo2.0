@@ -21,54 +21,75 @@
     <a href="{% url 'mis_actividades' %}" class="btn btn-secondary">Mis actividades</a>
   </div>
   <!-- Filtro por deporte -->
-<form method="GET" class="d-flex" style="gap: 10px;">
-  <select name="deporte" class="form-select">
-      <option value="">-- Filtrar por deporte --</option>
-      <option value="futbol" {% if deporte_seleccionado == 'futbol' %}selected{% endif %}>Fútbol</option>
-      <option value="basketball" {% if deporte_seleccionado == 'basketball' %}selected{% endif %}>Basketball</option>
-      <option value="skate" {% if deporte_seleccionado == 'skate' %}selected{% endif %}>Skate</option>
-      <option value="volibol" {% if deporte_seleccionado == 'volibol' %}selected{% endif %}>Vóleibol</option>
-      <option value="running" {% if deporte_seleccionado == 'running' %}selected{% endif %}>Running</option>
-      <option value="tenis" {% if deporte_seleccionado == 'tenis' %}selected{% endif %}>Tenis</option>
-  </select>
+  <form method="GET" class="d-flex" style="gap: 10px;">
+      <select name="deporte" class="form-select">
+            <option value="">-- Filtrar por deporte --</option>
+            <option value="futbol" {% if deporte_seleccionado=='futbol' %}selected{% endif %}>Fútbol</option>
+            <option value="basketball" {% if deporte_seleccionado=='basketball' %}selected{% endif %}>Basketball
+      </option>
+            <option value="skate" {% if deporte_seleccionado=='skate' %}selected{% endif %}>Skate</option>
+            <option value="volibol" {% if deporte_seleccionado=='volibol' %}selected{% endif %}>Vóleibol</option>
+            <option value="running" {% if deporte_seleccionado=='running' %}selected{% endif %}>Running</option>
+            <option value="tenis" {% if deporte_seleccionado=='tenis' %}selected{% endif %}>Tenis</option>
+        </select>
 
-  <button type="submit" class="btn btn-primary">
-      Buscar
-  </button>
-</form>
+      <button type="submit" class="btn btn-primary">
+            Buscar
+        </button>
+  </form>
 
   <!-- Lista de actividades -->
   <div class="row mt-4">
 
     {% if actividades %}
     {% for actividad in actividades %}
-    <div class="col-md-6">
+    <div class="col-md-6 mb-3">
       <div class="activity-card">
-        <div class="activity-title">{{ actividad.titulo }}</div>
-
-        {% if actividad.distancia_km %}
-        <div class="activity-info">
-          Distancia: <strong>{{ actividad.distancia_km }} km</strong> 📍
-        </div>
-        {% endif %}
-
-        <div class="activity-info">Deporte: <strong>{{ actividad.deporte|capfirst }}</strong></div>
-
-        <div class="activity-info">
-          Lugar: <strong>{{ actividad.lugar }}</strong>
+        <!-- Header con título y badge de nivel -->
+        <div class="d-flex justify-content-between align-items-start mb-2">
+          <h5 class="activity-title mb-0">{{ actividad.titulo }}</h5>
+          {% if actividad.nivel == "Principiante" %}
+          <span class="badge bg-success">Principiante</span>
+          {% elif actividad.nivel == "Intermedio" %}
+          <span class="badge bg-warning text-dark">Intermedio</span>
+          {% elif actividad.nivel == "Avanzado" %}
+          <span class="badge bg-danger">Avanzado</span>
+          {% endif %}
         </div>
 
+        <!-- Deporte -->
+        <div class="activity-info mb-2">
+          <i class="bi bi-trophy text-primary"></i>
+          <strong>{{ actividad.deporte|capfirst }}</strong>
+        </div>
+
+        <!-- Ubicación y distancia -->
         <div class="activity-info">
-          Fecha: {{ actividad.fecha|date:"D d M" }} |
-          Hora: {{ actividad.hora_inicio|time:"H:i" }}
+          <i class="bi bi-geo-alt text-danger"></i> {{ actividad.lugar }}
+          {% if actividad.distancia_km %}
+          <span class="text-muted ms-2">({{ actividad.distancia_km }} km)</span>
+          {% endif %}
+        </div>
+
+        <!-- Fecha y hora -->
+        <div class="activity-info">
+          <i class="bi bi-calendar text-success"></i> {{ actividad.fecha|date:"D d M" }}
+          <i class="bi bi-clock text-info ms-2"></i> {{ actividad.hora_inicio|time:"H:i" }}
           {% if actividad.hora_fin %}- {{ actividad.hora_fin|time:"H:i" }}{% endif %}
         </div>
 
+        <!-- Cupos con indicador visual -->
         <div class="activity-info">
-          Cupos disponibles: {{ actividad.cupos }} | Nivel: **{{ actividad.nivel }}**
+          <i class="bi bi-people"></i>
+          <span class="{% if actividad.cupos > 0 %}text-success{% else %}text-danger{% endif %} fw-bold">
+            {{ actividad.cupos }} cupos disponibles
+          </span>
         </div>
 
-        <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-primary btn-view">Ver detalles</a>
+        <!-- Botón ver detalles -->
+        <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-primary btn-view mt-2">
+          <i class="bi bi-eye"></i> Ver detalles
+        </a>
       </div>
     </div>
     {% endfor %}
