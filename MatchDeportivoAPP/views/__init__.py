@@ -20,6 +20,7 @@ from .perfiles import (
     perfil,
     perfil_jugador,
     perfil_participante,
+    eliminar_cuenta,
 )
 
 from .actividades import (
@@ -57,6 +58,7 @@ __all__ = [
     'perfil',
     'perfil_jugador',
     'perfil_participante',
+    'eliminar_cuenta',
     # Actividades
     'actividades',
     'detalle_actividad',

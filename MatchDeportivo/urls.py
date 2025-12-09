@@ -18,6 +18,7 @@ urlpatterns = [
 
     # Usuarios
     path('perfil/', views.perfil, name='perfil'),
+    path('perfil/eliminar/', views.eliminar_cuenta, name='eliminar_cuenta'),
     path('perfil_jugador/', views.perfil_jugador, name='perfil_jugador'),
     path('participante/<int:user_id>/', views.perfil_participante, name='perfil_participante'),
     path('notificaciones/', views.notificaciones, name='notificaciones'),
