@@ -4,32 +4,32 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 from ..models import Perfil
 
 
 def inicioSesion(request):
-    """Login con email. Redirige al perfil si es exitoso."""
+    """Login con email. Mensajes genéricos para evitar enumeración de usuarios."""
     if request.method == "POST":
         email = request.POST.get("email", "").strip()
         password = request.POST.get("password", "")
 
+        # ✅ Intentar autenticar sin revelar si el email existe
         try:
             user = User.objects.get(email=email)
-            username = user.username
+            user = authenticate(request, username=user.username, password=password)
         except User.DoesNotExist:
-            return render(request, "sesion/inicioSesion.html", {
-                "error": "Correo incorrecto"
-            })
+            user = None
 
-        user = authenticate(request, username=username, password=password)
-        
         if user is not None:
             login(request, user)
             return redirect("perfil")
         else:
+            # ✅ Mensaje genérico (no revela si email existe o contraseña incorrecta)
             return render(request, "sesion/inicioSesion.html", {
-                "error": "Contraseña incorrecta"
+                "error": "Credenciales incorrectas. Verifica tu email y contraseña."
             })
 
     return render(request, "sesion/inicioSesion.html")
@@ -51,6 +51,15 @@ def registroSesion(request):
         if User.objects.filter(email=email).exists():
             return render(request, 'sesion/registroSesion.html', {
                 'error': 'El correo ya está registrado',
+                'request': request
+            })
+        
+        # ✅ Validar fortaleza de contraseña
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            return render(request, 'sesion/registroSesion.html', {
+                'error': ', '.join(e.messages),
                 'request': request
             })
 
