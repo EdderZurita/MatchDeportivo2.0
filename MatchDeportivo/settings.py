@@ -102,24 +102,40 @@ DATABASES = {
 }
 
 
-# Password validation
+# ============================================
+# VALIDACIÓN DE CONTRASEÑAS
+# ============================================
+# Configuración de validadores para asegurar contraseñas fuertes.
+# Estos validadores se aplican tanto en registro como en cambio de contraseña.
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
+        # Evita contraseñas similares a atributos del usuario (username, email, etc.)
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
+        # Requiere longitud mínima de 8 caracteres
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'min_length': 8,  # Mínimo 8 caracteres
+            'min_length': 8,
         }
     },
     {
+        # Rechaza contraseñas comunes (password, 12345678, etc.)
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
+        # Evita contraseñas completamente numéricas
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        # Requiere al menos una letra mayúscula (A-Z)
+        'NAME': 'MatchDeportivoAPP.validators.UppercaseValidator',
+    },
+    {
+        # Requiere al menos un número (0-9)
+        'NAME': 'MatchDeportivoAPP.validators.NumberValidator',
     },
 ]
 
