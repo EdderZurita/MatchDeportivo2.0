@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 from ..models import Perfil
 
@@ -41,6 +42,15 @@ def registroSesion(request):
         username = request.POST.get('username', '').strip()
         email = request.POST.get('email', '').strip()
         password = request.POST.get('password', '')
+        
+        # ✅ Validar formato de email
+        try:
+            validate_email(email)
+        except ValidationError:
+            return render(request, 'sesion/registroSesion.html', {
+                'error': 'Email inválido. Verifica el formato.',
+                'request': request
+            })
 
         if User.objects.filter(username=username).exists():
             return render(request, 'sesion/registroSesion.html', {
