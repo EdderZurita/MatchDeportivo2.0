@@ -161,25 +161,6 @@ def registroSesion(request):
 
     return render(request, 'sesion/registroSesion.html')
 
-
-# ============================================
-# RECUPERACIÓN DE CONTRASEÑA - NO IMPLEMENTADA
-# ============================================
-# La recuperación de contraseña NO está disponible por seguridad.
-# 
-# Razón: Requiere sistema de tokens por email para ser seguro.
-# 
-# TODO: Implementar antes de producción:
-# 1. Crear modelo PasswordResetToken
-# 2. Generar token único al solicitar recuperación
-# 3. Enviar email con link que contiene el token
-# 4. Validar token (no expirado, no usado)
-# 5. Permitir cambio de contraseña solo con token válido
-# 6. Marcar token como usado
-# 7. Enviar email de confirmación
-# ============================================
-
-
 @login_required
 def cerrarSesion(request):
     """
