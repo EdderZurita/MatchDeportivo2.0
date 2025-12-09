@@ -12,7 +12,7 @@ urlpatterns = [
     
     # Autenticación
     path('inicioSesion/', views.inicioSesion, name='inicioSesion'),
-    path('olvidoContraseña/', views.olvidoContraseña, name='olvidoContraseña'),
+    # path('olvidoContraseña/', views.olvidoContraseña, name='olvidoContraseña'),  # DESHABILITADO - Inseguro
     path('registroSesion/', views.registroSesion, name='registroSesion'),
     path('cerrarSesion/', views.cerrarSesion, name="cerrarSesion"),
 

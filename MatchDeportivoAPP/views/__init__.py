@@ -12,7 +12,7 @@ Este paquete organiza las vistas por funcionalidad:
 from .auth import (
     inicioSesion,
     registroSesion,
-    olvidoContraseña,
+    # olvidoContraseña,  # DESHABILITADO - Inseguro sin tokens
     cerrarSesion,
 )
 
@@ -52,7 +52,7 @@ from .general import inicio
 __all__ = [
     'inicioSesion',
     'registroSesion',
-    'olvidoContraseña',
+    # 'olvidoContraseña',  # DESHABILITADO - Inseguro sin tokens
     'cerrarSesion',
     'perfil',
     'perfil_jugador',

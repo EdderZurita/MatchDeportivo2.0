@@ -162,70 +162,78 @@ def registroSesion(request):
     return render(request, 'sesion/registroSesion.html')
 
 
-def olvidoContraseña(request):
-    """
-    Vista de recuperación de contraseña.
-    
-    ⚠️ ADVERTENCIA DE SEGURIDAD:
-    Esta implementación actual es INSEGURA y debe ser reemplazada antes de producción.
-    Permite cambiar contraseña sin verificación de identidad.
-    
-    TODO: Implementar sistema de tokens por email antes de deploy.
-    
-    Validaciones actuales:
-    - Contraseñas deben coincidir
-    - Email debe existir
-    - Contraseña debe cumplir requisitos de seguridad
-    
-    Args:
-        request: HttpRequest object
-        
-    Returns:
-        HttpResponse: Renderiza formulario o muestra mensaje de éxito
-        
-    Método POST:
-        - email: Email del usuario
-        - password1: Nueva contraseña
-        - password2: Confirmación de contraseña
-    """
-    if request.method == "POST":
-        # Obtener datos del formulario
-        email = request.POST.get("email", "").strip()
-        password1 = request.POST.get("password1", "")
-        password2 = request.POST.get("password2", "")
+# ============================================
+# FUNCIONALIDAD DESHABILITADA TEMPORALMENTE
+# ============================================
+# La recuperación de contraseña está DESHABILITADA por seguridad.
+# Razón: Permite cambiar contraseña sin verificación de identidad.
+# TODO: Implementar sistema seguro con tokens por email antes de habilitar.
+# ============================================
 
-        # ✅ VALIDACIÓN 1: Contraseñas coinciden
-        if password1 != password2:
-            return render(request, "sesion/olvidoContraseña.html", {
-                "error": "Las contraseñas no coinciden."
-            })
-
-        # ✅ VALIDACIÓN 2: Email existe
-        try:
-            usuario = User.objects.get(email=email)
-        except User.DoesNotExist:
-            return render(request, "sesion/olvidoContraseña.html", {
-                "error": "Este correo no está registrado."
-            })
-        
-        # ✅ VALIDACIÓN 3: Fortaleza de contraseña
-        # Aplica los mismos requisitos que en registro
-        try:
-            validate_password(password1, user=usuario)
-        except ValidationError as e:
-            return render(request, "sesion/olvidoContraseña.html", {
-                "error": ', '.join(e.messages)
-            })
-
-        # Cambiar contraseña con hash seguro
-        usuario.password = make_password(password1)
-        usuario.save()
-
-        return render(request, "sesion/olvidoContraseña.html", {
-            "success": "Tu contraseña ha sido cambiada con éxito."
-        })
-
-    return render(request, "sesion/olvidoContraseña.html")
+# def olvidoContraseña(request):
+#     """
+#     Vista de recuperación de contraseña.
+#     
+#     ⚠️ ADVERTENCIA DE SEGURIDAD:
+#     Esta implementación actual es INSEGURA y debe ser reemplazada antes de producción.
+#     Permite cambiar contraseña sin verificación de identidad.
+#     
+#     TODO: Implementar sistema de tokens por email antes de deploy.
+#     
+#     Validaciones actuales:
+#     - Contraseñas deben coincidir
+#     - Email debe existir
+#     - Contraseña debe cumplir requisitos de seguridad
+#     
+#     Args:
+#         request: HttpRequest object
+#         
+#     Returns:
+#         HttpResponse: Renderiza formulario o muestra mensaje de éxito
+#         
+#     Método POST:
+#         - email: Email del usuario
+#         - password1: Nueva contraseña
+#         - password2: Confirmación de contraseña
+#     """
+#     if request.method == "POST":
+#         # Obtener datos del formulario
+#         email = request.POST.get("email", "").strip()
+#         password1 = request.POST.get("password1", "")
+#         password2 = request.POST.get("password2", "")
+# 
+#         # ✅ VALIDACIÓN 1: Contraseñas coinciden
+#         if password1 != password2:
+#             return render(request, "sesion/olvidoContraseña.html", {
+#                 "error": "Las contraseñas no coinciden."
+#             })
+# 
+#         # ✅ VALIDACIÓN 2: Email existe
+#         try:
+#             usuario = User.objects.get(email=email)
+#         except User.DoesNotExist:
+#             return render(request, "sesion/olvidoContraseña.html", {
+#                 "error": "Este correo no está registrado."
+#             })
+#         
+#         # ✅ VALIDACIÓN 3: Fortaleza de contraseña
+#         # Aplica los mismos requisitos que en registro
+#         try:
+#             validate_password(password1, user=usuario)
+#         except ValidationError as e:
+#             return render(request, "sesion/olvidoContraseña.html", {
+#                 "error": ', '.join(e.messages)
+#             })
+# 
+#         # Cambiar contraseña con hash seguro
+#         usuario.password = make_password(password1)
+#         usuario.save()
+# 
+#         return render(request, "sesion/olvidoContraseña.html", {
+#             "success": "Tu contraseña ha sido cambiada con éxito."
+#         })
+# 
+#     return render(request, "sesion/olvidoContraseña.html")
 
 
 @login_required
