@@ -118,7 +118,7 @@ def eliminar_cuenta(request):
     """
     if request.method == "POST":
         password = request.POST.get('password', '')
-        confirmacion = request.POST.get('confirmacion', '')
+        confirmacion = request.POST.get('confirmacion', '').strip()
         
         # Validación 1: Contraseña correcta
         from django.contrib.auth import authenticate, logout
@@ -134,7 +134,7 @@ def eliminar_cuenta(request):
         
         # Validación 2: Confirmación explícita
         if confirmacion != 'ELIMINAR':
-            messages.error(request, 'Debes escribir "ELIMINAR" exactamente para confirmar.')
+            messages.error(request, f'Debes escribir "ELIMINAR" exactamente para confirmar.')
             return redirect('perfil')
         
         # Guardar username para el mensaje
