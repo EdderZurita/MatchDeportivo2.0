@@ -60,13 +60,6 @@
       <span>o</span>
     </div>
 
-    <!-- Botón cambiar contraseña -->
-    <div class="d-grid mb-3">
-      <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#codigoModal">
-        <i class="bi bi-key me-2"></i>¿Olvidaste tu contraseña?
-      </button>
-    </div>
-
     <!-- Link registro -->
     <p class="text-center mb-0">
       ¿No tienes cuenta?
@@ -77,22 +70,8 @@
   </div>
 </div>
 
-<!-- Modal código (sin cambios) -->
-<div class="modal fade" id="codigoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content p-3">
-      <h5 class="text-center fw-bold">Verificación</h5>
-      <p class="text-center">Escribe el código para continuar</p>
-      <div class="alert alert-info text-center fw-bold" id="codigoGenerado">####</div>
-      <input id="codigoIngresado" class="form-control mb-3" placeholder="Escribe el código">
-      <div class="d-flex justify-content-end">
-        <button class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" data-validar-codigo
-          data-url-cambio="{% url 'olvidoContraseña' %}">Verificar</button>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Modal deshabilitado temporalmente por seguridad -->
+
 {% endblock %}
 
 {% block extra_js %}
