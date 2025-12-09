@@ -1,3 +1,10 @@
+# Archivos de seguridad (CONFIDENCIALES - NO SUBIR)
+SECURITY.md
+.env
+*.key
+*.pem
+secrets/
+
 # Python
 __pycache__/
 *.py[cod]

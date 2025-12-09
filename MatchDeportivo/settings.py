@@ -102,21 +102,40 @@ DATABASES = {
 }
 
 
-# Password validation
+# ============================================
+# VALIDACIÓN DE CONTRASEÑAS
+# ============================================
+# Configuración de validadores para asegurar contraseñas fuertes.
+# Estos validadores se aplican tanto en registro como en cambio de contraseña.
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
+        # Evita contraseñas similares a atributos del usuario (username, email, etc.)
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
+        # Requiere longitud mínima de 8 caracteres
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
+        # Rechaza contraseñas comunes (password, 12345678, etc.)
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
+        # Evita contraseñas completamente numéricas
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        # Requiere al menos una letra mayúscula (A-Z)
+        'NAME': 'MatchDeportivoAPP.validators.UppercaseValidator',
+    },
+    {
+        # Requiere al menos un número (0-9)
+        'NAME': 'MatchDeportivoAPP.validators.NumberValidator',
     },
 ]
 
@@ -152,3 +171,31 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ============================================
+# CONFIGURACIÓN DE SEGURIDAD
+# ============================================
+
+# Seguridad de Sesiones
+SESSION_COOKIE_SECURE = not DEBUG  # True en producción (solo HTTPS)
+SESSION_COOKIE_HTTPONLY = True  # No accesible desde JavaScript
+SESSION_COOKIE_SAMESITE = 'Strict'  # Protección CSRF
+SESSION_COOKIE_AGE = 86400  # 24 horas
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Seguridad CSRF
+CSRF_COOKIE_SECURE = not DEBUG  # True en producción (solo HTTPS)
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Strict'
+
+# Seguridad HTTPS (solo producción)
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 año
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+# Seguridad General
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'

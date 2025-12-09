@@ -1,6 +1,6 @@
 """Configuración del panel de administración de Django."""
 from django.contrib import admin
-from .models import Log, Perfil, Actividad, Notificacion
+from .models import Log, Perfil, Actividad, Notificacion, Valoracion
 
 
 @admin.register(Log)
@@ -36,3 +36,13 @@ class NotificacionAdmin(admin.ModelAdmin):
     list_filter = ('tipo', 'leida', 'fecha_creacion')
     search_fields = ('usuario__username', 'mensaje')
     ordering = ('-fecha_creacion',)
+
+
+@admin.register(Valoracion)
+class ValoracionAdmin(admin.ModelAdmin):
+    """Administración de valoraciones entre usuarios."""
+    list_display = ('evaluador', 'evaluado', 'actividad', 'puntuacion', 'fecha_creacion')
+    list_filter = ('puntuacion', 'fecha_creacion')
+    search_fields = ('evaluador__username', 'evaluado__username', 'actividad__titulo')
+    ordering = ('-fecha_creacion',)
+    readonly_fields = ('fecha_creacion',)

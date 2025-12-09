@@ -29,6 +29,62 @@
 
   <p class="profile-name">{{ user.first_name }} {{ user.last_name }}</p>
   <p class="text-muted">{{ perfil.nickname|default:user.username }}</p>
+
+  <!-- Rating y Valoraciones -->
+  <div class="card mt-3 mx-auto" style="max-width: 500px;">
+    <div class="card-body text-center">
+      <h6 class="mb-3">
+        <i class="bi bi-star-fill text-warning me-2"></i>
+        Valoraciones Recibidas
+      </h6>
+
+      {% if perfil.rating_promedio %}
+      <div class="mb-2">
+        <span class="h4 text-warning">
+          {% for i in "12345" %}
+          {% if forloop.counter <= perfil.rating_promedio|floatformat:0 %} <i class="bi bi-star-fill"></i>
+            {% else %}
+            <i class="bi bi-star"></i>
+            {% endif %}
+            {% endfor %}
+        </span>
+        <p class="mb-0">
+          <strong>{{ perfil.rating_promedio }}</strong> / 5.0
+          <small class="text-muted">({{ perfil.total_valoraciones }} valoracion{{
+            perfil.total_valoraciones|pluralize:"es" }})</small>
+        </p>
+      </div>
+      {% else %}
+      <p class="text-muted mb-0">
+        <i class="bi bi-info-circle me-1"></i>
+        Aún no has recibido valoraciones
+      </p>
+      {% endif %}
+
+      <!-- Últimas 3 valoraciones -->
+      {% if user.valoraciones_recibidas.all %}
+      <hr>
+      <h6 class="text-start mb-3">Últimas Valoraciones:</h6>
+      {% for valoracion in user.valoraciones_recibidas.all|slice:":3" %}
+      <div class="text-start mb-3 p-2 bg-light rounded">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <strong>{{ valoracion.evaluador.username }}</strong>
+            <span class="text-warning ms-2">
+              {% for i in "12345" %}
+              {% if forloop.counter <= valoracion.puntuacion %} ★ {% else %} ☆ {% endif %} {% endfor %} </span>
+          </div>
+          <small class="text-muted">{{ valoracion.fecha_creacion|date:"d/m/Y" }}</small>
+        </div>
+        {% if valoracion.comentario %}
+        <p class="mb-0 mt-2 small text-muted">"{{ valoracion.comentario }}"</p>
+        {% endif %}
+        <small class="text-muted">En: {{ valoracion.actividad.titulo }}</small>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
 </div>
 
 <!-- Formulario -->

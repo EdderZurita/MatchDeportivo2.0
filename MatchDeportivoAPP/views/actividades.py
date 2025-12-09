@@ -424,3 +424,69 @@ def quitar_participante(request, actividad_pk, user_id):
 def reseña_actividad(request):
     """Vista de reseña de actividad (funcionalidad futura)."""
     return render(request, "actividades/reseña_actividad.html")
+
+@login_required
+def valorar_usuario(request, actividad_pk, usuario_pk):
+    """Permite valorar a un usuario después de participar juntos en una actividad."""
+    from ..models import Valoracion
+    
+    actividad = get_object_or_404(Actividad, pk=actividad_pk)
+    usuario_a_valorar = get_object_or_404(User, pk=usuario_pk)
+    evaluador = request.user
+    
+    # Validación 1: No puedes valorarte a ti mismo
+    if evaluador == usuario_a_valorar:
+        messages.error(request, "No puedes valorarte a ti mismo.")
+        return redirect('detalle_actividad', pk=actividad_pk)
+    
+    # Validación 2: Ambos deben haber participado en la actividad
+    participantes = list(actividad.participantes.all()) + [actividad.organizador]
+    if evaluador not in participantes or usuario_a_valorar not in participantes:
+        messages.error(request, "Solo los participantes de la actividad pueden valorarse entre sí.")
+        return redirect('detalle_actividad', pk=actividad_pk)
+    
+    # Validación 3: Verificar si ya existe una valoración
+    valoracion_existente = Valoracion.objects.filter(
+        evaluador=evaluador,
+        evaluado=usuario_a_valorar,
+        actividad=actividad
+    ).first()
+    
+    if request.method == 'POST':
+        puntuacion = request.POST.get('puntuacion')
+        comentario = request.POST.get('comentario', '').strip()
+        
+        # Validar puntuación
+        try:
+            puntuacion = int(puntuacion)
+            if puntuacion < 1 or puntuacion > 5:
+                raise ValueError
+        except (ValueError, TypeError):
+            messages.error(request, "La puntuación debe ser un número entre 1 y 5.")
+            return redirect('valorar_usuario', actividad_pk=actividad_pk, usuario_pk=usuario_pk)
+        
+        # Crear o actualizar valoración
+        if valoracion_existente:
+            valoracion_existente.puntuacion = puntuacion
+            valoracion_existente.comentario = comentario
+            valoracion_existente.save()
+            messages.success(request, f"Has actualizado tu valoración de {usuario_a_valorar.username}.")
+        else:
+            Valoracion.objects.create(
+                evaluador=evaluador,
+                evaluado=usuario_a_valorar,
+                actividad=actividad,
+                puntuacion=puntuacion,
+                comentario=comentario
+            )
+            messages.success(request, f"Has valorado exitosamente a {usuario_a_valorar.username}.")
+        
+        return redirect('detalle_actividad', pk=actividad_pk)
+    
+    # GET: Mostrar formulario
+    context = {
+        'actividad': actividad,
+        'usuario_a_valorar': usuario_a_valorar,
+        'valoracion_existente': valoracion_existente,
+    }
+    return render(request, 'actividades/valorar_usuario.html', context)

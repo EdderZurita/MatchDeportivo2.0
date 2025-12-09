@@ -12,7 +12,7 @@ urlpatterns = [
     
     # Autenticación
     path('inicioSesion/', views.inicioSesion, name='inicioSesion'),
-    path('olvidoContraseña/', views.olvidoContraseña, name='olvidoContraseña'),
+    # path('olvidoContraseña/', views.olvidoContraseña, name='olvidoContraseña'),  # DESHABILITADO - Inseguro
     path('registroSesion/', views.registroSesion, name='registroSesion'),
     path('cerrarSesion/', views.cerrarSesion, name="cerrarSesion"),
 
@@ -36,6 +36,9 @@ urlpatterns = [
     path('salir/<int:pk>/', views.salir_actividad, name='salir_actividad'),
     path('gestionar/<int:pk>/', views.gestionar_participantes, name='gestionar_participantes'),
     path('quitar/<int:actividad_pk>/<int:user_id>/', views.quitar_participante, name='quitar_participante'),
+    
+    # Valoraciones
+    path('valorar/<int:actividad_pk>/<int:usuario_pk>/', views.valorar_usuario, name='valorar_usuario'),
 
     # Administración
     path('administracion/logs/', views.ver_logs, name='ver_logs'),
