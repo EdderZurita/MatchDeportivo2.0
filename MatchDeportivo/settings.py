@@ -37,7 +37,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-for-dev-only'
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Hosts permitidos (separados por coma en .env)
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = ['edderxxc.pythonanywhere.com', 'www.edderxxc.pythonanywhere.com', 'localhost']
 
 
 # Application definition
