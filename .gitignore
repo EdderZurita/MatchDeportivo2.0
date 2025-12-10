@@ -24,31 +24,44 @@ env/
 ENV/
 .venv/
 .env/
-.env
-.env.production
-.env.local
 
 # Django
+*.log
 db.sqlite3
 db.sqlite3-journal
-staticfiles/
-media/
-settings_local.py
-*.log
-*.pot
+/staticfiles/
+/media/
 
-# Archivos de IDE
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+.env.pythonanywhere*
+*.EDDERXXX
+
+# Archivos sensibles
+SECURITY.md
+*.secret
+*.key
+
+# Documentación interna (solo en artifacts)
+# Mantener solo DEPLOY.md y README.md
+*.md
+!README.md
+!DEPLOY.md
+
+# IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# Sistema operativo
+# OS
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# Archivos de respaldo
+# Otros
 *.bak
 *.tmp
