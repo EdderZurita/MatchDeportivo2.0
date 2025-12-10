@@ -170,6 +170,86 @@
     </div>
   </form>
 </div>
+
+<!-- Zona de Peligro -->
+<div class="container mt-4 mb-5">
+  <div class="card border-danger">
+    <div class="card-body">
+      <h6 class="text-danger">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        Zona de Peligro
+      </h6>
+      <p class="text-muted small mb-3">
+        Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, está seguro.
+      </p>
+      <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarCuentaModal">
+        <i class="bi bi-trash me-2"></i>Eliminar Cuenta Permanentemente
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación de Eliminación -->
+<div class="modal fade" id="eliminarCuentaModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          Eliminar Cuenta Permanentemente
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="alert alert-danger">
+          <strong>⚠️ Advertencia:</strong> Esta acción es irreversible.
+        </div>
+
+        <p><strong>Se eliminarán permanentemente:</strong></p>
+        <ul>
+          <li>Tu perfil y toda tu información personal</li>
+          <li>Todas las actividades que has creado</li>
+          <li>Tus participaciones en actividades</li>
+          <li>Todas tus valoraciones (dadas y recibidas)</li>
+        </ul>
+
+        <form method="POST" action="{% url 'eliminar_cuenta' %}" id="formEliminarCuenta">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Confirma tu contraseña:</label>
+            <input type="password" name="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">
+              Escribe <code>ELIMINAR</code> para confirmar:
+            </label>
+            <input type="text" name="confirmacion" class="form-control" placeholder="ELIMINAR" required>
+          </div>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="checkEntiendo" required>
+            <label class="form-check-label" for="checkEntiendo">
+              Entiendo que esta acción es permanente e irreversible
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button type="submit" form="formEliminarCuenta" class="btn btn-danger">
+          <i class="bi bi-trash me-2"></i>Eliminar Permanentemente
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
