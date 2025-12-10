@@ -90,12 +90,12 @@ WSGI_APPLICATION = 'MatchDeportivo.wsgi.application'
 # Configuración de base de datos desde variables de entorno
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.mysql'),
-        'NAME': os.getenv('DB_NAME', 'match_deportivo2_pruebas_locales'),
-        'USER': os.getenv('DB_USER', 'root'),
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '3306'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Edderxxc$default',
+        'USER': 'Edderxxc',
+        'PASSWORD': 'VDFFsasd34412$%#$1',
+        'HOST': 'Edderxxc.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
