@@ -38,6 +38,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Hosts permitidos (separados por coma en .env)
 ALLOWED_HOSTS = ['edderxxc.pythonanywhere.com', 'www.edderxxc.pythonanywhere.com', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://edderxxc.pythonanywhere.com']
 
 
 # Application definition
