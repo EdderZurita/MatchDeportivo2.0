@@ -41,6 +41,7 @@ from .actividades import (
 from .notificaciones import (
     notificaciones,
     lista_notificaciones,
+    marcar_todas_leidas,
 )
 
 from .admin import (
@@ -74,6 +75,7 @@ __all__ = [
     'valorar_usuario',
     'notificaciones',
     'lista_notificaciones',
+    'marcar_todas_leidas',
     # Administración
     'ver_logs',
     'gestionar_usuarios',

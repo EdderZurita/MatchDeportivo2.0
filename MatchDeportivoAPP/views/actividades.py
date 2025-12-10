@@ -128,22 +128,52 @@ def crear_actividad(request):
             return render(request, "actividades/crear_actividad.html")
 
         try:
+            from datetime import date, datetime, time as time_module
+            
+            # Validar y convertir cupos
             cupos = int(cupos_str)
+            if cupos < 1 or cupos > 50:
+                messages.error(request, "❌ Los cupos deben estar entre 1 y 50")
+                return render(request, "actividades/crear_actividad.html")
+            
+            # Convertir fecha y horas
+            fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+            hora_inicio = datetime.strptime(hora_inicio_str, '%H:%M').time()
+            hora_fin = datetime.strptime(hora_fin_str, '%H:%M').time() if hora_fin_str else None
+            
+            # Validación 1: Fecha no puede ser pasada
+            if fecha < date.today():
+                messages.error(request, "❌ No puedes crear actividades en fechas pasadas")
+                return render(request, "actividades/crear_actividad.html")
+            
+            # Validación 2: Si la fecha es hoy, la hora debe ser futura
+            if fecha == date.today():
+                hora_actual = datetime.now().time()
+                if hora_inicio <= hora_actual:
+                    messages.error(request, "❌ La hora de inicio debe ser futura (hora actual: {})".format(
+                        hora_actual.strftime('%H:%M')
+                    ))
+                    return render(request, "actividades/crear_actividad.html")
+            
+            # Validación 3: Hora fin debe ser posterior a hora inicio
+            if hora_fin and hora_fin <= hora_inicio:
+                messages.error(request, "❌ La hora de fin debe ser posterior a la hora de inicio")
+                return render(request, "actividades/crear_actividad.html")
             
             nueva_actividad = Actividad.objects.create(
                 organizador=request.user, 
                 titulo=titulo,
                 deporte=deporte,
                 lugar=lugar_texto,
-                fecha=fecha_str,
-                hora_inicio=hora_inicio_str,
-                hora_fin=hora_fin_str if hora_fin_str else None,
+                fecha=fecha,
+                hora_inicio=hora_inicio,
+                hora_fin=hora_fin,
                 nivel=nivel,
                 cupos=cupos,
                 descripcion=descripcion,
             )
 
-            messages.success(request, f"¡La actividad '{titulo}' se ha creado con éxito!")
+            messages.success(request, f"✅ ¡La actividad '{titulo}' se ha creado con éxito!")
             
             # Notificación de actividad cercana deshabilitada temporalmente
             # (requiere coordenadas geográficas)
@@ -154,11 +184,11 @@ def crear_actividad(request):
                 
             return redirect('actividades')
 
-        except ValueError:
-            messages.error(request, "Error en el formato de los datos (cupos es inválido).")
+        except ValueError as e:
+            messages.error(request, f"❌ Error en el formato de los datos: {str(e)}")
             return render(request, "actividades/crear_actividad.html")
         except Exception as e:
-            messages.error(request, f"Ocurrió un error inesperado al guardar la actividad: {e}")
+            messages.error(request, f"❌ Ocurrió un error inesperado: {str(e)}")
             return render(request, "actividades/crear_actividad.html")
             
     return render(request, "actividades/crear_actividad.html")
@@ -241,24 +271,63 @@ def editar_actividad(request, pk):
             return redirect('editar_actividad', pk=pk)
 
         try:
+            from datetime import date, datetime
+            
+            # Validar y convertir cupos
+            cupos = int(cupos_str)
+            participantes_actuales = actividad.participantes.count()
+            
+            if cupos < participantes_actuales:
+                messages.error(request, f"❌ Los cupos no pueden ser menores a los participantes actuales ({participantes_actuales})")
+                return redirect('editar_actividad', pk=pk)
+            
+            if cupos > 50:
+                messages.error(request, "❌ Los cupos no pueden ser mayores a 50")
+                return redirect('editar_actividad', pk=pk)
+            
+            # Convertir fecha y horas
+            fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+            hora_inicio = datetime.strptime(hora_inicio_str, '%H:%M').time()
+            hora_fin = datetime.strptime(hora_fin_str, '%H:%M').time() if hora_fin_str else None
+            
+            # Validación 1: Fecha no puede ser pasada
+            if fecha < date.today():
+                messages.error(request, "❌ No puedes programar actividades en fechas pasadas")
+                return redirect('editar_actividad', pk=pk)
+            
+            # Validación 2: Si la fecha es hoy, la hora debe ser futura
+            if fecha == date.today():
+                hora_actual = datetime.now().time()
+                if hora_inicio <= hora_actual:
+                    messages.error(request, "❌ La hora de inicio debe ser futura (hora actual: {})".format(
+                        hora_actual.strftime('%H:%M')
+                    ))
+                    return redirect('editar_actividad', pk=pk)
+            
+            # Validación 3: Hora fin debe ser posterior a hora inicio
+            if hora_fin and hora_fin <= hora_inicio:
+                messages.error(request, "❌ La hora de fin debe ser posterior a la hora de inicio")
+                return redirect('editar_actividad', pk=pk)
+            
+            # Actualizar actividad
             actividad.titulo = titulo
             actividad.deporte = deporte
             actividad.lugar = lugar_texto
-            actividad.fecha = fecha_str
-            actividad.hora_inicio = hora_inicio_str
-            actividad.hora_fin = hora_fin_str if hora_fin_str else None
+            actividad.fecha = fecha
+            actividad.hora_inicio = hora_inicio
+            actividad.hora_fin = hora_fin
             actividad.nivel = nivel
-            actividad.cupos = int(cupos_str)
+            actividad.cupos = cupos
             actividad.descripcion = descripcion
             
             actividad.save()
-            messages.success(request, f"Actividad '{actividad.titulo}' actualizada con éxito.")
+            messages.success(request, f"✅ Actividad '{actividad.titulo}' actualizada con éxito")
             return redirect('mis_actividades')
 
-        except ValueError:
-            messages.error(request, "Error en el formato de datos numéricos o fecha/hora.")
+        except ValueError as e:
+            messages.error(request, f"❌ Error en el formato de datos: {str(e)}")
         except Exception as e:
-            messages.error(request, f"Error al guardar: {e}")
+            messages.error(request, f"❌ Error al guardar: {str(e)}")
             
     context = {
         'actividad': actividad,

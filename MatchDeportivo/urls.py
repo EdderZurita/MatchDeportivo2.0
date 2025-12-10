@@ -22,6 +22,7 @@ urlpatterns = [
     path('perfil_jugador/', views.perfil_jugador, name='perfil_jugador'),
     path('participante/<int:user_id>/', views.perfil_participante, name='perfil_participante'),
     path('notificaciones/', views.notificaciones, name='notificaciones'),
+    path('notificaciones/marcar-leidas/', views.marcar_todas_leidas, name='marcar_leidas'),
 
     # Actividades
     path('actividades/', views.actividades, name='actividades'),

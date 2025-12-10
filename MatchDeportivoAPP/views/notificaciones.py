@@ -30,6 +30,26 @@ def lista_notificaciones(request):
     return render(request, 'notificaciones/lista_notificaciones.html')
 
 
+@login_required
+def marcar_todas_leidas(request):
+    """Marca todas las notificaciones del usuario como leídas."""
+    from django.contrib import messages
+    from django.shortcuts import redirect
+    
+    # Actualizar todas las notificaciones no leídas del usuario
+    count = Notificacion.objects.filter(
+        usuario=request.user, 
+        leida=False
+    ).update(leida=True)
+    
+    if count > 0:
+        messages.success(request, f"✅ {count} notificación(es) marcada(s) como leída(s)")
+    else:
+        messages.info(request, "ℹ️ No tienes notificaciones sin leer")
+    
+    return redirect('notificaciones')
+
+
 def crear_notificacion_simple(usuario, actividad, tipo, mensaje):
     """Crea una notificación simple para un usuario."""
     try:
