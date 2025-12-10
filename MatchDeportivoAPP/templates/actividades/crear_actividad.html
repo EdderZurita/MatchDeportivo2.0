@@ -115,55 +115,30 @@
 
 {% block extra_js %}
 <script>
-    let autocomplete;
+function initAutocompleteActividad() {
+    const inputActividad = document.getElementById("autocomplete_actividad");
 
-    function initAutocomplete() {
-        const input = document.getElementById('lugar');
+    const autocompleteActividad = new google.maps.places.Autocomplete(inputActividad, {
+        types: ["geocode", "establishment"] // Permite direcciones o negocios/lugares
+    });
 
-        if (!input) return;
+    autocompleteActividad.addListener("place_changed", () => {
+        const place = autocompleteActividad.getPlace();
 
-        autocomplete = new google.maps.places.Autocomplete(input, {
-            componentRestrictions: { country: 'cl' },
-            fields: ['formatted_address', 'geometry', 'name']
-        });
-
-        autocomplete.addListener('place_changed', function () {
-            const place = autocomplete.getPlace();
-
-            if (!place.geometry) {
-                console.error('No se encontró la ubicación');
-                return;
-            }
-
-            // Guardar latitud y longitud
-            document.getElementById('latitud').value = place.geometry.location.lat();
-            document.getElementById('longitud').value = place.geometry.location.lng();
-            document.getElementById('lugar').value = place.formatted_address || place.name;
-
-            console.log('Ubicación seleccionada:', {
-                lugar: place.formatted_address || place.name,
-                lat: place.geometry.location.lat(),
-                lng: place.geometry.location.lng()
-            });
-        });
-    }
-
-    // Validar que se haya seleccionado una ubicación antes de enviar
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('form-crear-actividad');
-        if (form) {
-            form.addEventListener('submit', function (e) {
-                const latitud = document.getElementById('latitud').value;
-                const longitud = document.getElementById('longitud').value;
-
-                if (!latitud || !longitud) {
-                    e.preventDefault();
-                    alert('Por favor, selecciona una ubicación del menú desplegable de Google Maps');
-                    return false;
-                }
-            });
+        if (place.geometry) {
+            // Guardar latitud y longitud en los campos ocultos
+            document.getElementById("latitud_actividad").value = place.geometry.location.lat();
+            document.getElementById("longitud_actividad").value = place.geometry.location.lng();
+        } else {
+            // Limpiar si no se selecciona un lugar válido
+            document.getElementById("latitud_actividad").value = '';
+            document.getElementById("longitud_actividad").value = '';
         }
     });
+}
+
+// Llama a la función de autocompletado cuando la API de Google esté lista
+google.maps.event.addDomListener(window, 'load', initAutocompleteActividad);
 </script>
 <script src="{% static 'js/forms.js' %}"></script>
 {% endblock %}
