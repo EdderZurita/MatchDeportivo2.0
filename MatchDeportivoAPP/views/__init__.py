@@ -46,6 +46,10 @@ from .notificaciones import (
     marcar_todas_leidas,
 )
 
+from .sobre_nosotros import (
+    sobre_nosotros,
+)
+
 from .admin import (
     ver_logs,
     gestionar_usuarios,
@@ -80,6 +84,7 @@ __all__ = [
     'notificaciones',
     'lista_notificaciones',
     'marcar_todas_leidas',
+    'sobre_nosotros',
     # Administración
     'ver_logs',
     'gestionar_usuarios',

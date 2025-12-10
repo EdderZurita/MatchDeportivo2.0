@@ -9,6 +9,7 @@ from MatchDeportivoAPP import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.inicio, name='home'),
+    path('sobre-nosotros/', views.sobre_nosotros, name='sobre_nosotros'),
     
     # Autenticación
     path('inicioSesion/', views.inicioSesion, name='inicioSesion'),

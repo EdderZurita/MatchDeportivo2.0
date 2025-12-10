@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sobre Nosotros | SportConnect{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/sobre_nosotros.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="about-hero">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Sobre SportConnect</h1>
+        <p class="lead">Conectando personas a través del deporte</p>
+    </div>
+</div>
+
+<!-- Misión y Visión -->
+<div class="about-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="mission-vision-card">
+                    <div class="icon-circle mission-icon">
+                        <i class="bi bi-bullseye"></i>
+                    </div>
+                    <h2 class="text-center mb-4">Nuestra Misión</h2>
+                    <p class="text-muted text-center">
+                        Facilitar la conexión entre personas apasionadas por el deporte,
+                        creando una comunidad activa y saludable donde todos puedan encontrar
+                        compañeros para practicar su deporte favorito, sin importar su nivel
+                        de experiencia.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mission-vision-card">
+                    <div class="icon-circle vision-icon">
+                        <i class="bi bi-eye"></i>
+                    </div>
+                    <h2 class="text-center mb-4">Nuestra Visión</h2>
+                    <p class="text-muted text-center">
+                        Ser la plataforma líder en Chile para la organización de actividades
+                        deportivas recreativas, promoviendo un estilo de vida activo y
+                        fomentando la creación de comunidades deportivas inclusivas y
+                        accesibles para todos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Valores -->
+<div class="about-section bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Nuestros Valores</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="values-card">
+                    <h4><i class="bi bi-people-fill text-primary me-2"></i>Comunidad</h4>
+                    <p class="mb-0 text-muted">
+                        Creemos en el poder de las conexiones humanas y en construir
+                        una comunidad deportiva fuerte y solidaria.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="values-card">
+                    <h4><i class="bi bi-shield-check text-success me-2"></i>Confianza</h4>
+                    <p class="mb-0 text-muted">
+                        Promovemos un ambiente seguro y confiable mediante nuestro
+                        sistema de valoraciones y verificación de usuarios.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="values-card">
+                    <h4><i class="bi bi-heart-fill text-danger me-2"></i>Inclusión</h4>
+                    <p class="mb-0 text-muted">
+                        Todos son bienvenidos, sin importar su nivel de habilidad,
+                        edad o experiencia deportiva.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="values-card">
+                    <h4><i class="bi bi-lightning-fill text-warning me-2"></i>Dinamismo</h4>
+                    <p class="mb-0 text-muted">
+                        Facilitamos la organización rápida y sencilla de actividades
+                        deportivas en cualquier momento.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="values-card">
+                    <h4><i class="bi bi-star-fill text-info me-2"></i>Calidad</h4>
+                    <p class="mb-0 text-muted">
+                        Nos esforzamos por ofrecer la mejor experiencia posible
+                        a través de una plataforma intuitiva y confiable.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="values-card">
+                    <h4><i class="bi bi-trophy-fill text-primary me-2"></i>Superación</h4>
+                    <p class="mb-0 text-muted">
+                        Motivamos a nuestros usuarios a mantenerse activos y
+                        alcanzar sus metas deportivas personales.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="about-section">
+    <div class="container text-center">
+        <h2 class="mb-4">¿Listo para unirte?</h2>
+        <p class="lead text-muted mb-4">
+            Únete a nuestra comunidad y comienza a disfrutar del deporte con nuevos amigos
+        </p>
+        <a href="{% url 'registroSesion' %}" class="btn btn-primary btn-lg px-5">
+            <i class="bi bi-person-plus me-2"></i>Registrarse Ahora
+        </a>
+    </div>
+</div>
+{% endblock %}
