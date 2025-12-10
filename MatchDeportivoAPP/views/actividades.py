@@ -26,60 +26,22 @@ def calcular_distancia_haversine(lat1, lon1, lat2, lon2):
 
 @login_required
 def actividades(request):
-    """Muestra actividades filtradas por deporte y distancia con paginación."""
+    """Muestra actividades de otros usuarios filtradas por deporte con paginación."""
     user = request.user
-    perfil = user.perfil
     
     filtro_deporte = request.GET.get('deporte')
     
-    actividades_query = Actividad.objects.all()
+    # Solo mostrar actividades de otros usuarios (no las propias)
+    actividades_query = Actividad.objects.exclude(organizador=user).select_related('organizador').prefetch_related('participantes')
+    
     if filtro_deporte and filtro_deporte != '':
         actividades_query = actividades_query.filter(deporte=filtro_deporte)
-        
-    mis_actividades = actividades_query.filter(organizador=user)
-    actividades_de_otros = list(actividades_query.exclude(organizador=user))
-    actividades_finales = list(mis_actividades)
     
-    user_lat = perfil.latitud
-    user_lng = perfil.longitud
-    search_radius = perfil.radio if perfil.radio is not None else RADIO_BUSQUEDA_DEFAULT
-
-    if user_lat is None or user_lng is None:
-        actividades_finales.extend(actividades_de_otros)
-        messages.info(request, "Configura tu ubicación en tu perfil para ver actividades cercanas y ordenadas.")
-    else:
-        try:
-            user_lat_float = float(user_lat)
-            user_lng_float = float(user_lng)
-        except (TypeError, ValueError):
-            messages.warning(request, "Las coordenadas de tu perfil no son válidas. Revisa tu ubicación.")
-            user_lat_float = None
-
-        actividades_cercanas_y_filtradas = []
-        
-        if user_lat_float is not None:
-            for actividad in actividades_de_otros:
-                if actividad.latitud and actividad.longitud:
-                    act_lat = float(actividad.latitud)
-                    act_lng = float(actividad.longitud)
-                    
-                    distancia = calcular_distancia_haversine(
-                        user_lat_float, user_lng_float, act_lat, act_lng
-                    )
-                    
-                    if distancia <= search_radius:
-                        actividad.distancia_km = round(distancia, 1)
-                        actividades_cercanas_y_filtradas.append(actividad)
-            
-            actividades_cercanas_y_filtradas = sorted(
-                actividades_cercanas_y_filtradas, 
-                key=lambda a: a.distancia_km
-            )
-
-            actividades_finales.extend(actividades_cercanas_y_filtradas)
+    # Ordenar por fecha de creación (más recientes primero)
+    actividades_query = actividades_query.order_by('-creada_en')
 
     # Paginación
-    paginator = Paginator(actividades_finales, 10)  # 10 actividades por página
+    paginator = Paginator(actividades_query, 10)  # 10 actividades por página
     page = request.GET.get('page')
     
     try:
@@ -92,8 +54,7 @@ def actividades(request):
     context = {
         'actividades': actividades_paginadas,
         'active_page': 'actividades',
-        'deporte_seleccionado': filtro_deporte,
-        'ubicacion_configurada': user_lat is not None, 
+        'deporte_seleccionado': filtro_deporte, 
     }
     return render(request, 'actividades/actividades.html', context)
 
