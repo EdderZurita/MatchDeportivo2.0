@@ -41,9 +41,6 @@ ALLOWED_HOSTS = ['edderxxc.pythonanywhere.com', 'www.edderxxc.pythonanywhere.com
 
 CSRF_TRUSTED_ORIGINS = ['https://edderxxc.pythonanywhere.com']
 
-# Google Maps API
-GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', 'AIzaSyDn0WsJFM5jcMk8QzXQrFGRGhTOpyKPdw8')
-
 
 # Application definition
 

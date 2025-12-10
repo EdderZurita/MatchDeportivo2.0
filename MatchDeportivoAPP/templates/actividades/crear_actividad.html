@@ -5,9 +5,6 @@
 
 {% block extra_css %}
 <link href="{% static 'css/actividades.css' %}" rel="stylesheet">
-<script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn0WsJFM5jcMk8QzXQrFGRGhTOpyKPdw8&libraries=places"
-    async defer></script>
 {% endblock %}
 
 {% block usuario_content %}
@@ -56,12 +53,10 @@
 
                         <div class="mb-3">
                             <label class="form-label">Ubicación</label>
-                            <input type="text" id="lugar" name="lugar" class="form-control"
-                                placeholder="Buscar ubicación..." required>
-                            <input type="hidden" id="latitud" name="latitud">
-                            <input type="hidden" id="longitud" name="longitud">
-                            <small class="form-text text-muted">Escribe y selecciona una ubicación del menú
-                                desplegable</small>
+                            <input type="text" name="lugar" class="form-control"
+                                placeholder="Ej: Cancha Municipal, Parque Central, etc." required>
+                            <small class="form-text text-muted">Ingresa el nombre del lugar donde se realizará la
+                                actividad</small>
                         </div>
 
                         <div class="row">
@@ -113,32 +108,7 @@
 </div>
 {% endblock %}
 
+
 {% block extra_js %}
-<script>
-function initAutocompleteActividad() {
-    const inputActividad = document.getElementById("autocomplete_actividad");
-
-    const autocompleteActividad = new google.maps.places.Autocomplete(inputActividad, {
-        types: ["geocode", "establishment"] // Permite direcciones o negocios/lugares
-    });
-
-    autocompleteActividad.addListener("place_changed", () => {
-        const place = autocompleteActividad.getPlace();
-
-        if (place.geometry) {
-            // Guardar latitud y longitud en los campos ocultos
-            document.getElementById("latitud_actividad").value = place.geometry.location.lat();
-            document.getElementById("longitud_actividad").value = place.geometry.location.lng();
-        } else {
-            // Limpiar si no se selecciona un lugar válido
-            document.getElementById("latitud_actividad").value = '';
-            document.getElementById("longitud_actividad").value = '';
-        }
-    });
-}
-
-// Llama a la función de autocompletado cuando la API de Google esté lista
-google.maps.event.addDomListener(window, 'load', initAutocompleteActividad);
-</script>
 <script src="{% static 'js/forms.js' %}"></script>
 {% endblock %}

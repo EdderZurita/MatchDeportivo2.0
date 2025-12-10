@@ -1,7 +1,7 @@
 """Formularios de Django para MatchDeportivo."""
 from django import forms
 from django.contrib.auth.models import User
-from .models import Perfil, Actividad
+from .models import Perfil
 
 
 class RegistroForm(forms.ModelForm):
@@ -19,19 +19,3 @@ class PerfilForm(forms.ModelForm):
         model = Perfil
         fields = ["nombre_completo"]
 
-
-class ActividadForm(forms.ModelForm):
-    """Formulario para crear/editar actividades deportivas."""
-    class Meta:
-        model = Actividad
-        fields = [
-            'titulo', 'deporte', 'descripcion',
-            'lugar', 'latitud', 'longitud',
-            'fecha', 'hora_inicio', 'hora_fin',
-            'nivel', 'cupos'
-        ]
-        widgets = {
-            'latitud': forms.HiddenInput(),
-            'longitud': forms.HiddenInput(),
-            'descripcion': forms.Textarea(attrs={'rows': 4}),
-        }
