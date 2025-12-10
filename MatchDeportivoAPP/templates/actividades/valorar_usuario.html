@@ -3,7 +3,7 @@
 
 {% block title %}Valorar Usuario | SportConnect{% endblock %}
 
-{% block content %}
+{% block usuario_content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -47,8 +47,7 @@
                             <div class="rating-stars text-center mb-2">
                                 {% for i in "12345" %}
                                 <input type="radio" name="puntuacion" value="{{ forloop.counter }}"
-                                    id="star{{ forloop.counter }}" {% if valoracion_existente and
-                                    valoracion_existente.puntuacion==forloop.counter %}checked{% endif %} required>
+                                    id="star{{ forloop.counter }}" required>
                                 <label for="star{{ forloop.counter }}" class="star-label">
                                     <i class="bi bi-star-fill"></i>
                                 </label>

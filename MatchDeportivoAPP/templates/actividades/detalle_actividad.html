@@ -45,14 +45,42 @@
         <div class="btn-actions">
 
             {% if user == actividad.organizador %}
-            <a href="{% url 'editar_actividad' pk=actividad.pk %}" class="btn btn-warning">⚙️ Editar</a>
+
+            {% if actividad.cerrada %}
+            <div class="alert alert-success mb-3">
+                <i class="bi bi-check-circle-fill"></i> <strong>Actividad cerrada</strong> el {{
+                actividad.fecha_cierre|date:"d/m/Y H:i" }}
+            </div>
+            {% else %}
+            <a href="{% url 'cerrar_actividad' pk=actividad.pk %}" class="btn btn-warning">
+                <i class="bi bi-lock-fill"></i> Cerrar Actividad
+            </a>
+            {% endif %}
+
+            <a href="{% url 'editar_actividad' pk=actividad.pk %}" class="btn btn-primary">⚙️ Editar</a>
 
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal">
                 ❌ Eliminar
             </button>
 
+            {% if actividad.cerrada %}
+            <a href="{% url 'valorar_participantes' pk=actividad.pk %}" class="btn btn-success">
+                <i class="bi bi-star-fill"></i> Valorar Participantes
+            </a>
+            {% endif %}
+
             {% elif user in actividad.participantes.all %}
+
+            {% if actividad.cerrada %}
+            <div class="alert alert-info mb-3">
+                <i class="bi bi-info-circle-fill"></i> Esta actividad ha finalizado
+            </div>
+            <a href="{% url 'valorar_participantes' pk=actividad.pk %}" class="btn btn-success">
+                <i class="bi bi-star-fill"></i> Valorar Participantes
+            </a>
+            {% else %}
             <a href="{% url 'salir_actividad' pk=actividad.pk %}" class="btn btn-danger">❌ Cancelar asistencia</a>
+            {% endif %}
 
             {% elif actividad.cupos > 0 %}
             <a href="{% url 'unirse_actividad' pk=actividad.pk %}" class="btn btn-success">✅ Unirse a la actividad</a>

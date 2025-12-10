@@ -298,6 +298,100 @@ def editar_actividad(request, pk):
 
 
 @login_required
+def cerrar_actividad(request, pk):
+    """Cierra una actividad. Solo el organizador puede cerrar."""
+    from django.utils import timezone
+    
+    actividad = get_object_or_404(Actividad, pk=pk)
+    
+    # Verificar permisos
+    if actividad.organizador != request.user:
+        messages.error(request, "❌ Solo el organizador puede cerrar la actividad")
+        raise PermissionDenied("No eres el organizador")
+    
+    # Verificar que no esté ya cerrada
+    if actividad.cerrada:
+        messages.warning(request, "⚠️ Esta actividad ya está cerrada")
+        return redirect('detalle_actividad', pk=pk)
+    
+    if request.method == "POST":
+        actividad.cerrada = True
+        actividad.fecha_cierre = timezone.now()
+        actividad.save()
+        
+        messages.success(request, "✅ Actividad cerrada. Ahora los participantes pueden valorarse mutuamente")
+        return redirect('detalle_actividad', pk=pk)
+    
+    # Mostrar confirmación
+    context = {
+        'actividad': actividad,
+        'participantes_count': actividad.participantes.count()
+    }
+    return render(request, 'actividades/confirmar_cierre.html', context)
+
+
+@login_required
+def valorar_participantes(request, pk):
+    """Muestra lista de participantes de una actividad cerrada para valorar."""
+    actividad = get_object_or_404(Actividad, pk=pk)
+    
+    # Verificar que la actividad esté cerrada
+    if not actividad.cerrada:
+        messages.error(request, "❌ Solo puedes valorar participantes de actividades cerradas")
+        return redirect('detalle_actividad', pk=pk)
+    
+    # Verificar que el usuario participó o es el organizador
+    es_organizador = request.user == actividad.organizador
+    es_participante = request.user in actividad.participantes.all()
+    
+    if not es_organizador and not es_participante:
+        messages.error(request, "❌ Solo los participantes pueden valorar")
+        return redirect('detalle_actividad', pk=pk)
+    
+    # Obtener todos los usuarios a valorar (participantes + organizador, excluyendo al usuario actual)
+    from django.db.models import Q
+    usuarios_a_valorar = []
+    
+    # Si el usuario es participante (no organizador), puede valorar al organizador
+    if es_participante and not es_organizador:
+        usuarios_a_valorar.append(actividad.organizador)
+    
+    # Agregar participantes (excluyendo al usuario actual)
+    for participante in actividad.participantes.exclude(pk=request.user.pk):
+        usuarios_a_valorar.append(participante)
+    
+    # Marcar quiénes ya fueron valorados
+    from ..models import Valoracion
+    participantes_data = []
+    for usuario in usuarios_a_valorar:
+        ya_valorado = Valoracion.objects.filter(
+            evaluador=request.user,
+            evaluado=usuario,
+            actividad=actividad
+        ).exists()
+        
+        valoracion_existente = None
+        if ya_valorado:
+            valoracion_existente = Valoracion.objects.get(
+                evaluador=request.user,
+                evaluado=usuario,
+                actividad=actividad
+            )
+        
+        participantes_data.append({
+            'usuario': usuario,
+            'ya_valorado': ya_valorado,
+            'valoracion': valoracion_existente
+        })
+    
+    context = {
+        'actividad': actividad,
+        'participantes': participantes_data
+    }
+    return render(request, 'actividades/valorar_participantes.html', context)
+
+
+@login_required
 def eliminar_actividad(request, pk):
     """Elimina una actividad. Solo el organizador puede eliminar."""
     actividad = get_object_or_404(Actividad, pk=pk)
@@ -453,6 +547,11 @@ def valorar_usuario(request, actividad_pk, usuario_pk):
     actividad = get_object_or_404(Actividad, pk=actividad_pk)
     usuario_a_valorar = get_object_or_404(User, pk=usuario_pk)
     evaluador = request.user
+    
+    # Validación 0: La actividad debe estar cerrada
+    if not actividad.cerrada:
+        messages.error(request, "❌ Solo puedes valorar después de que la actividad esté cerrada")
+        return redirect('detalle_actividad', pk=actividad_pk)
     
     # Validación 1: No puedes valorarte a ti mismo
     if evaluador == usuario_a_valorar:

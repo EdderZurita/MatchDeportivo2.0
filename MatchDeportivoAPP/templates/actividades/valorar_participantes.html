@@ -1,0 +1,92 @@
+{% extends 'base_usuario.html' %}
+{% load static %}
+
+{% block title %}Valorar Participantes | SportConnect{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/actividades.css' %}" rel="stylesheet">
+<style>
+    .participant-card {
+        transition: transform 0.2s;
+        border-left: 4px solid #007bff;
+    }
+
+    .participant-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .participant-card.valorado {
+        border-left-color: #28a745;
+        background-color: #f8fff9;
+    }
+</style>
+{% endblock %}
+
+{% block usuario_content %}
+<div class="container mt-4">
+    <div class="mb-3">
+        <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a la actividad
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">⭐ Valorar Participantes</h4>
+        </div>
+        <div class="card-body">
+            <h5>{{ actividad.titulo }}</h5>
+            <p class="text-muted">{{ actividad.deporte|capfirst }} - {{ actividad.fecha|date:"d/m/Y" }}</p>
+            <p class="mb-0">Valora a los participantes con los que jugaste en esta actividad</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if participantes %}
+        {% for item in participantes %}
+        <div class="col-md-6 mb-3">
+            <div class="card participant-card {% if item.ya_valorado %}valorado{% endif %}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1">
+                                <i class="bi bi-person-circle"></i> {{ item.usuario.username }}
+                            </h5>
+                            {% if item.ya_valorado %}
+                            <span class="badge bg-success">
+                                <i class="bi bi-check-circle"></i> Valorado
+                                ({{ item.valoracion.puntuacion }}⭐)
+                            </span>
+                            {% else %}
+                            <span class="badge bg-secondary">Pendiente</span>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {% if item.ya_valorado %}
+                            <a href="{% url 'valorar_usuario' actividad_pk=actividad.pk usuario_pk=item.usuario.pk %}"
+                                class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            {% else %}
+                            <a href="{% url 'valorar_usuario' actividad_pk=actividad.pk usuario_pk=item.usuario.pk %}"
+                                class="btn btn-sm btn-primary">
+                                <i class="bi bi-star-fill"></i> Valorar
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No hay participantes para valorar en esta actividad
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

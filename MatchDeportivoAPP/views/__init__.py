@@ -35,6 +35,8 @@ from .actividades import (
     gestionar_participantes,
     quitar_participante,
     reseña_actividad,
+    cerrar_actividad,
+    valorar_participantes,
     valorar_usuario,
 )
 
@@ -72,6 +74,8 @@ __all__ = [
     'gestionar_participantes',
     'quitar_participante',
     'reseña_actividad',
+    'cerrar_actividad',
+    'valorar_participantes',
     'valorar_usuario',
     'notificaciones',
     'lista_notificaciones',

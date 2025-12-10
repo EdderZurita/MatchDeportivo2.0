@@ -33,6 +33,11 @@ urlpatterns = [
     path('mis_actividades/', views.mis_actividades, name='mis_actividades'),
     path('reseña_actividad/', views.reseña_actividad, name='reseña_actividad'),
     
+    # Valoraciones
+    path('actividad/<int:pk>/cerrar/', views.cerrar_actividad, name='cerrar_actividad'),
+    path('actividad/<int:pk>/valorar-participantes/', views.valorar_participantes, name='valorar_participantes'),
+    path('actividad/<int:actividad_pk>/valorar/<int:usuario_pk>/', views.valorar_usuario, name='valorar_usuario'),
+    
     # Participantes
     path('unirse/<int:pk>/', views.unirse_actividad, name='unirse_actividad'),
     path('salir/<int:pk>/', views.salir_actividad, name='salir_actividad'),

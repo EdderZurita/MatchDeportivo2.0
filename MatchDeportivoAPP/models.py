@@ -92,6 +92,17 @@ class Actividad(models.Model):
         blank=True
     )
     
+    # Estado de la actividad
+    cerrada = models.BooleanField(
+        default=False,
+        help_text='Indica si la actividad ya finalizó y está cerrada'
+    )
+    fecha_cierre = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='Fecha y hora en que se cerró la actividad'
+    )
+    
     creada_en = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
