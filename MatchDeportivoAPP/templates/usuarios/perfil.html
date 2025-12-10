@@ -6,7 +6,7 @@
 {% block extra_css %}
 <link href="{% static 'css/perfil.css' %}" rel="stylesheet">
 <script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn0WsJFM5jcMk8QzXQrFGRGhTOpyKPdw8&libraries=places&callback=initAutocomplete"
+  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=places&callback=initAutocomplete"
   async defer></script>
 {% endblock %}
 
@@ -50,7 +50,8 @@
         </span>
         <p class="mb-0">
           <strong>{{ perfil.rating_promedio }}</strong> / 5.0
-          <small class="text-muted">({{ perfil.total_valoraciones }} valoracion{{ perfil.total_valoraciones|pluralize:"es" }})</small>
+          <small class="text-muted">({{ perfil.total_valoraciones }} valoracion{{
+            perfil.total_valoraciones|pluralize:"es" }})</small>
         </p>
       </div>
       {% else %}
@@ -70,7 +71,7 @@
           <div>
             <strong>{{ valoracion.evaluador.username }}</strong>
             <span class="text-warning ms-2">
-              {% for i in "12345" %} 
+              {% for i in "12345" %}
               {% if forloop.counter <= valoracion.puntuacion %} ★ {% else %} ☆ {% endif %} {% endfor %} </span>
           </div>
           <small class="text-muted">{{ valoracion.fecha_creacion|date:"d/m/Y" }}</small>
@@ -146,9 +147,9 @@
     <div class="mb-3">
       <label class="form-label fw-semibold">Nivel</label>
       <select id="nivel" name="nivel" class="form-select">
-        <option {% if perfil.nivel == "Principiante" %}selected{% endif %}>Principiante</option>
-        <option {% if perfil.nivel == "Intermedio" %}selected{% endif %}>Intermedio</option>
-        <option {% if perfil.nivel == "Avanzado" %}selected{% endif %}>Avanzado</option>
+        <option {% if perfil.nivel=="Principiante" %}selected{% endif %}>Principiante</option>
+        <option {% if perfil.nivel=="Intermedio" %}selected{% endif %}>Intermedio</option>
+        <option {% if perfil.nivel=="Avanzado" %}selected{% endif %}>Avanzado</option>
       </select>
     </div>
 

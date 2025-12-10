@@ -38,7 +38,11 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Hosts permitidos (separados por coma en .env)
 ALLOWED_HOSTS = ['edderxxc.pythonanywhere.com', 'www.edderxxc.pythonanywhere.com', 'localhost']
+
 CSRF_TRUSTED_ORIGINS = ['https://edderxxc.pythonanywhere.com']
+
+# Google Maps API
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', 'AIzaSyDn0WsJFM5jcMk8QzXQrFGRGhTOpyKPdw8')
 
 
 # Application definition
@@ -76,6 +80,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'MatchDeportivoAPP.context_processors.google_maps_key',
             ],
         },
     },
