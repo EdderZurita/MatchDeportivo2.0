@@ -75,8 +75,6 @@ class Actividad(models.Model):
     
     # Ubicación
     lugar = models.CharField(max_length=255)
-    latitud = models.DecimalField(max_digits=9, decimal_places=6)
-    longitud = models.DecimalField(max_digits=9, decimal_places=6)
     
     # Horario
     fecha = models.DateField(default=date.today)

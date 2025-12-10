@@ -42,66 +42,6 @@
         <hr>
         <p>{{ actividad.descripcion }}</p>
 
-        <!-- Lista de Participantes -->
-        <hr>
-        <h5 class="mb-3">
-            <i class="bi bi-people-fill me-2"></i>
-            Participantes ({{ actividad.participantes.count|add:1 }})
-        </h5>
-
-        <div class="row">
-            <!-- Organizador -->
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-0">
-                                    <i class="bi bi-star-fill text-warning me-1"></i>
-                                    {{ actividad.organizador.username }}
-                                    <span class="badge bg-primary ms-2">Organizador</span>
-                                </h6>
-                                <small class="text-muted">{{ actividad.organizador.perfil.nombre_completo }}</small>
-                            </div>
-                            {% if user != actividad.organizador and user in actividad.participantes.all %}
-                            <a href="{% url 'valorar_usuario' actividad.pk actividad.organizador.pk %}"
-                                class="btn btn-sm btn-outline-warning">
-                                <i class="bi bi-star me-1"></i>Valorar
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Participantes -->
-            {% for participante in actividad.participantes.all %}
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-0">
-                                    <i class="bi bi-person-fill me-1"></i>
-                                    {{ participante.username }}
-                                </h6>
-                                <small class="text-muted">{{ participante.perfil.nombre_completo }}</small>
-                            </div>
-                            {% if user != participante and user == actividad.organizador or user in
-                            actividad.participantes.all %}
-                            <a href="{% url 'valorar_usuario' actividad.pk participante.pk %}"
-                                class="btn btn-sm btn-outline-warning">
-                                <i class="bi bi-star me-1"></i>Valorar
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <hr>
-
         <div class="btn-actions">
 
             {% if user == actividad.organizador %}

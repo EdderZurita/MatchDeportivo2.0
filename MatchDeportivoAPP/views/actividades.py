@@ -116,8 +116,6 @@ def crear_actividad(request):
         titulo = request.POST.get("titulo", "").strip()
         deporte = request.POST.get("deporte", "").strip()
         lugar_texto = request.POST.get("lugar", "").strip()
-        lat_str = request.POST.get("latitud_actividad", "").strip()
-        lng_str = request.POST.get("longitud_actividad", "").strip()
         fecha_str = request.POST.get("fecha")
         hora_inicio_str = request.POST.get("hora_inicio")
         hora_fin_str = request.POST.get("hora_fin")
@@ -125,22 +123,18 @@ def crear_actividad(request):
         cupos_str = request.POST.get("cupos", "").strip()
         descripcion = request.POST.get("descripcion", "").strip()
 
-        if not all([titulo, deporte, lugar_texto, lat_str, lng_str, fecha_str, hora_inicio_str, cupos_str]):
-            messages.error(request, "Por favor, completa todos los campos obligatorios y selecciona una ubicación válida con el autocompletado.")
+        if not all([titulo, deporte, lugar_texto, fecha_str, hora_inicio_str, cupos_str]):
+            messages.error(request, "Por favor, completa todos los campos obligatorios.")
             return render(request, "actividades/crear_actividad.html")
 
         try:
             cupos = int(cupos_str)
-            latitud = float(lat_str)
-            longitud = float(lng_str)
             
             nueva_actividad = Actividad.objects.create(
                 organizador=request.user, 
                 titulo=titulo,
                 deporte=deporte,
                 lugar=lugar_texto,
-                latitud=latitud,
-                longitud=longitud,
                 fecha=fecha_str,
                 hora_inicio=hora_inicio_str,
                 hora_fin=hora_fin_str if hora_fin_str else None,
@@ -151,15 +145,17 @@ def crear_actividad(request):
 
             messages.success(request, f"¡La actividad '{titulo}' se ha creado con éxito!")
             
-            try:
-                crear_notificacion_actividad_cercana(nueva_actividad)
-            except Exception as e:
-                pass
+            # Notificación de actividad cercana deshabilitada temporalmente
+            # (requiere coordenadas geográficas)
+            # try:
+            #     crear_notificacion_actividad_cercana(nueva_actividad)
+            # except Exception as e:
+            #     pass
                 
             return redirect('actividades')
 
         except ValueError:
-            messages.error(request, "Error en el formato de los datos (cupos, latitud o longitud son inválidos).")
+            messages.error(request, "Error en el formato de los datos (cupos es inválido).")
             return render(request, "actividades/crear_actividad.html")
         except Exception as e:
             messages.error(request, f"Ocurrió un error inesperado al guardar la actividad: {e}")
@@ -233,8 +229,6 @@ def editar_actividad(request, pk):
         titulo = request.POST.get("titulo", "").strip()
         deporte = request.POST.get("deporte", "").strip()
         lugar_texto = request.POST.get("lugar", "").strip()
-        lat_str = request.POST.get("latitud_actividad", "").strip()
-        lng_str = request.POST.get("longitud_actividad", "").strip()
         fecha_str = request.POST.get("fecha")
         hora_inicio_str = request.POST.get("hora_inicio")
         hora_fin_str = request.POST.get("hora_fin")
@@ -256,10 +250,6 @@ def editar_actividad(request, pk):
             actividad.nivel = nivel
             actividad.cupos = int(cupos_str)
             actividad.descripcion = descripcion
-            
-            if lat_str and lng_str:
-                actividad.latitud = float(lat_str)
-                actividad.longitud = float(lng_str)
             
             actividad.save()
             messages.success(request, f"Actividad '{actividad.titulo}' actualizada con éxito.")

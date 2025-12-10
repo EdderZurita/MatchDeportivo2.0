@@ -282,21 +282,107 @@
 /* Estilos de detalle de actividad */
 .activity-detail {
     background: white;
-    padding: 2rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     margin: 2rem auto;
-    max-width: 700px;
+    max-width: 800px;
 }
 
 .activity-title {
-    font-weight: bold;
-    font-size: 1.5rem;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    border-bottom: 3px solid #0d6efd;
+    padding-bottom: 1rem;
+}
+
+.activity-info {
+    font-size: 1rem;
+    color: #495057;
     margin-bottom: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+}
+
+.activity-info:last-of-type {
+    border-bottom: none;
+}
+
+.activity-info strong {
+    color: #2c3e50;
+    min-width: 180px;
+    font-weight: 600;
+}
+
+.activity-info:hover {
+    background-color: #f8f9fa;
+    padding-left: 0.5rem;
+    transition: all 0.3s ease;
 }
 
 .btn-actions {
-    margin-top: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #e9ecef;
     display: flex;
-    gap: 10px;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-actions .btn {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-actions .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-actions .btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    border: none;
+}
+
+.btn-actions .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+}
+
+.btn-actions .btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+}
+
+/* Responsive para detalle */
+@media (max-width: 768px) {
+    .activity-detail {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .activity-title {
+        font-size: 1.5rem;
+    }
+    
+    .activity-info strong {
+        min-width: 120px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-actions {
+        flex-direction: column;
+    }
+    
+    .btn-actions .btn {
+        width: 100%;
+    }
 }

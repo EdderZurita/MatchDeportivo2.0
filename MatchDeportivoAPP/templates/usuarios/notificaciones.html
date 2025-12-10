@@ -15,7 +15,9 @@
     </div>
 
     {% if notificaciones %}
+    {% comment %} Botón deshabilitado temporalmente - URL no implementada
     <a href="{% url 'marcar_leidas' %}" class="btn btn-outline-secondary mb-3 btn-sm">Marcar todas como leídas</a>
+    {% endcomment %}
 
     {% for notificacion in notificaciones %}
     <div class="notification-item {% if not notificacion.leida %}unread{% endif %}">
