@@ -5,6 +5,9 @@
 
 {% block extra_css %}
 <link href="{% static 'css/actividades.css' %}" rel="stylesheet">
+<script
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=places&callback=initAutocomplete"
+    async defer></script>
 {% endblock %}
 
 {% block usuario_content %}
@@ -53,10 +56,12 @@
 
                         <div class="mb-3">
                             <label class="form-label">Ubicación</label>
-                            <input type="text" name="lugar" class="form-control"
-                                placeholder="Ej: Cancha Municipal, Parque Central, etc." required>
-                            <small class="form-text text-muted">Ingresa el nombre del lugar donde se realizará la
-                                actividad</small>
+                            <input type="text" id="lugar" name="lugar" class="form-control"
+                                placeholder="Buscar ubicación..." required>
+                            <input type="hidden" id="latitud" name="latitud">
+                            <input type="hidden" id="longitud" name="longitud">
+                            <small class="form-text text-muted">Escribe y selecciona una ubicación del menú
+                                desplegable</small>
                         </div>
 
                         <div class="row">
@@ -109,5 +114,56 @@
 {% endblock %}
 
 {% block extra_js %}
+<script>
+    let autocomplete;
+
+    function initAutocomplete() {
+        const input = document.getElementById('lugar');
+
+        if (!input) return;
+
+        autocomplete = new google.maps.places.Autocomplete(input, {
+            componentRestrictions: { country: 'cl' },
+            fields: ['formatted_address', 'geometry', 'name']
+        });
+
+        autocomplete.addListener('place_changed', function () {
+            const place = autocomplete.getPlace();
+
+            if (!place.geometry) {
+                console.error('No se encontró la ubicación');
+                return;
+            }
+
+            // Guardar latitud y longitud
+            document.getElementById('latitud').value = place.geometry.location.lat();
+            document.getElementById('longitud').value = place.geometry.location.lng();
+            document.getElementById('lugar').value = place.formatted_address || place.name;
+
+            console.log('Ubicación seleccionada:', {
+                lugar: place.formatted_address || place.name,
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+            });
+        });
+    }
+
+    // Validar que se haya seleccionado una ubicación antes de enviar
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('form-crear-actividad');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                const latitud = document.getElementById('latitud').value;
+                const longitud = document.getElementById('longitud').value;
+
+                if (!latitud || !longitud) {
+                    e.preventDefault();
+                    alert('Por favor, selecciona una ubicación del menú desplegable de Google Maps');
+                    return false;
+                }
+            });
+        }
+    });
+</script>
 <script src="{% static 'js/forms.js' %}"></script>
 {% endblock %}
