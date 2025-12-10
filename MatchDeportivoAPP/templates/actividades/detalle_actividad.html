@@ -35,8 +35,7 @@
         </p>
 
         <p class="activity-info"><strong>Nivel:</strong> {{ actividad.nivel }}</p>
-        <p class="activity-info"><strong>Cupos disponibles:</strong> {{ actividad.cupos }} / Total: {{
-            actividad.cupos|add:actividad.participantes.count }}</p>
+        <p class="activity-info"><strong>Cupos disponibles:</strong> {{ actividad.cupos }} / Total: {{ actividad.cupos|add:actividad.participantes.count }}</p>
         <p class="activity-info"><strong>Participantes inscritos:</strong> {{ actividad.participantes.count }}</p>
 
         <hr>
@@ -48,8 +47,7 @@
 
             {% if actividad.cerrada %}
             <div class="alert alert-success mb-3">
-                <i class="bi bi-check-circle-fill"></i> <strong>Actividad cerrada</strong> el {{
-                actividad.fecha_cierre|date:"d/m/Y H:i" }}
+                <i class="bi bi-check-circle-fill"></i> <strong>Actividad cerrada</strong> el {{ actividad.fecha_cierre|date:"d/m/Y H:i" }}
             </div>
             {% else %}
             <a href="{% url 'cerrar_actividad' pk=actividad.pk %}" class="btn btn-warning">
@@ -103,13 +101,11 @@
             </div>
             <div class="modal-body text-center">
                 <p>Estás a punto de eliminar la actividad: <strong>{{ actividad.titulo }}</strong>.</p>
-                <p class="text-muted">Esta acción es irreversible y afectará a {{ actividad.participantes.count }}
-                    participante(s).</p>
+                <p class="text-muted">Esta acción es irreversible y afectará a {{ actividad.participantes.count }} participante(s).</p>
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mantener</button>
-                <a href="{% url 'cancelar_actividad' pk=actividad.pk %}" class="btn btn-danger">Sí, Eliminar
-                    Permanentemente</a>
+                <a href="{% url 'cancelar_actividad' pk=actividad.pk %}" class="btn btn-danger">Sí, Eliminar Permanentemente</a>
             </div>
         </div>
     </div>

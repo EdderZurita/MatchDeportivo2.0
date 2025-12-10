@@ -35,14 +35,9 @@
             <div class="activity-card border-start border-3 border-warning">
                 <div class="activity-title">{{ actividad.titulo }}</div>
                 <div class="activity-info">Deporte: <strong>{{ actividad.deporte|capfirst }}</strong></div>
-                <div class="activity-info">
-                    Lugar: **{{ actividad.lugar }}** |
-                    Fecha: {{ actividad.fecha|date:"D d M" }} |
-                    Hora: {{ actividad.hora_inicio|time:"H:i" }}
+                <div class="activity-info"> Lugar: **{{ actividad.lugar }}** | Fecha: {{ actividad.fecha|date:"D d M" }} | Hora: {{ actividad.hora_inicio|time:"H:i" }}
                 </div>
-                <div class="activity-info">Cupos restantes: {{ actividad.cupos }} | Inscritos: <strong>{{
-                        actividad.participantes.count }}</strong></div>
-
+                <div class="activity-info">Cupos restantes: {{ actividad.cupos }} | Inscritos: <strong>{{ actividad.participantes.count }}</strong></div>
                 <div class="btn-actions">
                     <a href="{% url 'editar_actividad' pk=actividad.pk %}" class="btn btn-warning btn-sm">
                         ⚙️ Editar

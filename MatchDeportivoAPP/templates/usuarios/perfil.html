@@ -50,8 +50,7 @@
         </span>
         <p class="mb-0">
           <strong>{{ perfil.rating_promedio }}</strong> / 5.0
-          <small class="text-muted">({{ perfil.total_valoraciones }} valoracion{{
-            perfil.total_valoraciones|pluralize:"es" }})</small>
+          <small class="text-muted">({{ perfil.total_valoraciones }} valoracion{{ perfil.total_valoraciones|pluralize:"es" }})</small>
         </p>
       </div>
       {% else %}
@@ -71,7 +70,7 @@
           <div>
             <strong>{{ valoracion.evaluador.username }}</strong>
             <span class="text-warning ms-2">
-              {% for i in "12345" %}
+              {% for i in "12345" %} 
               {% if forloop.counter <= valoracion.puntuacion %} ★ {% else %} ☆ {% endif %} {% endfor %} </span>
           </div>
           <small class="text-muted">{{ valoracion.fecha_creacion|date:"d/m/Y" }}</small>
