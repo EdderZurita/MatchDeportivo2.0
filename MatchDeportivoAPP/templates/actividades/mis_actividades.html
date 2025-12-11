@@ -5,39 +5,92 @@
 
 {% block extra_css %}
 <link href="{% static 'css/actividades.css' %}" rel="stylesheet">
+<style>
+    .my-activities-header {
+        background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .my-activities-header h2 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .activity-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-title {
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .activity-info {
+        color: #666;
+        margin-bottom: 0.3rem;
+        font-size: 0.875rem;
+        line-height: 1.4;
+    }
+
+    .activity-info strong {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .btn-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .section-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #e0e0e0;
+    }
+</style>
 {% endblock %}
 
 {% block usuario_content %}
 <div class="container">
-    <!-- Botón Volver -->
-    <div class="mb-3">
-        <a href="{% url 'actividades' %}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Volver a Actividades
-        </a>
-    </div>
-
+    <!-- Header azul -->
     <div class="my-activities-header">
-        <h2 class="fw-bold mb-1">Mis Actividades</h2>
-        <p>Aquí puedes ver y gestionar las actividades que organizaste o en las que participas.</p>
-        <div class="mt-3">
+        <h2>Mis Actividades</h2>
+        <p class="mb-3">Aquí puedes ver y gestionar las actividades que organizaste o en las que participas.</p>
+        <div>
             <a href="{% url 'crear_actividad' %}" class="btn btn-success me-2">Crear nueva actividad</a>
             <a href="{% url 'actividades' %}" class="btn btn-primary">Explorar actividades</a>
         </div>
     </div>
 
-    <h3 class="mt-5 mb-3">🛠️ Actividades que organicé ({{ organizadas|length }})</h3>
-    <hr>
+    <!-- Actividades que organicé -->
+    <h3 class="section-title">🛠️ Actividades que organicé ({{ organizadas|length }})</h3>
 
+    {% if organizadas %}
     <div class="row">
-        {% if organizadas %}
         {% for actividad in organizadas %}
         <div class="col-md-6">
-            <div class="activity-card border-start border-3 border-warning">
+            <div class="activity-card border-start border-4 border-warning">
                 <div class="activity-title">{{ actividad.titulo }}</div>
                 <div class="activity-info">Deporte: <strong>{{ actividad.deporte|capfirst }}</strong></div>
-                <div class="activity-info"> Lugar: **{{ actividad.lugar }}** | Fecha: {{ actividad.fecha|date:"D d M" }} | Hora: {{ actividad.hora_inicio|time:"H:i" }}
+                <div class="activity-info"> Lugar: <strong>{{ actividad.lugar }}</strong> | Fecha: {{ actividad.fecha|date:"D d M" }} | Hora: {{ actividad.hora_inicio|time:"H:i" }}
                 </div>
-                <div class="activity-info">Cupos restantes: {{ actividad.cupos }} | Inscritos: <strong>{{ actividad.participantes.count }}</strong></div>
+                <div class="activity-info"> Cupos restantes: {{ actividad.cupos }} | Inscritos: <strong>{{ actividad.participantes.count }}</strong>
+                </div>
                 <div class="btn-actions">
                     <a href="{% url 'editar_actividad' pk=actividad.pk %}" class="btn btn-warning btn-sm">
                         ⚙️ Editar
@@ -49,32 +102,28 @@
             </div>
         </div>
         {% endfor %}
-        {% else %}
-        <div class="col-12">
-            <div class="alert alert-warning">Aún no has creado ninguna actividad.</div>
-        </div>
-        {% endif %}
     </div>
+    {% else %}
+    <div class="alert alert-warning">Aún no has creado ninguna actividad.</div>
+    {% endif %}
 
-    <h3 class="mt-5 mb-3">🏅 Actividades en las que participo ({{ participando|length }})</h3>
-    <hr>
+    <!-- Actividades en las que participo -->
+    <h3 class="section-title mt-4">🏅 Actividades en las que participo ({{ participando|length }})</h3>
 
+    {% if participando %}
     <div class="row">
-        {% if participando %}
         {% for actividad in participando %}
         <div class="col-md-6">
-            <div class="activity-card border-start border-3 border-success">
+            <div class="activity-card border-start border-4 border-success">
                 <div class="activity-title">{{ actividad.titulo }}</div>
                 <div class="activity-info">Organizador: <strong>{{ actividad.organizador.username }}</strong></div>
                 <div class="activity-info">
-                    Lugar: **{{ actividad.lugar }}** |
-                    Fecha: {{ actividad.fecha|date:"D d M" }} |
-                    Hora: {{ actividad.hora_inicio|time:"H:i" }}
+                    Lugar: <strong>{{ actividad.lugar }}</strong> | Fecha: {{ actividad.fecha|date:"D d M" }} | Hora: {{ actividad.hora_inicio|time:"H:i" }}
                 </div>
-
-                <div class="btn-actions justify-content-end">
-                    <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-success btn-sm me-2">Ver
-                        detalles</a>
+                <div class="btn-actions">
+                    <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-success btn-sm">
+                        Ver detalles
+                    </a>
                     <a href="{% url 'salir_actividad' pk=actividad.pk %}" class="btn btn-outline-danger btn-sm">
                         ❌ Cancelar
                     </a>
@@ -82,11 +131,9 @@
             </div>
         </div>
         {% endfor %}
-        {% else %}
-        <div class="col-12">
-            <div class="alert alert-info">Aún no te has unido a ninguna actividad.</div>
-        </div>
-        {% endif %}
     </div>
+    {% else %}
+    <div class="alert alert-info">Aún no te has unido a ninguna actividad.</div>
+    {% endif %}
 </div>
 {% endblock %}

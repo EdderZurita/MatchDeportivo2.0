@@ -11,6 +11,7 @@ from math import radians, cos, sin, asin, sqrt
 
 from ..models import Actividad, Perfil, Notificacion
 from ..constants import RADIO_BUSQUEDA_DEFAULT, RADIO_TIERRA_KM, DEPORTES
+from ..forms import ActividadForm
 from .notificaciones import crear_notificacion_simple
 
 
@@ -73,86 +74,47 @@ def detalle_actividad(request, pk):
 @login_required
 def crear_actividad(request):
     """Crea una nueva actividad y notifica a usuarios cercanos."""
+    import logging
+    logger = logging.getLogger(__name__)
+    
     if request.method == "POST":
-        titulo = request.POST.get("titulo", "").strip()
-        deporte = request.POST.get("deporte", "").strip()
-        lugar_texto = request.POST.get("lugar", "").strip()
-        fecha_str = request.POST.get("fecha")
-        hora_inicio_str = request.POST.get("hora_inicio")
-        hora_fin_str = request.POST.get("hora_fin")
-        nivel = request.POST.get("nivel", "").strip()
-        cupos_str = request.POST.get("cupos", "").strip()
-        descripcion = request.POST.get("descripcion", "").strip()
-
-        if not all([titulo, deporte, lugar_texto, fecha_str, hora_inicio_str, cupos_str]):
-            messages.error(request, "Por favor, completa todos los campos obligatorios.")
-            return render(request, "actividades/crear_actividad.html")
-
-        try:
-            from datetime import date, datetime, time as time_module
-            
-            # Validar y convertir cupos
-            cupos = int(cupos_str)
-            if cupos < 1 or cupos > 50:
-                messages.error(request, "❌ Los cupos deben estar entre 1 y 50")
-                return render(request, "actividades/crear_actividad.html")
-            
-            # Convertir fecha y horas
-            fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
-            hora_inicio = datetime.strptime(hora_inicio_str, '%H:%M').time()
-            hora_fin = datetime.strptime(hora_fin_str, '%H:%M').time() if hora_fin_str else None
-            
-            # Validación 1: Fecha no puede ser pasada
-            if fecha < date.today():
-                messages.error(request, "❌ No puedes crear actividades en fechas pasadas")
-                return render(request, "actividades/crear_actividad.html")
-            
-            # Validación 2: Si la fecha es hoy, la hora debe ser futura
-            if fecha == date.today():
-                hora_actual = datetime.now().time()
-                if hora_inicio <= hora_actual:
-                    messages.error(request, "❌ La hora de inicio debe ser futura (hora actual: {})".format(
-                        hora_actual.strftime('%H:%M')
-                    ))
-                    return render(request, "actividades/crear_actividad.html")
-            
-            # Validación 3: Hora fin debe ser posterior a hora inicio
-            if hora_fin and hora_fin <= hora_inicio:
-                messages.error(request, "❌ La hora de fin debe ser posterior a la hora de inicio")
-                return render(request, "actividades/crear_actividad.html")
-            
-            nueva_actividad = Actividad.objects.create(
-                organizador=request.user, 
-                titulo=titulo,
-                deporte=deporte,
-                lugar=lugar_texto,
-                fecha=fecha,
-                hora_inicio=hora_inicio,
-                hora_fin=hora_fin,
-                nivel=nivel,
-                cupos=cupos,
-                descripcion=descripcion,
-            )
-
-            messages.success(request, f"✅ ¡La actividad '{titulo}' se ha creado con éxito!")
-            
-            # Notificación de actividad cercana deshabilitada temporalmente
-            # (requiere coordenadas geográficas)
-            # try:
-            #     crear_notificacion_actividad_cercana(nueva_actividad)
-            # except Exception as e:
-            #     pass
+        form = ActividadForm(request.POST)
+        if form.is_valid():
+            try:
+                actividad = form.save(commit=False)
+                actividad.organizador = request.user
+                actividad.save()
                 
-            return redirect('actividades')
+                logger.info(f"Actividad creada: {actividad.titulo} por {request.user.username}")
+                messages.success(request, f"✅ ¡La actividad '{actividad.titulo}' se ha creado con éxito!")
+                
+                # Notificación de actividad cercana deshabilitada temporalmente
+                # (requiere coordenadas geográficas)
+                # try:
+                #     crear_notificacion_actividad_cercana(actividad)
+                # except Exception as e:
+                #     logger.warning(f"Error al notificar usuarios cercanos: {e}")
+                    
+                return redirect('actividades')
+                
+            except Exception as e:
+                logger.error(f"Error al crear actividad: {e}", exc_info=True)
+                messages.error(request, f"❌ Ocurrió un error inesperado: {str(e)}")
+        else:
+            # Mostrar errores del formulario
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{error}")
+    else:
+        form = ActividadForm()
+    
+    context = {
+        'form': form,
+        'deportes': DEPORTES,
+        'active_page': 'crear_actividad'
+    }
+    return render(request, "actividades/crear_actividad.html", context)
 
-        except ValueError as e:
-            messages.error(request, f"❌ Error en el formato de los datos: {str(e)}")
-            return render(request, "actividades/crear_actividad.html")
-        except Exception as e:
-            messages.error(request, f"❌ Ocurrió un error inesperado: {str(e)}")
-            return render(request, "actividades/crear_actividad.html")
-            
-    return render(request, "actividades/crear_actividad.html")
 
 
 def crear_notificacion_actividad_cercana(actividad):
@@ -210,6 +172,9 @@ def crear_notificacion_actividad_cercana(actividad):
 @login_required
 def editar_actividad(request, pk):
     """Edita una actividad existente. Solo el organizador puede editar."""
+    import logging
+    logger = logging.getLogger(__name__)
+    
     actividad = get_object_or_404(Actividad, pk=pk)
     
     if actividad.organizador != request.user:
@@ -217,84 +182,40 @@ def editar_actividad(request, pk):
         raise PermissionDenied("Acceso denegado: No eres el organizador.")
 
     if request.method == "POST":
-        titulo = request.POST.get("titulo", "").strip()
-        deporte = request.POST.get("deporte", "").strip()
-        lugar_texto = request.POST.get("lugar", "").strip()
-        fecha_str = request.POST.get("fecha")
-        hora_inicio_str = request.POST.get("hora_inicio")
-        hora_fin_str = request.POST.get("hora_fin")
-        nivel = request.POST.get("nivel", "").strip()
-        cupos_str = request.POST.get("cupos", "").strip()
-        descripcion = request.POST.get("descripcion", "").strip()
-
-        if not all([titulo, deporte, lugar_texto, fecha_str, hora_inicio_str, cupos_str]):
-            messages.error(request, "Faltan campos obligatorios.")
-            return redirect('editar_actividad', pk=pk)
-
-        try:
-            from datetime import date, datetime
-            
-            # Validar y convertir cupos
-            cupos = int(cupos_str)
-            participantes_actuales = actividad.participantes.count()
-            
-            if cupos < participantes_actuales:
-                messages.error(request, f"❌ Los cupos no pueden ser menores a los participantes actuales ({participantes_actuales})")
-                return redirect('editar_actividad', pk=pk)
-            
-            if cupos > 50:
-                messages.error(request, "❌ Los cupos no pueden ser mayores a 50")
-                return redirect('editar_actividad', pk=pk)
-            
-            # Convertir fecha y horas
-            fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
-            hora_inicio = datetime.strptime(hora_inicio_str, '%H:%M').time()
-            hora_fin = datetime.strptime(hora_fin_str, '%H:%M').time() if hora_fin_str else None
-            
-            # Validación 1: Fecha no puede ser pasada
-            if fecha < date.today():
-                messages.error(request, "❌ No puedes programar actividades en fechas pasadas")
-                return redirect('editar_actividad', pk=pk)
-            
-            # Validación 2: Si la fecha es hoy, la hora debe ser futura
-            if fecha == date.today():
-                hora_actual = datetime.now().time()
-                if hora_inicio <= hora_actual:
-                    messages.error(request, "❌ La hora de inicio debe ser futura (hora actual: {})".format(
-                        hora_actual.strftime('%H:%M')
-                    ))
+        form = ActividadForm(request.POST, instance=actividad)
+        if form.is_valid():
+            try:
+                # Validación adicional: cupos no pueden ser menores a participantes actuales
+                participantes_actuales = actividad.participantes.count()
+                cupos_nuevos = form.cleaned_data['cupos']
+                
+                if cupos_nuevos < participantes_actuales:
+                    messages.error(request, f"❌ Los cupos no pueden ser menores a los participantes actuales ({participantes_actuales})")
                     return redirect('editar_actividad', pk=pk)
-            
-            # Validación 3: Hora fin debe ser posterior a hora inicio
-            if hora_fin and hora_fin <= hora_inicio:
-                messages.error(request, "❌ La hora de fin debe ser posterior a la hora de inicio")
-                return redirect('editar_actividad', pk=pk)
-            
-            # Actualizar actividad
-            actividad.titulo = titulo
-            actividad.deporte = deporte
-            actividad.lugar = lugar_texto
-            actividad.fecha = fecha
-            actividad.hora_inicio = hora_inicio
-            actividad.hora_fin = hora_fin
-            actividad.nivel = nivel
-            actividad.cupos = cupos
-            actividad.descripcion = descripcion
-            
-            actividad.save()
-            messages.success(request, f"✅ Actividad '{actividad.titulo}' actualizada con éxito")
-            return redirect('mis_actividades')
-
-        except ValueError as e:
-            messages.error(request, f"❌ Error en el formato de datos: {str(e)}")
-        except Exception as e:
-            messages.error(request, f"❌ Error al guardar: {str(e)}")
+                
+                actividad = form.save()
+                logger.info(f"Actividad editada: {actividad.titulo} por {request.user.username}")
+                messages.success(request, f"✅ Actividad '{actividad.titulo}' actualizada con éxito")
+                return redirect('mis_actividades')
+                
+            except Exception as e:
+                logger.error(f"Error al editar actividad: {e}", exc_info=True)
+                messages.error(request, f"❌ Error al guardar: {str(e)}")
+        else:
+            # Mostrar errores del formulario
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{error}")
+    else:
+        form = ActividadForm(instance=actividad)
             
     context = {
         'actividad': actividad,
-        'deportes': ['futbol', 'basketball', 'skate', 'volibol', 'running', 'tenis'],
+        'form': form,
+        'deportes': DEPORTES,
     }
     return render(request, 'actividades/editar_actividad.html', context)
+
 
 
 @login_required

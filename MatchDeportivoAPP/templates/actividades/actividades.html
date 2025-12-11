@@ -5,13 +5,76 @@
 
 {% block extra_css %}
 <link href="{% static 'css/actividades.css' %}" rel="stylesheet">
+<style>
+  .activities-header {
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .activities-header h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .activities-header p {
+    margin-bottom: 0;
+    font-size: 1rem;
+  }
+
+  .activity-actions {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .activity-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .activity-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .activity-info {
+    color: #666;
+    margin-bottom: 0.3rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .activity-info strong {
+    color: #333;
+    font-weight: 600;
+  }
+
+  .filter-section {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+</style>
 {% endblock %}
 
 {% block usuario_content %}
 <div class="container">
-  <!-- Header -->
+  <!-- Header azul -->
   <div class="activities-header">
-    <h2 class="fw-bold mb-1">Actividades Deportivas</h2>
+    <h2>Actividades Deportivas</h2>
     <p>Explora, únete o administra tus actividades deportivas</p>
   </div>
 
@@ -20,78 +83,97 @@
     <a href="{% url 'crear_actividad' %}" class="btn btn-success">Crear actividad</a>
     <a href="{% url 'mis_actividades' %}" class="btn btn-secondary">Mis actividades</a>
   </div>
-  <!-- Filtro por deporte -->
-  <form method="GET" class="d-flex" style="gap: 10px;">
-    <select name="deporte" class="form-select">
-      <option value="">-- Filtrar por deporte --</option>
-      <option value="futbol" {% if deporte_seleccionado == 'futbol' %}selected{% endif %}>Fútbol</option>
-      <option value="basketball" {% if deporte_seleccionado == 'basketball' %}selected{% endif %}>Basketball</option>
-      <option value="skate" {% if deporte_seleccionado == 'skate' %}selected{% endif %}>Skate</option>
-      <option value="volibol" {% if deporte_seleccionado == 'volibol' %}selected{% endif %}>Vóleibol</option>
-      <option value="running" {% if deporte_seleccionado == 'running' %}selected{% endif %}>Running</option>
-      <option value="tenis" {% if deporte_seleccionado == 'tenis' %}selected{% endif %}>Tenis</option>
-    </select>
 
-    <button type="submit" class="btn btn-primary">
-      Buscar
-    </button>
-  </form>
+  <!-- Filtro por deporte -->
+  <div class="filter-section">
+    <form method="GET" class="d-flex" style="gap: 10px;">
+      <select name="deporte" class="form-select">
+        <option value="">-- Filtrar por deporte --</option>
+        <option value="futbol" {% if deporte_seleccionado ==  'futbol' %}selected{% endif %}>Fútbol</option>
+        <option value="basketball" {% if deporte_seleccionado == 'basketball' %}selected{% endif %}>Basketball</option>
+        <option value="skate" {% if deporte_seleccionado == 'skate' %}selected{% endif %}>Skate</option>
+        <option value="volibol" {% if deporte_seleccionado == 'volibol' %}selected{% endif %}>Vóleibol</option>
+        <option value="running" {% if deporte_seleccionado == 'running' %}selected{% endif %}>Running</option>
+        <option value="tenis" {% if deporte_seleccionado == 'tenis' %}selected{% endif %}>Tenis</option>
+      </select>
+
+      <button type="submit" class="btn btn-primary">
+        Buscar
+      </button>
+    </form>
+  </div>
 
   <!-- Lista de actividades -->
-  <div class="row mt-4">
-
+  <div class="row">
     {% if actividades %}
     {% for actividad in actividades %}
-    <div class="col-md-6 mb-3">
+    <div class="col-md-6">
       <div class="activity-card">
-        <!-- Header con título y badge de nivel -->
-        <div class="d-flex justify-content-between align-items-start mb-2">
-          <h5 class="activity-title mb-0">{{ actividad.titulo }}</h5>
-          {% if actividad.nivel == "Principiante" %}
-          <span class="badge bg-success">Principiante</span>
-          {% elif actividad.nivel == "Intermedio" %}
-          <span class="badge bg-warning text-dark">Intermedio</span>
-          {% elif actividad.nivel == "Avanzado" %}
-          <span class="badge bg-danger">Avanzado</span>
-          {% endif %}
-        </div>
+        <!-- Título -->
+        <div class="activity-title">{{ actividad.titulo }}</div>
 
         <!-- Deporte -->
-        <div class="activity-info mb-2">
-          <i class="bi bi-trophy text-primary"></i>
-          <strong>{{ actividad.deporte|capfirst }}</strong>
+        <div class="activity-info">
+          Deporte: <strong>{{ actividad.deporte|capfirst }}</strong>
         </div>
 
-        <!-- Ubicación y distancia -->
+        <!-- Ubicación -->
         <div class="activity-info">
-          <i class="bi bi-geo-alt text-danger"></i> {{ actividad.lugar }}
-          {% if actividad.distancia_km %}
-          <span class="text-muted ms-2">({{ actividad.distancia_km }} km)</span>
-          {% endif %}
+          Lugar: <strong>{{ actividad.lugar }}</strong>
         </div>
 
         <!-- Fecha y hora -->
         <div class="activity-info">
-          <i class="bi bi-calendar text-success"></i> {{ actividad.fecha|date:"D d M" }}
-          <i class="bi bi-clock text-info ms-2"></i> {{ actividad.hora_inicio|time:"H:i" }}
-          {% if actividad.hora_fin %}- {{ actividad.hora_fin|time:"H:i" }}{% endif %}
+          Fecha: {{ actividad.fecha|date:"D d M" }} | Hora: {{ actividad.hora_inicio|time:"H:i" }}{% if actividad.hora_fin %} - {{ actividad.hora_fin|time:"H:i" }}{% endif %}
         </div>
 
-        <!-- Cupos con indicador visual -->
+        <!-- Cupos y nivel -->
         <div class="activity-info">
-          <i class="bi bi-people"></i>
-          <span class="{% if actividad.cupos > 0 %}text-success{% else %}text-danger{% endif %} fw-bold">
-            {{ actividad.cupos }} cupos disponibles
-          </span>
+          Cupos disponibles: {{ actividad.cupos }} | Nivel: <strong>**{{ actividad.nivel }}**</strong>
         </div>
 
         <!-- Botón ver detalles -->
-        <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-primary btn-view mt-2">
-          <i class="bi bi-eye"></i> Ver detalles
-        </a>
+        <div class="mt-3">
+          <a href="{% url 'detalle_actividad' pk=actividad.pk %}" class="btn btn-primary btn-sm">
+            Ver detalles
+          </a>
+        </div>
       </div>
     </div>
     {% endfor %}
+
+    <!-- Paginación -->
+    {% if actividades.has_other_pages %}
+    <nav aria-label="Paginación de actividades" class="mt-3">
+      <ul class="pagination justify-content-center">
+        {% if actividades.has_previous %}
+        <li class="page-item">
+          <a class="page-link"
+            href="?page={{ actividades.previous_page_number }}{% if deporte_seleccionado %}&deporte={{ deporte_seleccionado }}{% endif %}">Anterior</a>
+        </li>
+        {% endif %}
+
+        {% for num in actividades.paginator.page_range %}
+        {% if actividades.number == num %}
+        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link"
+            href="?page={{ num }}{% if deporte_seleccionado %}&deporte={{ deporte_seleccionado }}{% endif %}">{{ num
+            }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if actividades.has_next %}
+        <li class="page-item">
+          <a class="page-link"
+            href="?page={{ actividades.next_page_number }}{% if deporte_seleccionado %}&deporte={{ deporte_seleccionado }}{% endif %}">Siguiente</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
 
     {% else %}
     <div class="col-12">
@@ -101,7 +183,6 @@
       </div>
     </div>
     {% endif %}
-
   </div>
 </div>
 {% endblock %}
