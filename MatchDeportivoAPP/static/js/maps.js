@@ -1,3 +1,24 @@
+/**
+ * MAPS.JS
+ * Funcionalidades de Google Maps y geolocalización
+ * 
+ * ⚠️ NOTA: Este archivo está temporalmente deshabilitado
+ * Google Maps no está siendo utilizado actualmente en el proyecto
+ * para evitar costos de API y simplificar el desarrollo.
+ * 
+ * TODO: Reactivar cuando se implemente Google Maps oficialmente
+ * 
+ * @author Equipo MatchDeportivo
+ * @version 1.0.0
+ * @since 2025-12-12
+ * @status DISABLED
+ */
+
+/* ================================================================================
+   ⚠️ CÓDIGO DESHABILITADO - NO SE ESTÁ UTILIZANDO ACTUALMENTE
+   ================================================================================ */
+
+/*
 // Funcionalidades de mapas y geolocalización
 
 function initAutocomplete(inputId, latInputId, lngInputId) {
@@ -96,3 +117,12 @@ function calcularDistancia(lat1, lon1, lat2, lon2) {
 
     return distancia.toFixed(1);
 }
+*/
+
+/* ================================================================================
+   FIN DEL CÓDIGO DESHABILITADO
+   ================================================================================ */
+
+// Este archivo está vacío intencionalmente
+// El código de Google Maps ha sido comentado hasta que se implemente oficialmente
+console.log('maps.js cargado - Funcionalidad de Google Maps deshabilitada');

@@ -86,10 +86,6 @@
 {% endblock %}
 
 {% block extra_js %}
+<!-- Script de validaciones y formularios -->
 <script src="{% static 'js/forms.js' %}"></script>
-<script>
-  if (typeof setupCodigoVerificacion === 'function') {
-    setupCodigoVerificacion();
-  }
-</script>
 {% endblock %}
