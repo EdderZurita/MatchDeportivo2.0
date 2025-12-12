@@ -89,3 +89,13 @@ body {
     /* Centrar horizontalmente con margin auto */
     margin: 1rem auto !important;
 }
+
+/* ----------------
+   CONTENEDOR DE PERFIL
+   Limitar ancho del contenido principal
+   ---------------- */
+
+/* Limitar ancho del container en página de perfil para mejor legibilidad */
+body .container {
+    max-width: 1200px;
+}

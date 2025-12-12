@@ -45,10 +45,20 @@
     /* Mismo gradiente que activities-header */
     background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
     color: white;
-    padding: 2rem;
-    border-radius: 10px;
+    padding: 1rem;
+    border-radius: 8px;
     text-align: center;
     margin-bottom: 2rem;
+}
+
+/* ----------------
+   CONTENEDOR GENERAL
+   Limitar ancho para mejor legibilidad
+   ---------------- */
+
+/* Limitar ancho del container en todas las páginas */
+.container {
+    max-width: 1200px !important;
 }
 
 /* Título del header de mis actividades */
