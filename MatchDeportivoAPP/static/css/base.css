@@ -436,3 +436,27 @@ footer p {
         font-size: 1rem;
     }
 }
+
+/* ----------------
+   NAVBAR ADMIN
+   Barra de navegación para administradores
+   ---------------- */
+
+/* Navbar de administrador con fondo azul */
+.navbar-admin {
+    /* Fondo azul Bootstrap primary */
+    background-color: #0d6efd;
+}
+
+/* Links y brand en blanco */
+.navbar-admin .nav-link,
+.navbar-admin .navbar-brand {
+    /* Color blanco con !important para sobrescribir Bootstrap */
+    color: white !important;
+}
+
+/* Hover en amarillo para destacar */
+.navbar-admin .nav-link:hover {
+    /* Color amarillo Bootstrap warning */
+    color: #ffc107 !important;
+}
