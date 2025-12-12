@@ -17,7 +17,11 @@ from .auth import (
 )
 
 from .perfiles import (
-    perfil,
+    completar_perfil,
+    ver_perfil,
+    editar_perfil,
+    valoraciones_detalladas,
+    perfil,  # DEPRECATED: usar ver_perfil
     perfil_jugador,
     perfil_participante,
     eliminar_cuenta,
@@ -62,7 +66,12 @@ __all__ = [
     'registroSesion',
     # 'olvidoContraseña',  # DESHABILITADO - Inseguro sin tokens
     'cerrarSesion',
-    'perfil',
+    # Perfiles
+    'completar_perfil',
+    'ver_perfil',
+    'editar_perfil',
+    'valoraciones_detalladas',
+    'perfil',  # DEPRECATED
     'perfil_jugador',
     'perfil_participante',
     'eliminar_cuenta',

@@ -17,13 +17,20 @@ urlpatterns = [
     path('registroSesion/', views.registroSesion, name='registroSesion'),
     path('cerrarSesion/', views.cerrarSesion, name="cerrarSesion"),
 
-    # Usuarios
-    path('perfil/', views.perfil, name='perfil'),
+    # Usuarios - Perfil
+    path('perfil/', views.ver_perfil, name='ver_perfil'),  # Vista principal (solo lectura)
+    path('perfil/completar/', views.completar_perfil, name='completar_perfil'),  # Primera vez
+    path('perfil/editar/', views.editar_perfil, name='editar_perfil'),  # Edición
+    path('perfil/valoraciones/', views.valoraciones_detalladas, name='valoraciones_detalladas'),  # Lista de ratings
     path('perfil/eliminar/', views.eliminar_cuenta, name='eliminar_cuenta'),
     path('perfil_jugador/', views.perfil_jugador, name='perfil_jugador'),
     path('participante/<int:user_id>/', views.perfil_participante, name='perfil_participante'),
+    # Usuarios - Notificaciones
     path('notificaciones/', views.notificaciones, name='notificaciones'),
     path('notificaciones/marcar-leidas/', views.marcar_todas_leidas, name='marcar_leidas'),
+    
+    # Compatibilidad (DEPRECATED)
+    path('perfil-old/', views.perfil, name='perfil'),  # Redirige a ver_perfil
 
     # Actividades
     path('actividades/', views.actividades, name='actividades'),
