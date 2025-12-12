@@ -4,7 +4,13 @@
 {% block title %}Gestionar Participantes{% endblock %}
 
 {% block extra_css %}
+<!-- Estilos para actividades -->
 <link href="{% static 'css/actividades.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block extra_js %}
+<!-- Script de gestión de actividades -->
+<script src="{% static 'js/actividades.js' %}"></script>
 {% endblock %}
 
 {% block usuario_content %}

@@ -192,6 +192,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (formPerfil) {
         formPerfil.addEventListener('submit', validarFormularioPerfil);
     }
+    
+    // Inicializar código de verificación si la función existe
+    if (typeof setupCodigoVerificacion === 'function') {
+        setupCodigoVerificacion();
+    }
 });
 
 // Validación de código de verificación
