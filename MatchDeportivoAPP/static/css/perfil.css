@@ -107,4 +107,5 @@ body {
 /* Limitar ancho del container en página de perfil para mejor legibilidad */
 body .container {
     max-width: 1200px;
+    margin-top: 2rem; /* Separación del navbar */
 }

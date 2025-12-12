@@ -59,6 +59,7 @@
 /* Limitar ancho del container en todas las páginas */
 .container {
     max-width: 1200px !important;
+    margin-top: 2rem; /* Separación del navbar */
 }
 
 /* ----------------
