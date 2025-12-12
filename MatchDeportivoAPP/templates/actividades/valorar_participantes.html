@@ -4,23 +4,8 @@
 {% block title %}Valorar Participantes | SportConnect{% endblock %}
 
 {% block extra_css %}
+<!-- Estilos externos para actividades -->
 <link href="{% static 'css/actividades.css' %}" rel="stylesheet">
-<style>
-    .participant-card {
-        transition: transform 0.2s;
-        border-left: 4px solid #007bff;
-    }
-
-    .participant-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .participant-card.valorado {
-        border-left-color: #28a745;
-        background-color: #f8fff9;
-    }
-</style>
 {% endblock %}
 
 {% block usuario_content %}

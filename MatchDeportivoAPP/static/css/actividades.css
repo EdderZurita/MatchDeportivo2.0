@@ -498,3 +498,113 @@
         width: 100%;
     }
 }
+
+/* ----------------
+   FORMULARIO DE EDICIÓN
+   Estilos para editar_actividad.html
+   ---------------- */
+
+/* Labels de formulario con peso semi-bold */
+.form-label {
+    font-weight: 600;
+}
+
+/* Botón de peligro con efecto de escala */
+.btn-danger {
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    /* Efecto de agrandamiento al pasar el mouse */
+    transform: scale(1.05);
+}
+
+/* ----------------
+   CARDS DE PARTICIPANTES
+   Estilos para valorar_participantes.html
+   ---------------- */
+
+/* Card de participante individual */
+.participant-card {
+    /* Transición suave para el efecto hover */
+    transition: transform 0.2s;
+    
+    /* Borde izquierdo azul para identificación */
+    border-left: 4px solid #007bff;
+}
+
+/* Efecto hover en card de participante */
+.participant-card:hover {
+    /* Elevar ligeramente la card */
+    transform: translateY(-2px);
+    
+    /* Sombra más pronunciada */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Card de participante ya valorado */
+.participant-card.valorado {
+    /* Borde verde para indicar completado */
+    border-left-color: #28a745;
+    
+    /* Fondo verde muy claro */
+    background-color: #f8fff9;
+}
+
+/* ----------------
+   SISTEMA DE VALORACIÓN CON ESTRELLAS
+   Estilos para valorar_usuario.html
+   ---------------- */
+
+/* Contenedor de estrellas de valoración */
+.rating-stars {
+    /* Tamaño grande para las estrellas */
+    font-size: 2.5rem;
+    
+    /* Flex inverso para que el hover funcione correctamente */
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+/* Ocultar los radio buttons nativos */
+.rating-stars input[type="radio"] {
+    display: none;
+}
+
+/* Estilo base de las etiquetas de estrella */
+.rating-stars .star-label {
+    /* Color gris claro por defecto */
+    color: #ddd;
+    
+    /* Cursor pointer para indicar interactividad */
+    cursor: pointer;
+    
+    /* Transición suave del color */
+    transition: color 0.2s ease;
+    
+    /* Espaciado entre estrellas */
+    margin: 0 5px;
+}
+
+/* Efecto hover en estrellas */
+.rating-stars .star-label:hover,
+.rating-stars .star-label:hover ~ .star-label {
+    /* Color dorado al pasar el mouse */
+    color: #ffc107;
+}
+
+/* Estrellas seleccionadas (checked) */
+.rating-stars input[type="radio"]:checked ~ .star-label {
+    color: #ffc107;
+}
+
+/* Estrella directamente seleccionada */
+.rating-stars input[type="radio"]:checked + .star-label {
+    color: #ffc107;
+}
+
+/* Mantener estrellas doradas cuando no hay hover pero están seleccionadas */
+.rating-stars:not(:hover) input[type="radio"]:checked ~ .star-label {
+    color: #ffc107;
+}

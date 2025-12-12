@@ -4,20 +4,8 @@
 {% block title %}Editar Actividad | {{ actividad.titulo }}{% endblock %}
 
 {% block extra_css %}
+<!-- Estilos externos para actividades -->
 <link href="{% static 'css/actividades.css' %}" rel="stylesheet">
-<style>
-    .form-label {
-        font-weight: 600;
-    }
-
-    .btn-danger {
-        transition: all 0.2s;
-    }
-
-    .btn-danger:hover {
-        transform: scale(1.05);
-    }
-</style>
 {% endblock %}
 
 {% block usuario_content %}

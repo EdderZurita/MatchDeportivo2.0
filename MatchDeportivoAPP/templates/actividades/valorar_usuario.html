@@ -3,6 +3,11 @@
 
 {% block title %}Valorar Usuario | SportConnect{% endblock %}
 
+{% block extra_css %}
+<!-- Estilos externos para actividades -->
+<link href="{% static 'css/actividades.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block usuario_content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -83,49 +88,4 @@
         </div>
     </div>
 </div>
-
-<style>
-    /* Estilos para las estrellas */
-    .rating-stars {
-        font-size: 2.5rem;
-    }
-
-    .rating-stars input[type="radio"] {
-        display: none;
-    }
-
-    .rating-stars .star-label {
-        color: #ddd;
-        cursor: pointer;
-        transition: color 0.2s ease;
-        margin: 0 5px;
-    }
-
-    .rating-stars .star-label:hover,
-    .rating-stars .star-label:hover~.star-label {
-        color: #ffc107;
-    }
-
-    .rating-stars input[type="radio"]:checked~.star-label {
-        color: #ffc107;
-    }
-
-    .rating-stars input[type="radio"]:checked+.star-label {
-        color: #ffc107;
-    }
-
-    /* Efecto hover inverso */
-    .rating-stars {
-        display: inline-flex;
-        flex-direction: row-reverse;
-        justify-content: center;
-    }
-
-    .rating-stars .star-label:hover,
-    .rating-stars .star-label:hover~.star-label,
-    .rating-stars input[type="radio"]:checked~.star-label,
-    .rating-stars:not(:hover) input[type="radio"]:checked~.star-label {
-        color: #ffc107;
-    }
-</style>
 {% endblock %}
