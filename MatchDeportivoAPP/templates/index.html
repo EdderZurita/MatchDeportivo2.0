@@ -4,14 +4,8 @@
 {% block title %}Inicio | SportConnect{% endblock %}
 
 {% block extra_css %}
+<!-- Estilos de la página de inicio -->
 <link href="{% static 'css/landing.css' %}" rel="stylesheet">
-<style>
-  /* Background con imagen dinámica (requiere Django template tag) */
-  .hero-modern {
-    background: linear-gradient(rgba(44, 62, 80, 0.85), rgba(52, 73, 94, 0.85)),
-    url('{% static "img/Prueba2.png" %}');
-  }
-</style>
 {% endblock %}
 
 {% block content %}
@@ -34,7 +28,7 @@
 <section id="features" class="features-section">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="fw-bold" style="color: #2c3e50;">¿Qué puedes hacer en SportConnect?</h2>
+      <h2 class="section-title">¿Qué puedes hacer en SportConnect?</h2>
       <p class="lead text-muted">Descubre todas las funcionalidades que tenemos para ti</p>
     </div>
     <div class="row g-4">
@@ -68,7 +62,7 @@
 <section class="how-it-works">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="fw-bold" style="color: #2c3e50;">¿Cómo Funciona?</h2>
+      <h2 class="section-title">¿Cómo Funciona?</h2>
       <p class="lead text-muted">Tres simples pasos para empezar</p>
     </div>
     <div class="row">

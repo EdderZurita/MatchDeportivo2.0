@@ -2,27 +2,48 @@
    LANDING PAGE STYLES - SportConnect
    ============================================ */
 
-/* Hero Section */
+/* ----------------
+   HERO SECTION
+   Sección principal con imagen de fondo
+   ---------------- */
+
 .hero-modern {
+  /* Imagen de fondo con overlay oscuro para legibilidad */
+  background: linear-gradient(rgba(44, 62, 80, 0.85), rgba(52, 73, 94, 0.85)),
+              url('/static/img/Prueba2.png');
+  
+  /* Configuración de la imagen */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  
+  /* Texto blanco para contraste */
   color: white;
+  
+  /* Espaciado generoso */
   padding: 120px 0;
+  
+  /* Centrar contenido */
   text-align: center;
 }
 
+/* Título principal del hero */
 .hero-modern h1 {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 20px;
+  
+  /* Animación de entrada */
   animation: fadeInUp 0.8s ease;
 }
 
+/* Párrafo descriptivo del hero */
 .hero-modern p {
   font-size: 1.3rem;
   margin-bottom: 30px;
   opacity: 0.9;
+  
+  /* Animación de entrada con delay */
   animation: fadeInUp 1s ease;
 }
 
@@ -225,3 +246,24 @@
     font-size: 2.5rem;
   }
 }
+
+/* ----------------
+   TÍTULOS DE SECCIÓN
+   Títulos principales de cada sección
+   ---------------- */
+
+/* Título de sección (Features, How It Works, etc.) */
+.section-title {
+    /* Color oscuro para contraste */
+    color: #2c3e50;
+    
+    /* Peso bold para destacar */
+    font-weight: 700;
+    
+    /* Tamaño grande */
+    font-size: 2rem;
+    
+    /* Espaciado inferior */
+    margin-bottom: 1.5rem;
+}
+

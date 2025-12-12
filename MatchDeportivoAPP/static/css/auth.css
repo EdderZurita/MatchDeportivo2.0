@@ -170,3 +170,32 @@
         font-size: 1.5rem;
     }
 }
+
+/* ----------------
+   LINKS DE AUTENTICACIÓN
+   Links entre login y registro
+   ---------------- */
+
+/* Link de cambio entre login/registro */
+.auth-link {
+    /* Color morado del tema */
+    color: #667eea !important;
+    
+    /* Sin decoración */
+    text-decoration: none;
+    
+    /* Peso semi-bold */
+    font-weight: 600;
+    
+    /* Transición suave */
+    transition: color 0.3s ease;
+}
+
+/* Hover más oscuro */
+.auth-link:hover {
+    /* Color morado más oscuro */
+    color: #5568d3 !important;
+    
+    /* Subrayado al hacer hover */
+    text-decoration: underline;
+}

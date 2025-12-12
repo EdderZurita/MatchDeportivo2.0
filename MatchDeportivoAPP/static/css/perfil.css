@@ -75,3 +75,17 @@ body {
     border-radius: 50%;
     object-fit: cover;
 }
+
+/* ----------------
+   CARD DE PERFIL
+   Tarjeta principal del perfil de usuario
+   ---------------- */
+
+/* Card de perfil centrada con ancho máximo */
+.profile-card {
+    /* Ancho máximo para mejor legibilidad */
+    max-width: 500px !important;
+    
+    /* Centrar horizontalmente con margin auto */
+    margin: 1rem auto !important;
+}
