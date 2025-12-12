@@ -4,14 +4,8 @@
 {% block title %}Inicio | SportConnect{% endblock %}
 
 {% block extra_css %}
+<!-- Estilos de la página de inicio -->
 <link href="{% static 'css/landing.css' %}" rel="stylesheet">
-<style>
-  /* Background con imagen dinámica (requiere Django template tag) */
-  .hero-modern {
-    background: linear-gradient(rgba(44, 62, 80, 0.85), rgba(52, 73, 94, 0.85)),
-    url('{% static "img/Prueba2.png" %}');
-  }
-</style>
 {% endblock %}
 
 {% block content %}
