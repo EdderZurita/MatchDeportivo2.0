@@ -13,14 +13,14 @@
 // ============================================
 
 /**
- * Inicializa el auto-dismiss de alertas de Bootstrap.
+ * Inicializa el auto-dismiss de alertas de Bootstrap con efecto fade-out suave.
  * 
  * Los mensajes de éxito se cierran automáticamente después de 5 segundos.
  * Los mensajes de error/warning permanecen hasta que el usuario los cierre.
  * 
  * Configuración:
- * - success: 5 segundos
- * - info: 7 segundos
+ * - success: 5 segundos con fade-out de 800ms
+ * - info: 7 segundos con fade-out de 800ms
  * - warning: permanente (requiere cierre manual)
  * - danger/error: permanente (requiere cierre manual)
  */
@@ -39,12 +39,19 @@ function initAutoDissmissAlerts() {
         }
         // warning y danger no se auto-cierran (dismissTime = 0)
         
-        // Si tiene tiempo de auto-dismiss, programar cierre
+        // Si tiene tiempo de auto-dismiss, programar cierre con animación
         if (dismissTime > 0) {
             setTimeout(() => {
-                // Usar Bootstrap 5 Alert API para cerrar con animación
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
+                // Agregar transición CSS suave
+                alert.style.transition = 'opacity 800ms ease-out, transform 800ms ease-out';
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-20px)';
+                
+                // Esperar a que termine la animación antes de remover el elemento
+                setTimeout(() => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 800); // Duración de la animación
             }, dismissTime);
         }
     });
@@ -75,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============================================
 
 /**
- * Muestra un mensaje temporal en la pantalla.
+ * Muestra un mensaje temporal en la pantalla con efecto fade-out.
  * 
  * @param {string} message - El mensaje a mostrar
  * @param {string} type - Tipo de mensaje: 'success', 'danger', 'warning', 'info'
@@ -96,10 +103,18 @@ function showToast(message, type = 'info', duration = 5000) {
     // Agregar al body
     document.body.appendChild(alertDiv);
     
-    // Auto-cerrar después de la duración especificada
+    // Auto-cerrar después de la duración especificada con fade-out
     setTimeout(() => {
-        const bsAlert = new bootstrap.Alert(alertDiv);
-        bsAlert.close();
+        // Agregar transición CSS suave
+        alertDiv.style.transition = 'opacity 800ms ease-out, transform 800ms ease-out';
+        alertDiv.style.opacity = '0';
+        alertDiv.style.transform = 'translateY(-20px)';
+        
+        // Esperar a que termine la animación antes de remover
+        setTimeout(() => {
+            const bsAlert = new bootstrap.Alert(alertDiv);
+            bsAlert.close();
+        }, 800);
     }, duration);
 }
 
