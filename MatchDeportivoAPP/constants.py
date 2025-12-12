@@ -19,12 +19,12 @@ NIVELES = [
 
 # Iconos de perfil disponibles
 ICONOS_PERFIL = [
-    ("futbol", "img/futbol.png"),
-    ("basketball", "img/basketball.png"),
-    ("skate", "img/skate.png"),
-    ("voleibol", "img/voleibol.png"),
-    ("running", "img/running.png"),
-    ("tenis", "img/tenis.png"),
+    {'value': 'futbol', 'path': 'img/futbol.png', 'name': 'Fútbol'},
+    {'value': 'basketball', 'path': 'img/basketball.png', 'name': 'Basketball'},
+    {'value': 'skate', 'path': 'img/skate.png', 'name': 'Skate'},
+    {'value': 'voleibol', 'path': 'img/voleibol.png', 'name': 'Vóleibol'},
+    {'value': 'running', 'path': 'img/running.png', 'name': 'Running'},
+    {'value': 'tenis', 'path': 'img/tenis.png', 'name': 'Tenis'},
 ]
 
 # Radio de búsqueda por defecto (km)
