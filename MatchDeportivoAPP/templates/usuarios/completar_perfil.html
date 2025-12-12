@@ -1,0 +1,155 @@
+{% extends 'base_usuario.html' %}
+{% load static %}
+
+{% block title %}Completar Perfil | MatchDeportivo{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/perfil.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block usuario_content %}
+<!-- Encabezado de Bienvenida -->
+<section class="profile-header">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-3">¡Bienvenido a MatchDeportivo! 🎉</h2>
+    <p class="lead">Completa tu perfil para comenzar a conectar con deportistas</p>
+  </div>
+</section>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h4 class="card-title text-center mb-4">
+            <i class="bi bi-person-fill-gear text-primary"></i>
+            Configuración Inicial
+          </h4>
+
+          <!-- Mensajes -->
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <!-- Formulario -->
+          <form method="POST" action="{% url 'completar_perfil' %}">
+            {% csrf_token %}
+
+            <!-- Nombre Completo (Obligatorio) -->
+            <div class="mb-4">
+              <label for="nombre" class="form-label fw-bold">
+                <i class="bi bi-person"></i> Nombre Completo *
+              </label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="nombre" 
+                name="nombre" 
+                placeholder="Ej: Juan Pérez"
+                required
+                value="{{ perfil.nombre_completo|default:'' }}"
+              >
+              <small class="text-muted">Este nombre se mostrará en tu perfil público</small>
+            </div>
+
+            <!-- Selección de Icono -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">
+                <i class="bi bi-emoji-smile"></i> Elige tu Icono de Perfil
+              </label>
+              <div class="icon-grid">
+                {% for icono in iconos %}
+                <div class="icon-option {% if perfil.icono_perfil == icono.value %}selected{% endif %}">
+                  <img 
+                    src="{% static icono.path %}" 
+                    alt="{{ icono.name }}" 
+                    class="icon-img"
+                    data-icon="{{ icono.value }}"
+                  >
+                </div>
+                {% endfor %}
+              </div>
+              <input type="hidden" id="icono_perfil" name="icono_perfil" value="{{ perfil.icono_perfil|default:'default' }}">
+            </div>
+
+            <!-- Disciplina Preferida -->
+            <div class="mb-4">
+              <label for="disciplina_preferida" class="form-label fw-bold">
+                <i class="bi bi-trophy"></i> Disciplina Preferida
+              </label>
+              <select class="form-select" id="disciplina_preferida" name="disciplina_preferida">
+                <option value="">Selecciona una disciplina...</option>
+                <option value="Fútbol">⚽ Fútbol</option>
+                <option value="Básquetbol">🏀 Básquetbol</option>
+                <option value="Tenis">🎾 Tenis</option>
+                <option value="Vóleibol">🏐 Vóleibol</option>
+                <option value="Running">🏃 Running</option>
+                <option value="Ciclismo">🚴 Ciclismo</option>
+                <option value="Natación">🏊 Natación</option>
+                <option value="Otro">🎯 Otro</option>
+              </select>
+            </div>
+
+            <!-- Nivel -->
+            <div class="mb-4">
+              <label for="nivel" class="form-label fw-bold">
+                <i class="bi bi-bar-chart"></i> Nivel de Experiencia
+              </label>
+              <select class="form-select" id="nivel" name="nivel">
+                <option value="">Selecciona tu nivel...</option>
+                <option value="Principiante">🌱 Principiante</option>
+                <option value="Intermedio">📈 Intermedio</option>
+                <option value="Avanzado">⭐ Avanzado</option>
+                <option value="Profesional">🏆 Profesional</option>
+              </select>
+            </div>
+
+            <!-- Radio de Búsqueda -->
+            <div class="mb-4">
+              <label for="radio" class="form-label fw-bold">
+                <i class="bi bi-geo-alt"></i> Radio de Búsqueda (km)
+              </label>
+              <input 
+                type="number" 
+                class="form-control" 
+                id="radio" 
+                name="radio" 
+                placeholder="Ej: 10"
+                min="1"
+                max="100"
+                value="{{ perfil.radio|default:'10' }}"
+              >
+              <small class="text-muted">Distancia máxima para buscar actividades cercanas</small>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-check-circle"></i> Guardar y Continuar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Información Adicional -->
+      <div class="text-center mt-3">
+        <small class="text-muted">
+          <i class="bi bi-info-circle"></i>
+          Podrás editar esta información más tarde desde tu perfil
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/perfil.js' %}"></script>
+{% endblock %}

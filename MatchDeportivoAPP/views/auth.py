@@ -64,7 +64,19 @@ def inicioSesion(request):
         if user is not None:
             # Login exitoso
             login(request, user)
-            return redirect("perfil")
+            
+            # Verificar si el perfil está completo
+            try:
+                perfil = user.perfil
+                if not perfil.nombre_completo:
+                    # Perfil incompleto, redirigir a completar
+                    return redirect("completar_perfil")
+            except:
+                # No tiene perfil, redirigir a completar
+                return redirect("completar_perfil")
+            
+            # Perfil completo, redirigir a ver perfil
+            return redirect("ver_perfil")
         else:
             # ✅ Mensaje genérico (no revela si email existe o contraseña incorrecta)
             # Esto es una medida de seguridad crítica
@@ -148,16 +160,22 @@ def registroSesion(request):
                 'request': request
             })
 
+
         # ✅ Crear usuario con contraseña hasheada
         # make_password() usa PBKDF2 por defecto (seguro)
-        User.objects.create(
+        user = User.objects.create(
             username=username,
             email=email,
             password=make_password(password)
         )
 
-        # Redirigir a login después de registro exitoso
-        return redirect('inicioSesion')
+        # Auto-login después de registro exitoso
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+        
+        # Redirigir a completar perfil (primera vez)
+        return redirect('completar_perfil')
 
     return render(request, 'sesion/registroSesion.html')
 
