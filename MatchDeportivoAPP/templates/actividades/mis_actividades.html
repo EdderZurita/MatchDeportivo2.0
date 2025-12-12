@@ -4,65 +4,8 @@
 {% block title %}Mis Actividades | SportConnect{% endblock %}
 
 {% block extra_css %}
+<!-- Estilos externos para actividades -->
 <link href="{% static 'css/actividades.css' %}" rel="stylesheet">
-<style>
-    .my-activities-header {
-        background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
-        color: white;
-        padding: 2rem;
-        border-radius: 10px;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    .my-activities-header h2 {
-        font-size: 1.8rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-    }
-
-    .activity-card {
-        background: white;
-        border-radius: 8px;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .activity-title {
-        font-size: 1.05rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: #333;
-    }
-
-    .activity-info {
-        color: #666;
-        margin-bottom: 0.3rem;
-        font-size: 0.875rem;
-        line-height: 1.4;
-    }
-
-    .activity-info strong {
-        color: #333;
-        font-weight: 600;
-    }
-
-    .btn-actions {
-        margin-top: 1rem;
-        display: flex;
-        gap: 0.5rem;
-    }
-
-    .section-title {
-        font-size: 1.15rem;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 1.25rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #e0e0e0;
-    }
-</style>
 {% endblock %}
 
 {% block usuario_content %}

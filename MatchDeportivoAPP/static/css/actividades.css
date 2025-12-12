@@ -1,6 +1,195 @@
-/* Estilos para actividades */
+/* ========================================
+   ACTIVIDADES.CSS
+   Estilos para todas las vistas de actividades
+   ======================================== */
 
-/* Tarjetas de actividades */
+/* ----------------
+   HEADERS DE PÁGINA
+   Estilos para los encabezados principales
+   ---------------- */
+
+/* Header principal de la página de actividades */
+.activities-header {
+    /* Fondo con gradiente azul */
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    color: white;
+    
+    /* Espaciado interno */
+    padding: 2rem;
+    
+    /* Bordes redondeados */
+    border-radius: 10px;
+    
+    /* Centrar contenido */
+    text-align: center;
+    
+    /* Separación inferior */
+    margin-bottom: 2rem;
+}
+
+/* Título del header de actividades */
+.activities-header h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* Párrafo descriptivo del header */
+.activities-header p {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+/* Header de "Mis Actividades" */
+.my-activities-header {
+    /* Mismo gradiente que activities-header */
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Título del header de mis actividades */
+.my-activities-header h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* ----------------
+   BOTONES DE ACCIÓN
+   Botones en la parte superior de las páginas
+   ---------------- */
+
+/* Contenedor de botones de acción (Crear actividad, Mis actividades) */
+.activity-actions {
+    margin-bottom: 1.5rem;
+    
+    /* Alinear botones a la derecha */
+    display: flex;
+    justify-content: flex-end;
+    
+    /* Espacio entre botones */
+    gap: 0.5rem;
+}
+
+/* Botones de acción dentro de las cards */
+.btn-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* ----------------
+   CARDS DE ACTIVIDADES
+   Tarjetas que muestran información de cada actividad
+   ---------------- */
+
+/* Card principal de actividad */
+.activity-card {
+    /* Fondo blanco */
+    background: white;
+    
+    /* Bordes redondeados */
+    border-radius: 8px;
+    
+    /* Espaciado interno compacto */
+    padding: 1rem;
+    
+    /* Separación entre cards */
+    margin-bottom: 1rem;
+    
+    /* Sombra sutil */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Título de la actividad dentro de la card */
+.activity-title {
+    /* Tamaño de fuente moderado */
+    font-size: 1.05rem;
+    
+    /* Peso de fuente semi-bold */
+    font-weight: 600;
+    
+    /* Separación inferior */
+    margin-bottom: 0.5rem;
+    
+    /* Color de texto oscuro */
+    color: #333;
+}
+
+/* Información de la actividad (deporte, lugar, fecha, etc.) */
+.activity-info {
+    /* Color de texto gris */
+    color: #666;
+    
+    /* Separación entre líneas de info */
+    margin-bottom: 0.3rem;
+    
+    /* Tamaño de fuente pequeño */
+    font-size: 0.875rem;
+    
+    /* Altura de línea compacta */
+    line-height: 1.4;
+}
+
+/* Texto en negrita dentro de activity-info */
+.activity-info strong {
+    /* Color más oscuro para destacar */
+    color: #333;
+    font-weight: 600;
+}
+
+/* ----------------
+   SECCIÓN DE FILTROS
+   Filtro de deportes en la página de actividades
+   ---------------- */
+
+/* Contenedor de la sección de filtros */
+.filter-section {
+    /* Fondo blanco */
+    background: white;
+    
+    /* Espaciado interno */
+    padding: 1rem;
+    
+    /* Bordes redondeados */
+    border-radius: 8px;
+    
+    /* Separación inferior */
+    margin-bottom: 1.5rem;
+    
+    /* Sombra muy sutil */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ----------------
+   TÍTULOS DE SECCIÓN
+   Títulos para separar secciones (Actividades organizadas, Participando)
+   ---------------- */
+
+/* Título de sección en mis_actividades */
+.section-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #333;
+    
+    /* Separación inferior */
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    
+    /* Línea divisoria inferior */
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* ----------------
+   ESTILOS LEGACY
+   Estilos antiguos mantenidos para compatibilidad
+   ---------------- */
+
+/* Tarjetas de actividades (estilo antiguo) */
 .actividad-card {
     transition: all 0.3s ease;
     cursor: pointer;
@@ -32,7 +221,11 @@
     margin: 0.5rem 0;
 }
 
-/* Badges personalizados */
+/* ----------------
+   BADGES PERSONALIZADOS
+   Etiquetas de colores para deportes
+   ---------------- */
+
 .badge-deporte {
     padding: 0.5rem 1rem;
     border-radius: 2rem;
@@ -63,7 +256,11 @@
     background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
 }
 
-/* Información de actividad */
+/* ----------------
+   INFORMACIÓN DE ACTIVIDAD
+   Detalles dentro de las cards
+   ---------------- */
+
 .actividad-info {
     padding: 1.5rem;
 }
@@ -81,7 +278,12 @@
     color: #0d6efd;
 }
 
-/* Distancia badge */
+/* ----------------
+   BADGES Y ETIQUETAS
+   Indicadores visuales para distancia, cupos, nivel
+   ---------------- */
+
+/* Badge de distancia */
 .distancia-badge {
     position: absolute;
     top: 1rem;
@@ -102,22 +304,29 @@
     font-weight: 500;
 }
 
+/* Cupos bajos (menos de 3) */
 .cupos-disponibles.bajo {
     background-color: #fff3cd;
     color: #856404;
 }
 
+/* Cupos medios (3-5) */
 .cupos-disponibles.medio {
     background-color: #d1ecf1;
     color: #0c5460;
 }
 
+/* Cupos altos (más de 5) */
 .cupos-disponibles.alto {
     background-color: #d4edda;
     color: #155724;
 }
 
-/* Nivel de actividad */
+/* ----------------
+   NIVEL DE ACTIVIDAD
+   Indicadores de nivel de habilidad
+   ---------------- */
+
 .nivel-badge {
     padding: 0.25rem 0.75rem;
     border-radius: 0.25rem;
@@ -140,7 +349,11 @@
     color: #721c24;
 }
 
-/* Filtros */
+/* ----------------
+   FILTROS INTERACTIVOS
+   Botones de filtro por deporte
+   ---------------- */
+
 .filtros-container {
     background: white;
     padding: 1.5rem;
@@ -169,7 +382,11 @@
     color: white;
 }
 
-/* Mapa de ubicación */
+/* ----------------
+   MAPA DE UBICACIÓN
+   Contenedor para Google Maps
+   ---------------- */
+
 .mapa-container {
     height: 400px;
     border-radius: 0.375rem;
@@ -177,7 +394,11 @@
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
-/* Lista de participantes */
+/* ----------------
+   LISTA DE PARTICIPANTES
+   Estilos para mostrar participantes de una actividad
+   ---------------- */
+
 .participante-item {
     display: flex;
     align-items: center;
@@ -216,70 +437,11 @@
     color: #6c757d;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .actividad-card {
-        margin-bottom: 1rem;
-    }
+/* ----------------
+   DETALLE DE ACTIVIDAD
+   Estilos para la página de detalle
+   ---------------- */
 
-    .filtros-container {
-        padding: 1rem;
-    }
-
-    .mapa-container {
-        height: 300px;
-    }
-}
-
-/* Estilos específicos para lista de actividades */
-.activities-header {
-    background: linear-gradient(to right, #0d6efd, #5ab3ff);
-    color: white;
-    padding: 2rem 0;
-    text-align: center;
-    margin-bottom: 2rem;
-    border-radius: 0.5rem;
-}
-
-.activity-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    margin-bottom: 1.5rem;
-    transition: transform 0.2s;
-}
-
-.activity-card:hover {
-    transform: scale(1.02);
-}
-
-.activity-title {
-    font-weight: bold;
-    font-size: 1.25rem;
-}
-
-.activity-info {
-    font-size: 0.95rem;
-    color: #555;
-}
-
-.btn-view {
-    margin-top: 0.5rem;
-}
-
-.activity-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.filter-form {
-    gap: 10px;
-}
-
-/* Estilos de detalle de actividad */
 .activity-detail {
     background: white;
     padding: 2.5rem;
@@ -289,95 +451,45 @@
     max-width: 800px;
 }
 
-.activity-title {
-    font-weight: 700;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #2c3e50;
-    border-bottom: 3px solid #0d6efd;
-    padding-bottom: 1rem;
-}
+/* ----------------
+   RESPONSIVE
+   Ajustes para dispositivos móviles
+   ---------------- */
 
-.activity-info {
-    font-size: 1rem;
-    color: #495057;
-    margin-bottom: 1rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #e9ecef;
-    display: flex;
-    align-items: center;
-}
-
-.activity-info:last-of-type {
-    border-bottom: none;
-}
-
-.activity-info strong {
-    color: #2c3e50;
-    min-width: 180px;
-    font-weight: 600;
-}
-
-.activity-info:hover {
-    background-color: #f8f9fa;
-    padding-left: 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.btn-actions {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid #e9ecef;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.btn-actions .btn {
-    padding: 0.75rem 2rem;
-    font-weight: 600;
-    border-radius: 0.5rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn-actions .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.btn-actions .btn-warning {
-    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
-    border: none;
-}
-
-.btn-actions .btn-danger {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    border: none;
-}
-
-.btn-actions .btn-success {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    border: none;
-}
-
-/* Responsive para detalle */
 @media (max-width: 768px) {
+    /* Cards más compactas en móvil */
+    .actividad-card {
+        margin-bottom: 1rem;
+    }
+
+    /* Filtros con menos padding */
+    .filtros-container {
+        padding: 1rem;
+    }
+
+    /* Mapa más pequeño en móvil */
+    .mapa-container {
+        height: 300px;
+    }
+    
+    /* Detalle de actividad más compacto */
     .activity-detail {
         padding: 1.5rem;
         margin: 1rem;
     }
     
+    /* Título más pequeño */
     .activity-title {
         font-size: 1.5rem;
     }
     
+    /* Info con menos ancho mínimo */
     .activity-info strong {
         min-width: 120px;
         font-size: 0.9rem;
     }
     
+    /* Botones en columna */
     .btn-actions {
         flex-direction: column;
     }
