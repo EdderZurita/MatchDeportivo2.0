@@ -7,12 +7,21 @@ body {
 
 /* Header del perfil */
 .profile-header {
-    background: linear-gradient(to right, #0d6efd, #5ab3ff);
+    /* Fondo con gradiente azul */
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
     color: white;
-    padding: 3rem 0 3rem 0;
+    
+    /* Espaciado interno */
+    padding: 2rem;
+    
+    /* Bordes redondeados */
+    border-radius: 10px;
+    
+    /* Centrar contenido */
     text-align: center;
-    position: relative;
-    z-index: 1;
+    
+    /* Separación inferior */
+    margin-bottom: 2rem;
 }
 
 /* Imagen de perfil */
