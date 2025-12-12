@@ -38,9 +38,21 @@ def completar_perfil(request):
                 "iconos": ICONOS_PERFIL,
             })
         
+        
         # Guardar datos
         perfil.nombre_completo = nombre
-        perfil.icono_perfil = icono or 'default'
+        
+        # Convertir icono value a path completo
+        if icono:
+            icono_path = None
+            for icono_data in ICONOS_PERFIL:
+                if icono_data['value'] == icono:
+                    icono_path = icono_data['path']
+                    break
+            perfil.icono_perfil = icono_path if icono_path else 'img/futbol.png'
+        else:
+            perfil.icono_perfil = 'img/futbol.png'  # Default
+        
         perfil.nivel = nivel
         perfil.disciplina_preferida = disciplina
         
@@ -110,7 +122,7 @@ def editar_perfil(request):
 
     if request.method == "POST":
         nombre = request.POST.get("nombre", "").strip()
-        icono = request.POST.get("icono_perfil")
+        icono = request.POST.get("icono_perfil", "").strip()
         ubicacion = request.POST.get("ubicacion", "").strip()
         lat = request.POST.get("latitud", "").strip()
         lng = request.POST.get("longitud", "").strip()
@@ -126,7 +138,21 @@ def editar_perfil(request):
         if nombre:
             perfil.nombre_completo = nombre
 
-        perfil.icono_perfil = icono or perfil.icono_perfil
+        # Guardar icono - convertir value a path completo
+        if icono:
+            # Buscar el path completo del icono seleccionado
+            icono_path = None
+            for icono_data in ICONOS_PERFIL:
+                if icono_data['value'] == icono:
+                    icono_path = icono_data['path']
+                    break
+            
+            if icono_path:
+                perfil.icono_perfil = icono_path
+            else:
+                # Si no se encuentra, guardar el valor tal cual
+                perfil.icono_perfil = icono
+        
         perfil.ubicacion = ubicacion or perfil.ubicacion
         perfil.nivel = nivel or perfil.nivel
         perfil.horarios = horarios or perfil.horarios
