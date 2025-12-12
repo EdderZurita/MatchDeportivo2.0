@@ -1,0 +1,200 @@
+{% extends 'base_usuario.html' %}
+{% load static %}
+
+{% block title %}Editar Perfil | MatchDeportivo{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/perfil.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block usuario_content %}
+<!-- Encabezado -->
+<section class="profile-header">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-1">Editar Mi Perfil</h2>
+    <p>Actualiza tu información personal y deportiva</p>
+  </div>
+</section>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <!-- Mensajes -->
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <!-- Formulario de Edición -->
+          <form method="POST" action="{% url 'editar_perfil' %}">
+            {% csrf_token %}
+
+            <!-- Información Personal -->
+            <h5 class="mb-3">
+              <i class="bi bi-person-circle text-primary"></i> Información Personal
+            </h5>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="nombre" class="form-label fw-bold">Nombre Completo *</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="nombre" 
+                  name="nombre" 
+                  value="{{ perfil.nombre_completo }}"
+                  required
+                >
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="nickname" class="form-label fw-bold">Nickname (Opcional)</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="nickname" 
+                  name="nickname" 
+                  value="{{ perfil.nickname|default:'' }}"
+                  placeholder="Apodo o nombre corto"
+                >
+              </div>
+            </div>
+
+            <!-- Selección de Icono -->
+            <div class="mb-4">
+              <label class="form-label fw-bold">
+                <i class="bi bi-emoji-smile"></i> Icono de Perfil
+              </label>
+              <div class="icon-grid">
+                {% for icono in iconos %}
+                <div class="icon-option {% if perfil.icono_perfil == icono.value %}selected{% endif %}">
+                  <img 
+                    src="{% static icono.path %}" 
+                    alt="{{ icono.name }}" 
+                    class="icon-img"
+                    data-icon="{{ icono.value }}"
+                  >
+                </div>
+                {% endfor %}
+              </div>
+              <input type="hidden" id="icono_perfil" name="icono_perfil" value="{{ perfil.icono_perfil }}">
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Información Deportiva -->
+            <h5 class="mb-3">
+              <i class="bi bi-trophy text-warning"></i> Información Deportiva
+            </h5>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="disciplina_preferida" class="form-label fw-bold">Disciplina Preferida</label>
+                <select class="form-select" id="disciplina_preferida" name="disciplina_preferida">
+                  <option value="">Selecciona una disciplina...</option>
+                  <option value="Fútbol" {% if perfil.disciplina_preferida == "Fútbol" %}selected{% endif %}>⚽ Fútbol</option>
+                  <option value="Básquetbol" {% if perfil.disciplina_preferida == "Básquetbol" %}selected{% endif %}>🏀 Básquetbol</option>
+                  <option value="Tenis" {% if perfil.disciplina_preferida == "Tenis" %}selected{% endif %}>🎾 Tenis</option>
+                  <option value="Vóleibol" {% if perfil.disciplina_preferida == "Vóleibol" %}selected{% endif %}>🏐 Vóleibol</option>
+                  <option value="Running" {% if perfil.disciplina_preferida == "Running" %}selected{% endif %}>🏃 Running</option>
+                  <option value="Ciclismo" {% if perfil.disciplina_preferida == "Ciclismo" %}selected{% endif %}>🚴 Ciclismo</option>
+                  <option value="Natación" {% if perfil.disciplina_preferida == "Natación" %}selected{% endif %}>🏊 Natación</option>
+                  <option value="Otro" {% if perfil.disciplina_preferida == "Otro" %}selected{% endif %}>🎯 Otro</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="nivel" class="form-label fw-bold">Nivel de Experiencia</label>
+                <select class="form-select" id="nivel" name="nivel">
+                  <option value="">Selecciona tu nivel...</option>
+                  <option value="Principiante" {% if perfil.nivel == "Principiante" %}selected{% endif %}>🌱 Principiante</option>
+                  <option value="Intermedio" {% if perfil.nivel == "Intermedio" %}selected{% endif %}>📈 Intermedio</option>
+                  <option value="Avanzado" {% if perfil.nivel == "Avanzado" %}selected{% endif %}>⭐ Avanzado</option>
+                  <option value="Profesional" {% if perfil.nivel == "Profesional" %}selected{% endif %}>🏆 Profesional</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="horarios" class="form-label fw-bold">Horarios Preferidos</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="horarios" 
+                  name="horarios" 
+                  value="{{ perfil.horarios|default:'' }}"
+                  placeholder="Ej: Mañanas, Tardes, Fines de semana"
+                >
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="radio" class="form-label fw-bold">Radio de Búsqueda (km)</label>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  id="radio" 
+                  name="radio" 
+                  value="{{ perfil.radio|default:'10' }}"
+                  min="1"
+                  max="100"
+                >
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Ubicación (Opcional - Google Maps deshabilitado) -->
+            <h5 class="mb-3">
+              <i class="bi bi-geo-alt text-danger"></i> Ubicación (Opcional)
+            </h5>
+
+            <div class="alert alert-info">
+              <i class="bi bi-info-circle"></i>
+              <strong>Nota:</strong> La funcionalidad de Google Maps está temporalmente deshabilitada.
+              Puedes ingresar tu ubicación manualmente.
+            </div>
+
+            <div class="mb-3">
+              <label for="ubicacion" class="form-label fw-bold">Ubicación</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="ubicacion" 
+                name="ubicacion" 
+                value="{{ perfil.ubicacion|default:'' }}"
+                placeholder="Ej: Santiago, Chile"
+              >
+            </div>
+
+            <!-- Coordenadas (ocultas) -->
+            <input type="hidden" id="latitud" name="latitud" value="{{ perfil.latitud|default:'' }}">
+            <input type="hidden" id="longitud" name="longitud" value="{{ perfil.longitud|default:'' }}">
+
+            <!-- Botones de Acción -->
+            <div class="d-flex gap-2 justify-content-end mt-4">
+              <a href="{% url 'ver_perfil' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-x-circle"></i> Cancelar
+              </a>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-circle"></i> Guardar Cambios
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/perfil.js' %}"></script>
+{% endblock %}

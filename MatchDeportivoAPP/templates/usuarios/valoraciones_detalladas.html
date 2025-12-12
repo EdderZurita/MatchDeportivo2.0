@@ -1,0 +1,229 @@
+{% extends 'base_usuario.html' %}
+{% load static %}
+
+{% block title %}Mis Valoraciones | MatchDeportivo{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/perfil.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block usuario_content %}
+<!-- Encabezado -->
+<section class="profile-header">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-1">Mis Valoraciones</h2>
+    <p>Revisa lo que otros deportistas opinan de ti</p>
+  </div>
+</section>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <!-- Resumen de Rating -->
+      <div class="card shadow mb-4">
+        <div class="card-body text-center p-4">
+          <h5 class="mb-3">Tu Calificación Promedio</h5>
+          
+          {% if rating_promedio %}
+          <div class="rating-display-large mb-3">
+            <span class="display-4 text-warning fw-bold">{{ rating_promedio }}</span>
+            <span class="h4 text-muted">/5.0</span>
+          </div>
+          
+          <div class="mb-3">
+            <span class="h2 text-warning">
+              {% for i in "12345" %}
+              {% if forloop.counter <= rating_promedio|floatformat:0 %}
+              <i class="bi bi-star-fill"></i>
+              {% else %}
+              <i class="bi bi-star"></i>
+              {% endif %}
+              {% endfor %}
+            </span>
+          </div>
+          
+          <p class="text-muted mb-0">
+            Basado en <strong>{{ total_valoraciones }}</strong> valoración{{ total_valoraciones|pluralize:"es" }}
+          </p>
+          {% else %}
+          <div class="py-4">
+            <i class="bi bi-star text-muted" style="font-size: 4rem;"></i>
+            <p class="text-muted mt-3">Aún no has recibido valoraciones</p>
+            <small class="text-muted">Participa en actividades para recibir valoraciones de otros deportistas</small>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Lista de Valoraciones -->
+      {% if valoraciones %}
+      <div class="card shadow">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">
+            <i class="bi bi-chat-left-quote text-primary"></i>
+            Todas las Valoraciones ({{ total_valoraciones }})
+          </h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush">
+            {% for valoracion in valoraciones %}
+            <div class="list-group-item">
+              <div class="row align-items-start">
+                <!-- Foto y Nombre del Evaluador -->
+                <div class="col-auto">
+                  {% if valoracion.evaluador.perfil.icono_perfil %}
+                  <img 
+                    src="{% static valoracion.evaluador.perfil.icono_perfil %}" 
+                    alt="{{ valoracion.evaluador.username }}" 
+                    class="rounded-circle"
+                    style="width: 50px; height: 50px;"
+                  >
+                  {% else %}
+                  <i class="bi bi-person-circle text-muted" style="font-size: 50px;"></i>
+                  {% endif %}
+                </div>
+
+                <!-- Contenido de la Valoración -->
+                <div class="col">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                      <h6 class="mb-0">
+                        <a href="{% url 'perfil_participante' valoracion.evaluador.id %}" class="text-decoration-none">
+                          {{ valoracion.evaluador.perfil.nombre_completo|default:valoracion.evaluador.username }}
+                        </a>
+                      </h6>
+                      <small class="text-muted">@{{ valoracion.evaluador.username }}</small>
+                    </div>
+                    
+                    <!-- Estrellas -->
+                    <div class="text-warning">
+                      {% for i in "12345" %}
+                      {% if forloop.counter <= valoracion.puntuacion %}
+                      <i class="bi bi-star-fill"></i>
+                      {% else %}
+                      <i class="bi bi-star"></i>
+                      {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+
+                  <!-- Comentario -->
+                  {% if valoracion.comentario %}
+                  <p class="mb-2">{{ valoracion.comentario }}</p>
+                  {% else %}
+                  <p class="text-muted fst-italic mb-2">Sin comentario</p>
+                  {% endif %}
+
+                  <!-- Información de la Actividad -->
+                  <div class="d-flex gap-3 text-muted small">
+                    <span>
+                      <i class="bi bi-calendar-event"></i>
+                      <a href="{% url 'detalle_actividad' valoracion.actividad.pk %}" class="text-decoration-none">
+                        {{ valoracion.actividad.titulo }}
+                      </a>
+                    </span>
+                    <span>
+                      <i class="bi bi-clock"></i>
+                      {{ valoracion.fecha_creacion|date:"d M Y" }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Paginación -->
+        {% if valoraciones.has_other_pages %}
+        <div class="card-footer bg-white">
+          <nav aria-label="Paginación de valoraciones">
+            <ul class="pagination pagination-sm justify-content-center mb-0">
+              {% if valoraciones.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1">
+                  <i class="bi bi-chevron-double-left"></i>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ valoraciones.previous_page_number }}">
+                  <i class="bi bi-chevron-left"></i>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link"><i class="bi bi-chevron-double-left"></i></span>
+              </li>
+              <li class="page-item disabled">
+                <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+              </li>
+              {% endif %}
+
+              <!-- Páginas -->
+              {% for num in valoraciones.paginator.page_range %}
+              {% if valoraciones.number == num %}
+              <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+              </li>
+              {% elif num > valoraciones.number|add:'-3' and num < valoraciones.number|add:'3' %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+              {% endif %}
+              {% endfor %}
+
+              {% if valoraciones.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ valoraciones.next_page_number }}">
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ valoraciones.paginator.num_pages }}">
+                  <i class="bi bi-chevron-double-right"></i>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+              </li>
+              <li class="page-item disabled">
+                <span class="page-link"><i class="bi bi-chevron-double-right"></i></span>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+          
+          <p class="text-center text-muted small mb-0 mt-2">
+            Página {{ valoraciones.number }} de {{ valoraciones.paginator.num_pages }}
+          </p>
+        </div>
+        {% endif %}
+      </div>
+      {% else %}
+      <!-- Sin Valoraciones -->
+      <div class="card shadow">
+        <div class="card-body text-center py-5">
+          <i class="bi bi-chat-left-quote text-muted" style="font-size: 4rem;"></i>
+          <h5 class="mt-3">No has recibido valoraciones aún</h5>
+          <p class="text-muted">
+            Participa en actividades y completa tus compromisos para recibir valoraciones de otros deportistas.
+          </p>
+          <a href="{% url 'actividades' %}" class="btn btn-primary mt-2">
+            <i class="bi bi-search"></i> Buscar Actividades
+          </a>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Botón Volver -->
+      <div class="text-center mt-4">
+        <a href="{% url 'ver_perfil' %}" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left"></i> Volver a Mi Perfil
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

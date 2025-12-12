@@ -1,0 +1,253 @@
+{% extends 'base_usuario.html' %}
+{% load static %}
+
+{% block title %}Mi Perfil | MatchDeportivo{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/perfil.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block usuario_content %}
+<!-- Encabezado -->
+<section class="profile-header">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-1">Mi Perfil Deportivo</h2>
+    <p>Visualiza tu información y estadísticas</p>
+  </div>
+</section>
+
+<div class="container mt-4">
+  <div class="row">
+    <!-- Columna Izquierda: Información Principal -->
+    <div class="col-md-4 mb-4">
+      <!-- Tarjeta de Perfil -->
+      <div class="card shadow text-center">
+        <div class="card-body p-4">
+          <!-- Icono/Foto de Perfil -->
+          {% if perfil.icono_perfil %}
+          <img src="{% static perfil.icono_perfil %}" alt="Icono" class="profile-picture mb-3">
+          {% else %}
+          <img src="{% static 'img/default_profile.png' %}" alt="Foto de perfil" class="profile-picture mb-3">
+          {% endif %}
+
+          <!-- Nombre y Username -->
+          <h4 class="mb-1">{{ perfil.nombre_completo }}</h4>
+          <p class="text-muted mb-3">@{{ user.username }}</p>
+
+          <!-- Rating Promedio -->
+          <div class="rating-display mb-4">
+            <div class="mb-2">
+              {% if rating_promedio %}
+              <span class="h3 text-warning">
+                {% for i in "12345" %}
+                {% if forloop.counter <= rating_promedio|floatformat:0 %}
+                <i class="bi bi-star-fill"></i>
+                {% else %}
+                <i class="bi bi-star"></i>
+                {% endif %}
+                {% endfor %}
+              </span>
+              <p class="mb-0 mt-2">
+                <strong class="h5">{{ rating_promedio }}/5.0</strong>
+              </p>
+              <small class="text-muted">{{ total_valoraciones }} valoración{{ total_valoraciones|pluralize:"es" }}</small>
+              {% else %}
+              <i class="bi bi-star text-muted" style="font-size: 3rem;"></i>
+              <p class="text-muted mt-2">Sin valoraciones aún</p>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Botones de Acción -->
+          <div class="d-grid gap-2">
+            <a href="{% url 'editar_perfil' %}" class="btn btn-primary">
+              <i class="bi bi-pencil-square"></i> Editar Perfil
+            </a>
+            <a href="{% url 'valoraciones_detalladas' %}" class="btn btn-outline-secondary">
+              <i class="bi bi-star"></i> Ver Valoraciones
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información Deportiva -->
+      <div class="card shadow mt-3">
+        <div class="card-body">
+          <h6 class="card-title mb-3">
+            <i class="bi bi-trophy text-warning"></i> Información Deportiva
+          </h6>
+          
+          {% if perfil.disciplina_preferida %}
+          <p class="mb-2">
+            <strong>Disciplina:</strong><br>
+            <span class="badge bg-primary">{{ perfil.disciplina_preferida }}</span>
+          </p>
+          {% endif %}
+
+          {% if perfil.nivel %}
+          <p class="mb-2">
+            <strong>Nivel:</strong><br>
+            <span class="badge bg-info">{{ perfil.nivel }}</span>
+          </p>
+          {% endif %}
+
+          {% if perfil.radio %}
+          <p class="mb-0">
+            <strong>Radio de búsqueda:</strong><br>
+            <span class="text-muted">{{ perfil.radio }} km</span>
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna Derecha: Estadísticas y Actividades -->
+    <div class="col-md-8">
+      <!-- Mensajes -->
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      <!-- Estadísticas -->
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <h5 class="card-title mb-4">
+            <i class="bi bi-graph-up text-success"></i> Estadísticas
+          </h5>
+          <div class="row text-center">
+            <div class="col-6 col-md-4 mb-3">
+              <div class="stat-card">
+                <h3 class="text-primary mb-0">{{ actividades_creadas }}</h3>
+                <small class="text-muted">Actividades Creadas</small>
+              </div>
+            </div>
+            <div class="col-6 col-md-4 mb-3">
+              <div class="stat-card">
+                <h3 class="text-success mb-0">{{ actividades_participando }}</h3>
+                <small class="text-muted">Participaciones</small>
+              </div>
+            </div>
+            <div class="col-6 col-md-4 mb-3">
+              <div class="stat-card">
+                <h3 class="text-warning mb-0">{{ total_valoraciones }}</h3>
+                <small class="text-muted">Valoraciones</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Últimas Actividades -->
+      <div class="card shadow">
+        <div class="card-body">
+          <h5 class="card-title mb-3">
+            <i class="bi bi-calendar-event text-primary"></i> Últimas Actividades
+          </h5>
+
+          {% if ultimas_actividades %}
+          <div class="list-group list-group-flush">
+            {% for actividad in ultimas_actividades %}
+            <a href="{% url 'detalle_actividad' actividad.pk %}" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">{{ actividad.titulo }}</h6>
+                  <small class="text-muted">
+                    <i class="bi bi-calendar3"></i> {{ actividad.fecha|date:"d M Y" }}
+                    <i class="bi bi-clock ms-2"></i> {{ actividad.hora_inicio|time:"H:i" }}
+                  </small>
+                </div>
+                <span class="badge bg-primary">{{ actividad.deporte }}</span>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+
+          <div class="text-center mt-3">
+            <a href="{% url 'mis_actividades' %}" class="btn btn-outline-primary btn-sm">
+              Ver Todas Mis Actividades
+            </a>
+          </div>
+          {% else %}
+          <div class="text-center py-4">
+            <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+            <p class="text-muted mt-2">No has participado en actividades aún</p>
+            <a href="{% url 'actividades' %}" class="btn btn-primary btn-sm">
+              <i class="bi bi-search"></i> Buscar Actividades
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Sección de Peligro: Eliminar Cuenta -->
+      <div class="card border-danger mt-4">
+        <div class="card-header bg-danger text-white">
+          <h6 class="mb-0">
+            <i class="bi bi-exclamation-triangle"></i> Zona de Peligro
+          </h6>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, estás seguro.
+          </p>
+          <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarCuentaModal">
+            <i class="bi bi-trash"></i> Eliminar Cuenta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación de Eliminación -->
+<div class="modal fade" id="eliminarCuentaModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">
+          <i class="bi bi-exclamation-triangle"></i> Confirmar Eliminación
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="POST" action="{% url 'eliminar_cuenta' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="alert alert-warning">
+            <strong>⚠️ Advertencia:</strong> Esta acción es permanente e irreversible.
+          </div>
+          
+          <p><strong>Se eliminarán:</strong></p>
+          <ul>
+            <li>Tu perfil y toda tu información personal</li>
+            <li>Todas las actividades que has creado</li>
+            <li>Tus participaciones en actividades</li>
+            <li>Todas tus valoraciones (dadas y recibidas)</li>
+          </ul>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Confirma tu contraseña:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="confirmacion" class="form-label">
+              Escribe <strong>ELIMINAR</strong> para confirmar:
+            </label>
+            <input type="text" class="form-control" id="confirmacion" name="confirmacion" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Eliminar Permanentemente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
