@@ -84,12 +84,8 @@ body {
 /* Card de perfil centrada con ancho máximo */
 .profile-card {
     /* Ancho máximo para mejor legibilidad */
-    max-width: 500px;
+    max-width: 500px !important;
     
-    /* Centrar horizontalmente */
-    margin-left: auto;
-    margin-right: auto;
-    
-    /* Margen superior */
-    margin-top: 1rem;
+    /* Centrar horizontalmente con margin auto */
+    margin: 1rem auto !important;
 }
