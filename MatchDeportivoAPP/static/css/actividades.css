@@ -608,3 +608,32 @@
 .rating-stars:not(:hover) input[type="radio"]:checked ~ .star-label {
     color: #ffc107;
 }
+
+/* ----------------
+   ICONOS DE USUARIO
+   Iconos grandes para perfiles
+   ---------------- */
+
+/* Icono de avatar grande en valoración */
+.user-avatar-icon {
+    /* Tamaño muy grande para destacar */
+    font-size: 4rem;
+    
+    /* Color gris medio */
+    color: #6c757d;
+}
+
+/* ----------------
+   FORMULARIOS DE FILTRO
+   Formularios de búsqueda y filtrado
+   ---------------- */
+
+/* Formulario de filtro con espaciado */
+.filter-form {
+    /* Display flex para alinear elementos */
+    display: flex;
+    
+    /* Espacio entre elementos del formulario */
+    gap: 10px;
+}
+

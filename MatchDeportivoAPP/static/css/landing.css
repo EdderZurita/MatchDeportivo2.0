@@ -246,3 +246,24 @@
     font-size: 2.5rem;
   }
 }
+
+/* ----------------
+   TÍTULOS DE SECCIÓN
+   Títulos principales de cada sección
+   ---------------- */
+
+/* Título de sección (Features, How It Works, etc.) */
+.section-title {
+    /* Color oscuro para contraste */
+    color: #2c3e50;
+    
+    /* Peso bold para destacar */
+    font-weight: 700;
+    
+    /* Tamaño grande */
+    font-size: 2rem;
+    
+    /* Espaciado inferior */
+    margin-bottom: 1.5rem;
+}
+
