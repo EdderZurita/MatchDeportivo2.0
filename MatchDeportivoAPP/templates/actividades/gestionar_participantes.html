@@ -55,8 +55,8 @@
                   <a href="{% url 'perfil_participante' user_id=p.user.id %}" class="btn btn-primary btn-sm">Ver
                      Perfil</a>
                   <a href="{% url 'quitar_participante' actividad_pk=actividad.pk user_id=p.user.id %}"
-                     class="btn btn-danger btn-sm"
-                     onclick="return confirm('¿Estás seguro de que deseas quitar a {{ p.user.username }} de la actividad? Esto liberará su cupo.');">
+                     class="btn btn-danger btn-sm btn-quitar-participante"
+                     data-username="{{ p.user.username }}">
                      Quitar
                   </a>
                </td>
