@@ -18,19 +18,44 @@
  * Permite al usuario seleccionar un icono haciendo click en las opciones
  */
 document.addEventListener('DOMContentLoaded', () => {
+    // Verificar que existe el input hidden
+    const iconoInput = document.getElementById('icono_perfil');
+    
+    if (!iconoInput) {
+        console.warn('Input #icono_perfil no encontrado en la página');
+        return;
+    }
+    
     // Agregar event listeners a todos los iconos disponibles
-    document.querySelectorAll('.icon-img').forEach(img => {
-        img.addEventListener('click', () => {
+    const iconImages = document.querySelectorAll('.icon-img');
+    
+    if (iconImages.length === 0) {
+        console.warn('No se encontraron iconos con clase .icon-img');
+        return;
+    }
+    
+    console.log(`Selector de iconos inicializado con ${iconImages.length} iconos`);
+    
+    iconImages.forEach(img => {
+        img.addEventListener('click', function() {
             // Remover selección de todos los iconos
             document.querySelectorAll('.icon-option').forEach(opt =>
                 opt.classList.remove('selected')
             );
             
             // Marcar el icono clickeado como seleccionado
-            img.parentElement.classList.add('selected');
+            this.parentElement.classList.add('selected');
             
-            // Guardar el valor del icono seleccionado en el input hidden
-            document.getElementById('icono_perfil').value = img.dataset.icon;
+            // Obtener el valor del icono desde data-icon
+            const iconValue = this.dataset.icon;
+            
+            if (iconValue) {
+                // Guardar el valor del icono seleccionado en el input hidden
+                iconoInput.value = iconValue;
+                console.log(`Icono seleccionado: ${iconValue}`);
+            } else {
+                console.error('El icono no tiene atributo data-icon');
+            }
         });
     });
 });
