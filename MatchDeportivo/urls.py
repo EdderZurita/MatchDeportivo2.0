@@ -23,7 +23,6 @@ urlpatterns = [
     path('perfil/editar/', views.editar_perfil, name='editar_perfil'),  # Edición
     path('perfil/valoraciones/', views.valoraciones_detalladas, name='valoraciones_detalladas'),  # Lista de ratings
     path('perfil/eliminar/', views.eliminar_cuenta, name='eliminar_cuenta'),
-    path('perfil_jugador/', views.perfil_jugador, name='perfil_jugador'),
     path('participante/<int:user_id>/', views.perfil_participante, name='perfil_participante'),
     # Usuarios - Notificaciones
     path('notificaciones/', views.notificaciones, name='notificaciones'),

@@ -237,12 +237,6 @@ def perfil(request):
 
 
 @login_required
-def perfil_jugador(request):
-    """Vista de perfil de jugador (funcionalidad futura)."""
-    return render(request, "usuarios/perfil_jugador.html")
-
-
-@login_required
 def perfil_participante(request, user_id):
     """Muestra la información pública de un participante."""
     usuario = get_object_or_404(User, pk=user_id)

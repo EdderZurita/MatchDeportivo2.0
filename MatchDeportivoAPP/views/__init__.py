@@ -22,7 +22,6 @@ from .perfiles import (
     editar_perfil,
     valoraciones_detalladas,
     perfil,  # DEPRECATED: usar ver_perfil
-    perfil_jugador,
     perfil_participante,
     eliminar_cuenta,
 )
@@ -72,7 +71,6 @@ __all__ = [
     'editar_perfil',
     'valoraciones_detalladas',
     'perfil',  # DEPRECATED
-    'perfil_jugador',
     'perfil_participante',
     'eliminar_cuenta',
     # Actividades
