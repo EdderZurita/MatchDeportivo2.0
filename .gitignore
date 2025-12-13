@@ -25,9 +25,16 @@ ENV/
 .venv/
 .env/
 
-# Django
-*.log
+# Logs
 logs/
+*.log
+
+# Auditorías y documentación interna (no subir a Git)
+csrf_audit_report.md
+csrf_reaudit_2025.md
+CSRF_AUDIT_*.md
+
+# Django
 db.sqlite3
 db.sqlite3-journal
 /staticfiles/
